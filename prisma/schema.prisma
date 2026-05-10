@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String
+  email         String     @unique
+  passwordHash  String
+  plan          String     @default("free")
+  analysesUsed  Int        @default(0)
+  analysesLimit Int        @default(2)
+  createdAt     DateTime   @default(now())
+
+  analyses      Analysis[]
+}
+
+model Analysis {
+  id           String   @id @default(cuid())
+  userId       String
+  analysisType String
+  input        String?
+  category     String?
+  resultJson   Json
+  isSaved      Boolean  @default(false)
+  isFavorite   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

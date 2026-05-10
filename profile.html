@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil - Opportunity Finder</title>
+  <meta name="description" content="Gérez votre compte Opportunity Finder et vos préférences.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body data-page="profile">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo">
+          <div class="navbar-logo-icon">🔍</div>
+          <span>Opportunity Finder</span>
+        </a>
+
+        <div class="navbar-nav">
+          <a href="dashboard.html" class="navbar-link">Tableau de bord</a>
+          <a href="pricing.html" class="navbar-link">Tarifs</a>
+        </div>
+
+        <div class="navbar-actions">
+          <a href="profile.html" class="btn btn-ghost">Profil</a>
+          <button class="btn btn-secondary" data-action="logout">Déconnexion</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <div class="container">
+        <div class="dashboard-header-content">
+          <div>
+            <h1 class="dashboard-title">Mon Profil</h1>
+            <p style="color: var(--gray-600); margin-top: 4px;">Gérez votre compte et vos préférences</p>
+          </div>
+
+          <div class="dashboard-actions">
+            <a href="dashboard.html" class="btn btn-secondary">
+              <span>←</span> Retour au tableau de bord
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-main">
+      <div class="container">
+        <div class="dashboard-grid">
+          <aside class="dashboard-sidebar">
+            <div class="sidebar-card">
+              <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                  <a href="dashboard.html" class="sidebar-link">
+                    <span class="sidebar-icon">🔍</span>
+                    <span>Analyser</span>
+                  </a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="dashboard.html#saved" class="sidebar-link">
+                    <span class="sidebar-icon">💾</span>
+                    <span>Idées Sauvegardées</span>
+                  </a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="dashboard.html#history" class="sidebar-link">
+                    <span class="sidebar-icon">📊</span>
+                    <span>Historique</span>
+                  </a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="profile.html" class="sidebar-link active">
+                    <span class="sidebar-icon">👤</span>
+                    <span>Profil</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </aside>
+
+          <main class="dashboard-content">
+            <div class="profile-section">
+              <div class="profile-header">
+                <div id="profileAvatar" class="profile-avatar">U</div>
+
+                <div class="profile-info">
+                  <h2 id="profileName" style="font-size: 1.75rem; font-weight: 700; margin-bottom: 4px;">Chargement...</h2>
+                  <p id="profileEmail" style="color: var(--gray-500); margin-bottom: 12px;">chargement...</p>
+
+                  <div class="profile-plan">
+                    <span class="badge badge-primary" id="profilePlan">...</span>
+                    <a href="pricing.html" class="btn btn-sm btn-primary" style="margin-left: 12px;">Changer de forfait</a>
+                  </div>
+                </div>
+              </div>
+
+              <div id="profileStats" class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-value" id="statTotalAnalyses">0</div>
+                  <div class="stat-label">Analyses Totales</div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-value" id="statSavedAnalyses">0</div>
+                  <div class="stat-label">Idées Sauv.</div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-value" id="statFavorites">0</div>
+                  <div class="stat-label">Favoris</div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-value" id="statAverageScore">-</div>
+                  <div class="stat-label">Score Moy.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-section">
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 24px;">Modifier le Profil</h3>
+
+              <form id="profileForm">
+                <div class="form-group">
+                  <label class="form-label" for="editName">Nom Complet</label>
+                  <input type="text" id="editName" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="editEmail">Adresse Email</label>
+                  <input
+                    type="email"
+                    id="editEmail"
+                    class="form-input"
+                    disabled
+                    style="background: var(--gray-100); cursor: not-allowed;"
+                  >
+                  <p class="text-sm" style="color: var(--gray-500); margin-top: 6px;">L'email ne peut pas être modifié</p>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                  <button type="submit" class="btn btn-primary">Enregistrer les Modifications</button>
+                  <button type="reset" class="btn btn-secondary">Annuler</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="profile-section">
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 24px;">Changer le Mot de Passe</h3>
+
+              <form id="passwordForm">
+                <div class="form-group">
+                  <label class="form-label" for="currentPassword">Mot de Passe Actuel</label>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    class="form-input"
+                    placeholder="Entrez votre mot de passe actuel"
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="newPassword">Nouveau Mot de Passe</label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    class="form-input"
+                    placeholder="Minimum 6 caractères"
+                    minlength="6"
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="confirmNewPassword">Confirmer le Nouveau Mot de Passe</label>
+                  <input
+                    type="password"
+                    id="confirmNewPassword"
+                    class="form-input"
+                    placeholder="Confirmez le nouveau mot de passe"
+                    minlength="6"
+                  >
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  Modifier le Mot de Passe
+                </button>
+              </form>
+            </div>
+
+            <div class="profile-section">
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 24px;">Forfait Actuel</h3>
+
+              <div style="background: var(--gray-50); border-radius: var(--radius-md); padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <div>
+                    <div id="currentPlanTitle" style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Chargement...</div>
+                    <div id="currentPlanDescription" style="color: var(--gray-600); margin-top: 4px;">Chargement...</div>
+                  </div>
+
+                  <span class="badge badge-primary">Actuel</span>
+                </div>
+
+                <div id="currentPlanFeatures" style="display: flex; flex-direction: column; gap: 12px;"></div>
+
+                <div style="margin-top: 24px;">
+                  <a href="pricing.html" class="btn btn-primary btn-sm">Voir les forfaits</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-section" style="border-color: var(--error-200);">
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 24px; color: var(--error-700);">Zone de Danger</h3>
+
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--error-50); border-radius: var(--radius-md);">
+                  <div>
+                    <div style="font-weight: 600; color: var(--error-700);">Supprimer le Compte</div>
+                    <div style="font-size: 0.875rem; color: var(--error-600);">Supprimez définitivement votre compte et toutes les données</div>
+                  </div>
+
+                  <button class="btn btn-secondary" style="border-color: var(--error-300); color: var(--error-600);" onclick="confirmDeleteAccount()">
+                    Supprimer
+                  </button>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container"></div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/analyzer.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await Auth.init();
+
+      const user = Auth.getUser();
+
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      renderProfileUser(user);
+      await renderProfileStats();
+      renderCurrentPlan(user);
+      bindProfileForm();
+      bindPasswordForm();
+    });
+
+    function renderProfileUser(user) {
+      const planLabel =
+        user.plan === "free"
+          ? "Gratuit"
+          : user.plan === "premium"
+          ? "Premium"
+          : "Pro";
+
+      document.getElementById("profileAvatar").textContent = user.name.charAt(0).toUpperCase();
+      document.getElementById("profileName").textContent = user.name;
+      document.getElementById("profileEmail").textContent = user.email;
+      document.getElementById("profilePlan").textContent = planLabel;
+      document.getElementById("editName").value = user.name;
+      document.getElementById("editEmail").value = user.email;
+    }
+
+    async function renderProfileStats() {
+      const token = Auth.getToken();
+
+      if (!token) return;
+
+      try {
+        const response = await fetch("http://localhost:3000/api/analyze", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) return;
+
+        const analyses = data.analyses || [];
+        const saved = analyses.filter(a => a.isSaved).length;
+        const favorites = analyses.filter(a => a.isFavorite).length;
+
+        const scores = analyses
+          .map(a => a.result?.scores?.opportunity)
+          .filter(score => typeof score === "number");
+
+        const average =
+          scores.length > 0
+            ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length)
+            : "-";
+
+        document.getElementById("statTotalAnalyses").textContent = analyses.length;
+        document.getElementById("statSavedAnalyses").textContent = saved;
+        document.getElementById("statFavorites").textContent = favorites;
+        document.getElementById("statAverageScore").textContent = average;
+      } catch (error) {
+        console.error("Erreur stats profil:", error);
+      }
+    }
+
+    function renderCurrentPlan(user) {
+      const plans = {
+        free: {
+          title: "Forfait Gratuit",
+          description: "2 analyses à vie",
+          features: [
+            "2 analyses d'opportunités",
+            "Score d'opportunité basique",
+            "Génération d'idées basique"
+          ]
+        },
+        premium: {
+          title: "Forfait Premium",
+          description: "Analyses illimitées pour valider vos opportunités",
+          features: [
+            "Analyses illimitées",
+            "Génération d'idées business IA complète",
+            "Évaluation détaillée d'idée",
+            "Sauvegardes, favoris et historique"
+          ]
+        },
+        pro: {
+          title: "Forfait Pro",
+          description: "Analyse avancée pour préparer un vrai lancement",
+          features: [
+            "Tout Premium",
+            "Concurrents potentiels",
+            "Positionnement différenciant",
+            "Roadmap 30 jours",
+            "Persona client détaillé",
+            "Export des analyses"
+          ]
+        }
+      };
+
+      const current = plans[user.plan] || plans.free;
+
+      document.getElementById("currentPlanTitle").textContent = current.title;
+      document.getElementById("currentPlanDescription").textContent = current.description;
+
+      document.getElementById("currentPlanFeatures").innerHTML = current.features.map(feature => `
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="color: var(--success-600);">✓</span>
+          <span>${feature}</span>
+        </div>
+      `).join("");
+    }
+
+    function bindProfileForm() {
+      const form = document.getElementById("profileForm");
+      const editName = document.getElementById("editName");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const newName = editName.value.trim();
+
+        if (!newName) {
+          Toast.error("Veuillez entrer un nom valide");
+          return;
+        }
+
+        Auth.updateUser({ name: newName });
+        renderProfileUser(Auth.getUser());
+
+        Toast.success("Profil mis à jour localement");
+      });
+    }
+
+    function bindPasswordForm() {
+      const form = document.getElementById("passwordForm");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const currentPassword = document.getElementById("currentPassword").value.trim();
+        const newPassword = document.getElementById("newPassword").value.trim();
+        const confirmNewPassword = document.getElementById("confirmNewPassword").value.trim();
+
+        if (!currentPassword || !newPassword || !confirmNewPassword) {
+          Toast.error("Veuillez remplir tous les champs du mot de passe");
+          return;
+        }
+
+        if (newPassword.length < 6) {
+          Toast.error("Le nouveau mot de passe doit contenir au moins 6 caractères");
+          return;
+        }
+
+        if (newPassword !== confirmNewPassword) {
+          Toast.error("Les nouveaux mots de passe ne correspondent pas");
+          return;
+        }
+
+        Toast.info("Changement de mot de passe à brancher côté backend");
+
+        form.reset();
+      });
+    }
+
+    function confirmDeleteAccount() {
+      if (confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) {
+        Toast.info("Demande de suppression de compte soumise");
+      }
+    }
+  </script>
+</body>
+</html>

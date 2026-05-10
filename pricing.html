@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarifs - Opportunity Finder</title>
+  <meta name="description" content="Choisissez le forfait adapté pour trouver, valider et lancer votre prochaine idée de business avec l'IA.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    .pricing-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .pricing-badge-popular {
+      background: var(--primary-100);
+      color: var(--primary-700);
+    }
+
+    .pricing-badge-pro {
+      background: var(--purple-100);
+      color: var(--purple-700);
+    }
+
+    .pricing-note {
+      margin-top: 12px;
+      font-size: 0.875rem;
+      color: var(--gray-500);
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: middle;
+    }
+
+    .comparison-table thead th {
+      border-bottom: 2px solid var(--gray-200);
+    }
+
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .pricing-card-featured {
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 1024px) {
+      .pricing-card-featured {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo">
+          <img src="logo.png" alt="Opportunity Finder" class="navbar-logo-img">
+          <span>Opportunity Finder</span>
+        </a>
+        
+        <div class="navbar-nav">
+          <a href="index.html#features" class="navbar-link">Fonctionnalités</a>
+          <a href="index.html#how-it-works" class="navbar-link">Comment ça marche</a>
+          <a href="pricing.html" class="navbar-link">Tarifs</a>
+        </div>
+        
+        <div class="navbar-actions navbar-auth">
+          <a href="login.html" class="btn btn-ghost">Se connecter</a>
+          <a href="signup.html" class="btn btn-primary">Commencer</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero" style="padding-top: calc(72px + var(--space-16)); padding-bottom: var(--space-12);">
+    <div class="container">
+      <div class="hero-content" style="max-width: 760px;">
+        <h1 class="hero-title" style="font-size: 3rem;">Des Tarifs Simples Pour Trouver et Lancer la Bonne Idée</h1>
+        <p class="hero-description">
+          Commencez gratuitement pour tester la plateforme, passez à Premium pour valider des opportunités business,
+          et choisissez Pro pour préparer un vrai lancement avec une analyse plus stratégique.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" style="padding-top: 0;">
+    <div class="container">
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">Gratuit</div>
+          <p class="pricing-description">Pour découvrir la plateforme et tester le concept</p>
+          <div class="pricing-price">
+            <span class="pricing-amount">0€</span>
+            <span class="pricing-period">/mois</span>
+          </div>
+          <ul class="pricing-features">
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span><strong>2 analyses</strong> gratuites</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Génération d’idées business</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Évaluation de base d’une idée</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Score d’opportunité</span>
+            </li>
+            <li class="pricing-feature pricing-feature-excluded">
+              <span class="pricing-feature-icon">✕</span>
+              <span>Pas de sauvegarde</span>
+            </li>
+            <li class="pricing-feature pricing-feature-excluded">
+              <span class="pricing-feature-icon">✕</span>
+              <span>Pas d’historique complet</span>
+            </li>
+            <li class="pricing-feature pricing-feature-excluded">
+              <span class="pricing-feature-icon">✕</span>
+              <span>Pas d’insights avancés</span>
+            </li>
+          </ul>
+          <a href="signup.html" class="btn btn-secondary btn-full">Commencer Gratuitement</a>
+          <div class="pricing-note">Idéal pour tester Opportunity Finder sans engagement.</div>
+        </div>
+        
+        <div class="pricing-card pricing-card-featured">
+          <div class="pricing-badge pricing-badge-popular">Le plus populaire</div>
+          <div class="pricing-name">Premium</div>
+          <p class="pricing-description">Pour valider sérieusement une opportunité business</p>
+          <div class="pricing-price">
+            <span class="pricing-amount">9,99€</span>
+            <span class="pricing-period">/mois</span>
+          </div>
+          <ul class="pricing-features">
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span><strong>Analyses illimitées</strong></span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Génération d’idées business IA complète</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Évaluation détaillée d’idée</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Type de business + problème + solution</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Cible client et fonctionnalités clés</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Pricing recommandé</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Pourquoi maintenant</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Sauvegardes, favoris et historique</span>
+            </li>
+          </ul>
+          <button onclick="buyPlan('premium')" class="btn btn-primary btn-full">
+            Choisir Premium
+          </button>
+          <div class="pricing-note">Le meilleur choix pour valider rapidement un business rentable.</div>
+        </div>
+        
+        <div class="pricing-card">
+          <div class="pricing-badge pricing-badge-pro">Avancé</div>
+          <div class="pricing-name">Pro</div>
+          <p class="pricing-description">Pour préparer un vrai lancement et aller plus loin</p>
+          <div class="pricing-price">
+            <span class="pricing-amount">19€</span>
+            <span class="pricing-period">/mois</span>
+          </div>
+          <ul class="pricing-features">
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span><strong>Tout ce qu’il y a dans Premium</strong></span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Concurrents potentiels</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Faiblesses des concurrents</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Positionnement différenciant</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Persona client détaillé</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Roadmap 30 jours</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Canaux d’acquisition</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Plan de lancement + recommandation finale</span>
+            </li>
+            <li class="pricing-feature pricing-feature-included">
+              <span class="pricing-feature-icon">✓</span>
+              <span>Export des analyses</span>
+            </li>
+          </ul>
+          <button onclick="buyPlan('pro')" class="btn btn-secondary btn-full">
+            Choisir Pro
+          </button>
+          <div class="pricing-note">Pensé pour ceux qui veulent passer de l’idée au lancement.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" style="background: white;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Comparaison des Fonctionnalités</h2>
+        <p class="section-description">
+          Choisissez le plan qui correspond à votre niveau d’ambition et à la profondeur d’analyse souhaitée.
+        </p>
+      </div>
+      
+      <div class="card" style="overflow-x: auto;">
+        <table class="comparison-table" style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th style="text-align:left; font-weight:600;">Fonctionnalité</th>
+              <th style="text-align:center; font-weight:600;">Gratuit</th>
+              <th style="text-align:center; font-weight:600; color: var(--primary-600);">Premium</th>
+              <th style="text-align:center; font-weight:600; color: var(--purple-600);">Pro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Analyses</td>
+              <td style="text-align:center;">2</td>
+              <td style="text-align:center; color: var(--primary-600); font-weight: 600;">Illimitées</td>
+              <td style="text-align:center; color: var(--purple-600); font-weight: 600;">Illimitées</td>
+            </tr>
+            <tr>
+              <td>Génération d’idées business</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Évaluation détaillée d’idée</td>
+              <td style="text-align:center; color: var(--gray-400);">Limité</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Historique des analyses</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Sauvegardes & favoris</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Pourquoi maintenant</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Concurrents potentiels</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Positionnement différenciant</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Persona client détaillé</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Roadmap 30 jours</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Canaux d’acquisition</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Export des analyses</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+            <tr>
+              <td>Recommandation finale stratégique</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--gray-400);">✕</td>
+              <td style="text-align:center; color: var(--success-600);">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container container-narrow">
+      <div class="section-header">
+        <h2 class="section-title">Questions Fréquentes</h2>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="card">
+          <div class="card-body">
+            <h4 style="margin-bottom: 12px;">Puis-je changer de plan à tout moment ?</h4>
+            <p style="color: var(--gray-600); margin: 0;">
+              Oui. Vous pourrez passer à Premium ou Pro à tout moment depuis votre compte. L’objectif est de vous laisser évoluer selon vos besoins.
+            </p>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-body">
+            <h4 style="margin-bottom: 12px;">Quelle est la vraie différence entre Premium et Pro ?</h4>
+            <p style="color: var(--gray-600); margin: 0;">
+              Premium sert à <strong>valider une opportunité business</strong>. Pro sert à <strong>préparer un vrai lancement</strong> avec des éléments plus stratégiques comme la roadmap, la concurrence, le persona et les canaux d’acquisition.
+            </p>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-body">
+            <h4 style="margin-bottom: 12px;">Que se passe-t-il quand j’utilise mes analyses gratuites ?</h4>
+            <p style="color: var(--gray-600); margin: 0;">
+              Une fois vos 2 analyses gratuites utilisées, vous devrez passer à un abonnement payant pour continuer à générer ou évaluer des opportunités.
+            </p>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-body">
+            <h4 style="margin-bottom: 12px;">Puis-je annuler à tout moment ?</h4>
+            <p style="color: var(--gray-600); margin: 0;">
+              Oui. Les abonnements sont mensuels et sans engagement long terme. Vous pouvez arrêter quand vous voulez.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2 class="cta-title">Commencez à Trouver Votre Prochaine Opportunité</h2>
+      <p class="cta-description">
+        Testez gratuitement la plateforme ou passez directement à un plan pensé pour valider et lancer des idées business plus vite.
+      </p>
+      <div class="cta-actions">
+        <a href="signup.html" class="btn btn-white btn-lg">Commencer Gratuitement</a>
+        <a href="mailto:support@opportunityfinder.com" class="btn btn-outline-white btn-lg">Contacter le Support</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="navbar-logo-icon">🔍</div>
+            <span>Opportunity Finder</span>
+          </div>
+          <p class="footer-description">
+            Opportunity Finder vous aide à trouver, évaluer et prioriser des opportunités business avec l’IA.
+          </p>
+          <div class="footer-social">
+            <a href="#" class="footer-social-link" aria-label="Twitter">𝕏</a>
+            <a href="#" class="footer-social-link" aria-label="LinkedIn">in</a>
+            <a href="#" class="footer-social-link" aria-label="Product Hunt">P</a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Produit</h4>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="dashboard.html">Tableau de bord</a></li>
+            <li class="footer-link"><a href="pricing.html">Tarifs</a></li>
+            <li class="footer-link"><a href="index.html#features">Fonctionnalités</a></li>
+            <li class="footer-link"><a href="#">API</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Entreprise</h4>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">À propos</a></li>
+            <li class="footer-link"><a href="#">Blog</a></li>
+            <li class="footer-link"><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Légal</h4>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="terms.html">Conditions</a></li>
+            <li class="footer-link"><a href="privacy.html">Confidentialité</a></li>
+            <li class="footer-link"><a href="legal.html">Mentions Légales</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p class="footer-copyright">
+          © 2026 Opportunity Finder. Tous droits réservés.
+        </p>
+        <div class="footer-legal">
+          <a href="terms.html">Conditions d'Utilisation</a>
+          <a href="privacy.html">Politique de Confidentialité</a>
+          <a href="legal.html">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    async function buyPlan(plan) {
+  try {
+    const token = Auth.getToken();
+
+    if (!token) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    const response = await fetch("http://localhost:3000/api/stripe/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ plan })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Erreur Stripe");
+    }
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Impossible de lancer Stripe Checkout.");
+    }
+
+  } catch (error) {
+    console.error(error);
+    alert(error.message || "Erreur Stripe");
+  }
+}
+  </script>
+</body>
+</html>

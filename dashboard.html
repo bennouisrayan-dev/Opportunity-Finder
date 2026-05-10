@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de Bord - Opportunity Finder</title>
+  <meta name="description" content="Analysez les marchés et découvrez des opportunités de startup.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Mode Selector Styles */
+    .mode-selector {
+      display: flex;
+      gap: 8px;
+      background: var(--gray-100);
+      padding: 6px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 24px;
+    }
+    
+    .mode-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--gray-600);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .mode-btn:hover {
+      color: var(--gray-900);
+    }
+    
+    .mode-btn.active {
+      background: white;
+      color: var(--primary-600);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .mode-content {
+      display: none;
+    }
+    
+    .mode-content.active {
+      display: block;
+    }
+    
+    .mode-description {
+      color: var(--gray-600);
+      margin-bottom: 20px;
+      font-size: 0.9375rem;
+    }
+    
+    .generate-btn {
+      width: 100%;
+      padding: 16px 32px;
+      font-size: 1rem;
+    }
+    
+    .generate-btn .icon {
+      font-size: 1.25rem;
+    }
+    
+    .idea-textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 16px 20px;
+      font-size: 1rem;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      resize: vertical;
+      font-family: inherit;
+      transition: all var(--transition-fast);
+    }
+    
+    .idea-textarea:focus {
+      outline: none;
+      border-color: var(--primary-400);
+      box-shadow: 0 0 0 4px var(--primary-100);
+    }
+    
+    .idea-textarea::placeholder {
+      color: var(--gray-400);
+    }
+    
+    .analysis-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .analysis-type-badge.generate {
+      background: var(--primary-100);
+      color: var(--primary-700);
+    }
+    
+    .analysis-type-badge.evaluate {
+      background: var(--purple-100);
+      color: var(--purple-700);
+    }
+
+    .category-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .category-tag {
+      padding: 8px 16px;
+      font-size: 0.875rem;
+    }
+
+    .category-tag.selected {
+      background: var(--primary-100);
+      color: var(--primary-700);
+      border-color: var(--primary-300);
+    }
+  </style>
+</head>
+<body data-page="dashboard">
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo">
+          <img src="logo.png" alt="Opportunity Finder" class="navbar-logo-img">
+          <span>Opportunity Finder</span>
+        </a>
+        
+        <div class="navbar-nav">
+          <a href="dashboard.html" class="navbar-link">Tableau de bord</a>
+          <a href="pricing.html" class="navbar-link">Tarifs</a>
+        </div>
+        
+        <div class="navbar-actions">
+          <a href="profile.html" class="btn btn-ghost">Profil</a>
+          <button class="btn btn-secondary" data-action="logout">Déconnexion</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard -->
+  <div class="dashboard">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+      <div class="container">
+        <div class="dashboard-header-content">
+          <div>
+            <h1 class="dashboard-title">Tableau de Bord</h1>
+            <p style="color: var(--gray-600); margin-top: 4px;">Générez des idées ou évaluez votre concept de startup</p>
+          </div>
+          <div class="dashboard-actions">
+            <a href="pricing.html" class="btn btn-primary">
+              <span>⭐</span> Passer à la version supérieure
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Main -->
+    <div class="dashboard-main">
+      <div class="container">
+        <div class="dashboard-grid">
+          <!-- Sidebar -->
+          <aside class="dashboard-sidebar">
+            <div class="sidebar-card">
+              <div style="padding: 20px; border-bottom: 1px solid var(--gray-100);">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div id="sidebarAvatar" style="width: 48px; height: 48px; background: var(--gradient-primary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1.25rem;">D</div>
+                  <div>
+                    <div class="sidebar-user-name" style="font-weight: 600; color: var(--gray-900);">Utilisateur Démo</div>
+                    <div class="sidebar-user-plan" style="font-size: 0.875rem; color: var(--gray-500);">Forfait Gratuit</div>
+                  </div>
+                </div>
+              </div>
+              <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                  <a href="dashboard.html" class="sidebar-link active">
+                    <span class="sidebar-icon">🔍</span>
+                    <span>Analyser</span>
+                  </a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="#saved" class="sidebar-link" onclick="scrollToSection('savedSection')">
+                    <span class="sidebar-icon">💾</span>
+                    <span>Idées Sauvegardées</span>
+                  </a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="#history" class="sidebar-link" onclick="scrollToSection('historySection')">
+                    <span class="sidebar-icon">📊</span>
+                    <span>Historique</span>
+                  </a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="profile.html" class="sidebar-link">
+                    <span class="sidebar-icon">👤</span>
+                    <span>Profil</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="sidebar-card" style="margin-top: 16px;">
+              <div style="padding: 20px;">
+                <h4 style="font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-500); margin-bottom: 16px;">Statistiques Rapides</h4>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: var(--gray-600);">Crédits restants</span>
+                    <span id="statCredits" style="font-weight: 600; color: var(--primary-600);">2</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: var(--gray-600);">Idées générées</span>
+                    <span id="statGenerated" style="font-weight: 600;">0</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: var(--gray-600);">Idées évaluées</span>
+                    <span id="statEvaluated" style="font-weight: 600;">0</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: var(--gray-600);">Idées sauv.</span>
+                    <span id="statSaved" style="font-weight: 600;">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Main Content -->
+          <main class="dashboard-content">
+            <!-- Analysis Limit Container -->
+            <div id="analysisLimitContainer"></div>
+
+            <!-- Search Section with Mode Selector -->
+            <div class="search-section">
+              <!-- Mode Selector -->
+              <div class="mode-selector">
+                <button type="button" class="mode-btn active" id="btnModeGenerate" data-mode="generate">
+                  <span>💡</span>
+                  <span>Trouver des opportunités</span>
+                </button>
+                <button type="button" class="mode-btn" id="btnModeEvaluate" data-mode="evaluate">
+                  <span>📊</span>
+                  <span>Évaluer mon idée</span>
+                </button>
+              </div>
+
+              <!-- Mode 1: Generate Ideas -->
+              <div id="modeGenerate" class="mode-content active">
+                <div class="search-header">
+                  <h2 class="search-title">Générer des idées de business</h2>
+                  <p class="mode-description">Laissez notre IA vous suggérer des opportunités de startup basées sur les tendances du marché.</p>
+                </div>
+                
+                <form id="generateForm" class="search-form" style="flex-direction: column; gap: 16px;">
+                  <div class="category-tags">
+                    <button class="category-tag active" data-category="ecommerce">💰 E-commerce</button>
+                    <button class="category-tag" data-category="ai">🤖 IA</button>
+                    <button class="category-tag" data-category="content">📱 Contenu</button>
+                    <button class="category-tag" data-category="local">🏪 Local</button>
+                    <button class="category-tag" data-category="service">💼 Service</button>
+                    <button class="category-tag" data-category="digital">📦 Produit digital</button>
+                    <button class="category-tag" data-category="random">🔥 Surprise</button>
+                  </div>
+                  <button type="button" id="generateBtn" class="btn btn-primary generate-btn">
+                    <span class="icon">✨</span>
+                    <span>Générer des idées de startup</span>
+                  </button>
+                </form>
+              </div>
+
+              <!-- Mode 2: Evaluate Idea -->
+              <div id="modeEvaluate" class="mode-content">
+                <div class="search-header">
+                  <h2 class="search-title">Évaluer mon idée de business</h2>
+                  <p class="mode-description">Décrivez votre concept de startup et obtenez une analyse complète avec scores et recommandations.</p>
+                </div>
+                
+                <form id="evaluateForm" class="search-form" style="flex-direction: column; gap: 16px;">
+                  <textarea 
+                    id="ideaInput" 
+                    class="idea-textarea" 
+                    placeholder="Décrivez votre idée de startup...&#10;&#10;Exemple : Un générateur de factures avec IA pour freelances qui automatise la création, l'envoi et le suivi des paiements."
+                    autocomplete="off"
+                  ></textarea>
+                  <button type="button" id="evaluateBtn" class="btn btn-primary generate-btn">
+                    <span class="icon">📊</span>
+                    <span>Analyser mon idée</span>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading hidden">
+              <div class="loading-spinner"></div>
+              <p class="loading-text" id="loadingText">Analyse en cours...</p>
+            </div>
+
+            <!-- Results Container -->
+            <div id="resultsContainer" class="hidden"></div>
+
+            <!-- Saved Ideas Section -->
+            <div id="savedSection" class="card" style="margin-bottom: 24px;">
+              <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <h3 style="font-size: 1.25rem; font-weight: 700;">💾 Idées Sauvegardées</h3>
+                  <p style="color: var(--gray-600); font-size: 0.9375rem; margin-top: 4px;">Votre collection d'opportunités prometteuses</p>
+                </div>
+                <button type="button" id="toggleSavedBtn" class="btn btn-sm btn-secondary">
+                  Voir plus
+                </button>
+              </div>
+              <div class="card-body" id="savedIdeasList">
+                <div class="empty-state">
+                  <div class="empty-state-icon">💡</div>
+                  <div class="empty-state-title">Aucune idée sauvegardée</div>
+                  <div class="empty-state-text">Sauvegardez les opportunités intéressantes pour les consulter plus tard</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- History Section -->
+            <div id="historySection" class="card">
+              <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <h3 style="font-size: 1.25rem; font-weight: 700;">📊 Historique Récent</h3>
+                  <p style="color: var(--gray-600); font-size: 0.9375rem; margin-top: 4px;">Vos analyses et générations récentes</p>
+                </div>
+              </div>
+              <div class="card-body" id="historyList">
+                <div class="empty-state">
+                  <div class="empty-state-icon">📊</div>
+                  <div class="empty-state-title">Aucune analyse</div>
+                  <div class="empty-state-text">Commencez par générer ou évaluer une idée ci-dessus</div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/analyzer.js"></script>
+  <script src="js/dashboard.js"></script>
+  <!-- <script src="js/main.js"></script> -->
+</body>
+</html>

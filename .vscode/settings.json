@@ -1,0 +1,10 @@
+{
+  "liveServer.settings.ignoreFiles": [
+    "**/*.db",
+    "**/*.db-journal",
+    "**/*.sqlite",
+    "**/*.sqlite-journal",
+    "**/prisma/**",
+    "**/node_modules/**"
+  ]
+}

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <br>
+  <br>
+  <br>
+  <title>Opportunity Finder - Trouvez une idée de business rentable avec l’IA</title>
+  <meta name="description" content="Générez des idées de business rentables avec l’IA. Analyse du marché, score d’opportunité et roadmap en quelques secondes.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,0.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(124,58,237,0.12), transparent 30%);
+      pointer-events: none;
+    }
+
+    .hero {
+  position: relative;
+  overflow: hidden;
+  padding: 96px 0 80px;
+  background:
+    radial-gradient(circle at top left, rgba(37,99,235,0.12), transparent 32%),
+    radial-gradient(circle at top right, rgba(124,58,237,0.12), transparent 32%),
+    linear-gradient(180deg, #f4f7ff 0%, #ffffff 100%);
+}
+
+.hero::before {
+  display: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.hero-title {
+  max-width: 980px;
+  margin: 0 auto 24px;
+  font-size: clamp(2.7rem, 6vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+  font-weight: 900;
+  color: var(--gray-900);
+}
+
+.hero-title span {
+  display: inline-block;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-description {
+  max-width: 720px;
+  margin: 0 auto 32px;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--gray-600);
+}
+
+.hero-actions {
+  justify-content: center;
+}
+
+.hero-proof {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin: 34px 0 0;
+  color: var(--gray-500);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.hero-demo {
+  max-width: 980px;
+  margin: 44px auto 0;
+}
+
+.hero-demo-card {
+  border-radius: 28px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+}
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    @media (max-width: 768px) {
+  .hero {
+    padding: 70px 0 50px;
+  }
+
+  .hero-title {
+    font-size: 2.6rem;
+    letter-spacing: -0.04em;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .hero-proof {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-demo {
+    margin-top: 32px;
+  }
+}
+  </style>
+
+</head>
+<body data-page="landing">
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-logo">
+          <img src="logo.png" alt="Opportunity Finder" class="navbar-logo-img">
+          <span>Opportunity Finder</span>
+        </a>
+
+
+    <div class="navbar-nav">
+      <a href="#features" class="navbar-link">Fonctionnalités</a>
+      <a href="#how-it-works" class="navbar-link">Comment ça marche</a>
+      <a href="pricing.html" class="navbar-link">Tarifs</a>
+    </div>
+
+    <div class="navbar-actions navbar-auth">
+      <a href="login.html" class="btn btn-ghost">Connexion</a>
+      <a href="signup.html" class="btn btn-primary">Commencer</a>
+    </div>
+  </div>
+</div>
+
+
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+
+
+    <h1 class="hero-title">
+      Trouvez une idée de business rentable<br>
+      <span>en quelques secondes avec l’IA</span>
+    </h1>
+
+    <p class="hero-description">
+      Générez des idées de business, analysez leur potentiel
+      et obtenez une roadmap claire pour lancer rapidement.
+    </p>
+
+    <div class="hero-actions">
+      <a href="signup.html" class="btn btn-primary btn-lg">
+        <span></span>
+        Commencer gratuitement
+      </a>
+
+      <a href="#how-it-works" class="btn btn-secondary btn-lg">
+        Voir comment ça marche
+      </a>
+    </div>
+
+    <div class="hero-proof">
+      <div>🔥 +120 idées générées</div>
+      <div>🚀 Entrepreneurs & étudiants</div>
+      <div>⚡ Analyse en moins de 30 secondes</div>
+    </div>
+
+    <div class="hero-demo">
+      <div class="hero-demo-card">
+
+        <div style="display:flex;gap:16px;margin-bottom:24px;">
+          <div style="flex:1;">
+            <div style="font-size:0.875rem;font-weight:600;color:var(--gray-600);margin-bottom:8px;">
+              Type de business
+            </div>
+
+            <div style="padding:16px 20px;background:var(--gray-50);border-radius:var(--radius-md);border:2px solid var(--primary-200);font-weight:600;">
+              E-commerce fitness
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:flex-end;">
+            <button class="btn btn-primary" style="padding:16px 28px;">
+              ✨ Générer
+            </button>
+          </div>
+        </div>
+
+        <div style="background:linear-gradient(135deg,var(--primary-500) 0%, var(--purple-500) 100%);border-radius:var(--radius-md);padding:28px;color:white;">
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:16px;flex-wrap:wrap;">
+
+            <div>
+              <div style="font-size:0.9rem;opacity:0.9;margin-bottom:4px;">
+                🔥 Opportunité excellente
+              </div>
+
+              <div style="font-size:3rem;font-weight:900;line-height:1;">
+                84<span style="font-size:1rem;opacity:0.7;">/100</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="badge badge-success" style="background:rgba(255,255,255,0.2);color:white;">
+                Forte demande
+              </div>
+            </div>
+          </div>
+
+          <h3 style="font-size:1.6rem;margin-bottom:10px;">
+            FitSnack Box
+          </h3>
+
+          <p style="opacity:0.92;margin-bottom:18px;">
+            Une box healthy mensuelle pour sportifs et personnes actives.
+          </p>
+
+          <div style="display:flex;flex-direction:column;gap:12px;">
+
+            <div style="background:rgba(255,255,255,0.12);padding:14px;border-radius:14px;">
+              💰 Potentiel estimé : 2 000€ à 8 000€/mois
+            </div>
+
+            <div style="background:rgba(255,255,255,0.12);padding:14px;border-radius:14px;">
+              📣 Acquisition : TikTok, influence fitness et UGC
+            </div>
+
+            <div style="background:rgba(255,255,255,0.12);padding:14px;border-radius:14px;">
+              🚀 Roadmap : Landing page → sourcing → premiers clients
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          Une IA pensée pour trouver des business rentables
+        </h2>
+
+```
+    <p class="section-description">
+      Opportunity Finder analyse le marché et génère des opportunités concrètes
+      avec score, cible, acquisition et plan d’action.
+    </p>
+  </div>
+
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3 class="feature-title">Opportunités rentables</h3>
+      <p class="feature-description">
+        Découvrez des idées business dans l’e-commerce, les services,
+        le contenu, les produits digitaux et plus.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3 class="feature-title">Analyse du potentiel</h3>
+      <p class="feature-description">
+        Demande, concurrence et opportunité analysées automatiquement.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🚀</div>
+      <h3 class="feature-title">Roadmap de lancement</h3>
+      <p class="feature-description">
+        Obtenez un plan clair pour passer de l’idée au business.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">⚔️</div>
+      <h3 class="feature-title">Évitez les marchés saturés</h3>
+      <p class="feature-description">
+        Trouvez des niches avec de meilleures opportunités.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3 class="feature-title">Gagnez des heures</h3>
+      <p class="feature-description">
+        Analyse complète en quelques secondes grâce à l’IA.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">💡</div>
+      <h3 class="feature-title">Nouvelle source de revenus</h3>
+      <p class="feature-description">
+        Trouvez votre prochain side business ou startup.
+      </p>
+    </div>
+
+  </div>
+</div>
+```
+
+  </section>
+
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Comment ça marche</h2>
+        <p class="section-description">
+          De l’idée à l’opportunité business en quelques étapes.
+        </p>
+      </div>
+
+```
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-number">1</div>
+      <h4 class="step-title">Choisissez une catégorie</h4>
+      <p class="step-description">
+        E-commerce, business IA, contenu, services ou produit digital.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">2</div>
+      <h4 class="step-title">Analyse IA</h4>
+      <p class="step-description">
+        L’IA étudie le marché et génère une opportunité concrète.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">3</div>
+      <h4 class="step-title">Score & potentiel</h4>
+      <p class="step-description">
+        Recevez un score d’opportunité et un potentiel de revenu.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">4</div>
+      <h4 class="step-title">Passez à l’action</h4>
+      <p class="step-description">
+        Utilisez la roadmap et les conseils pour lancer rapidement.
+      </p>
+    </div>
+
+  </div>
+</div>
+```
+
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Choisissez votre plan</h2>
+
+```
+    <p class="section-description">
+      Commencez gratuitement puis débloquez des analyses avancées.
+    </p>
+  </div>
+
+  <div class="pricing-grid">
+
+    <div class="pricing-card">
+      <div class="pricing-name">Free</div>
+      <p class="pricing-description">Découvrir le produit</p>
+
+      <div class="pricing-price">
+        <span class="pricing-amount">0€</span>
+        <span class="pricing-period">/ gratuit</span>
+      </div>
+
+      <ul class="pricing-features">
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>2 analyses offertes</span>
+        </li>
+
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Idées business IA</span>
+        </li>
+
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Score d’opportunité</span>
+        </li>
+      </ul>
+
+      <a href="signup.html" class="btn btn-secondary btn-full">Commencer</a>
+    </div>
+
+    <div class="pricing-card pricing-card-featured" style="position:relative;">
+
+      <div class="pricing-badge">
+        🔥 Le plus populaire
+      </div>
+
+      <div class="pricing-name">Premium</div>
+      <p class="pricing-description">Pour trouver des idées illimitées</p>
+
+      <div class="pricing-price">
+        <span class="pricing-amount">9,99€</span>
+        <span class="pricing-period">/mois</span>
+      </div>
+
+      <ul class="pricing-features">
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Analyses illimitées</span>
+        </li>
+
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Historique & sauvegarde</span>
+        </li>
+
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Résultats premium</span>
+        </li>
+
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Insights avancés IA</span>
+        </li>
+      </ul>
+
+      <a href="pricing.html" class="btn btn-primary btn-full">
+        Passer Premium
+      </a>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-name">Pro</div>
+      <p class="pricing-description">Pour lancer un vrai business</p>
+
+      <div class="pricing-price">
+        <span class="pricing-amount">19€</span>
+        <span class="pricing-period">/mois</span>
+      </div>
+
+      <ul class="pricing-features">
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Roadmap 30 jours</span>
+        </li>
+
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Concurrents & acquisition</span>
+        </li>
+
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Persona & marketing</span>
+        </li>
+
+        <li class="pricing-feature pricing-feature-included">
+          <span class="pricing-feature-icon">✓</span>
+          <span>Analyse business complète</span>
+        </li>
+      </ul>
+
+      <a href="pricing.html" class="btn btn-secondary btn-full">
+        Voir Pro
+      </a>
+    </div>
+
+  </div>
+</div>
+```
+
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2 class="cta-title">
+        Votre prochain business commence aujourd’hui.
+      </h2>
+
+```
+  <p class="cta-description">
+    Rejoignez les entrepreneurs qui utilisent l’IA pour découvrir de nouvelles opportunités.
+  </p>
+
+  <div class="cta-actions">
+    <a href="signup.html" class="btn btn-white btn-lg">
+      🚀 Commencer gratuitement
+    </a>
+
+    <a href="pricing.html" class="btn btn-outline-white btn-lg">
+      Voir les tarifs
+    </a>
+  </div>
+</div>
+```
+
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+
+```
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="navbar-logo-icon">🚀</div>
+        <span>Opportunity Finder</span>
+      </div>
+
+      <p class="footer-description">
+        IA de génération et d’analyse d’opportunités business.
+      </p>
+    </div>
+
+    <div>
+      <h4 class="footer-title">Produit</h4>
+
+      <ul class="footer-links">
+        <li class="footer-link"><a href="dashboard.html">Dashboard</a></li>
+        <li class="footer-link"><a href="pricing.html">Tarifs</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="footer-title">Compte</h4>
+
+      <ul class="footer-links">
+        <li class="footer-link"><a href="login.html">Connexion</a></li>
+        <li class="footer-link"><a href="signup.html">Créer un compte</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copyright">
+      © 2026 Opportunity Finder. Tous droits réservés.
+    </p>
+  </div>
+</div>
+```
+
+  </footer>
+
+  <script src="js/utils.js"></script>
+
+  <script src="js/auth.js"></script>
+
+  <script src="js/analyzer.js"></script>
+
+  <script src="js/main.js"></script>
+
+</body>
+</html>
