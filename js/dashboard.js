@@ -244,7 +244,7 @@ async function handleGenerate(e) {
   try {
     const token = Auth.getToken();
 
-    const response = await fetch("http://localhost:3000/api/analyze/generate", {
+    const response = await fetch("https://opportunity-finder-api.onrender.com/api/analyze/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -312,7 +312,7 @@ async function handleEvaluate(e) {
   try {
     const token = Auth.getToken();
 
-    const response = await fetch("http://localhost:3000/api/analyze/evaluate", {
+    const response = await fetch("https://opportunity-finder-api.onrender.com/api/analyze/evaluate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -830,7 +830,7 @@ async function handleSave() {
 
     const token = Auth.getToken();
 
-    const response = await fetch(`http://localhost:3000/api/analyze/save/${currentAnalysis.id}`, {
+    const response = await fetch(`https://opportunity-finder-api.onrender.com/api/analyze/save/${currentAnalysis.id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -948,7 +948,7 @@ async function renderHistory() {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/api/analyze", {
+    const response = await fetch("https://opportunity-finder-api.onrender.com/api/analyze", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
@@ -1050,7 +1050,7 @@ async function loadSavedAnalyses() {
   if (!token) return;
 
   try {
-    const response = await fetch("http://localhost:3000/api/analyze/saved", {
+    const response = await fetch("https://opportunity-finder-api.onrender.com/api/analyze/saved", {
       headers: {
         Authorization: `Bearer ${token}`
       }

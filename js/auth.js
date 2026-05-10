@@ -2,7 +2,7 @@
  * Opportunity Finder - Système d'Authentification
  */
 
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = "https://opportunity-finder-api.onrender.com/api";
 
 let currentUser = null;
 
