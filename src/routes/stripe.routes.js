@@ -36,8 +36,8 @@ router.post("/create-checkout-session", requireAuth, async (req, res) => {
         userId: user.id,
         plan
       },
-      success_url: "http://opportunity-finder-tau.vercel.app/success.html",
-      cancel_url: "http://opportunity-finder-tau.vercel.app/cancel.html"
+      success_url: "https://opportunity-finder-tau.vercel.app/success.html",
+      cancel_url: "https://opportunity-finder-tau.vercel.app/cancel.html"
     });
 
     res.json({ url: session.url });
@@ -68,6 +68,10 @@ router.post("/webhook", async (req, res) => {
 
     const userId = session.metadata.userId;
     const plan = session.metadata.plan;
+
+    console.log("Webhook reçu !");
+    console.log("User ID :", userId);
+    console.log("Plan :", plan);
 
     await prisma.user.update({
       where: { id: userId },
