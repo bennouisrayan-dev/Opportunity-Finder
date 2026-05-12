@@ -36,8 +36,8 @@ router.post("/create-checkout-session", requireAuth, async (req, res) => {
         userId: user.id,
         plan
       },
-      success_url: "http://127.0.0.1:5500/success.html",
-      cancel_url: "http://127.0.0.1:5500/cancel.html"
+      success_url: "http://opportunity-finder-tau.vercel.app/success.html",
+      cancel_url: "http://opportunity-finder-tau.vercel.app/cancel.html"
     });
 
     res.json({ url: session.url });
