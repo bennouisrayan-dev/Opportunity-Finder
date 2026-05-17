@@ -3131,3 +3131,416 @@ p {
   }
 
 }
+
+/* =========================================
+   MOBILE FINAL FIX PATCH
+   À coller TOUT EN BAS du CSS
+========================================= */
+
+@media (max-width: 768px) {
+  /* Stop les textes verticaux */
+  h1, h2, h3, p, span, a, button, div {
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+  }
+
+  /* Header propre */
+  .navbar-inner {
+    min-height: 76px !important;
+    height: 76px !important;
+    padding: 10px 0 !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  .navbar-logo {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: 190px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    overflow: hidden !important;
+  }
+
+  .navbar-logo-img {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 12px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .navbar-logo span,
+  .navbar-logo h1,
+  .brand-title,
+  .app-title {
+    display: block !important;
+    font-size: 18px !important;
+    line-height: 1.05 !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 130px !important;
+  }
+
+  /* Cache les sous-titres qui cassent le header */
+  .navbar-logo small,
+  .navbar-logo p,
+  .page-label,
+  .desktop-label,
+  .dashboard-title-small {
+    display: none !important;
+  }
+
+  /* User menu compact */
+  .navbar-actions {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    width: auto !important;
+  }
+
+  .user-menu {
+    max-width: 145px !important;
+    flex-shrink: 0 !important;
+    overflow: visible !important;
+  }
+
+  .user-menu-toggle,
+  .user-menu-trigger {
+    width: auto !important;
+    max-width: 145px !important;
+    min-height: 44px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    white-space: nowrap !important;
+  }
+
+  .user-avatar {
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 19px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .user-name {
+    max-width: 62px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .user-arrow {
+    display: block !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Header page/dashboard */
+  .dashboard-header {
+    padding: 18px 0 !important;
+  }
+
+  .dashboard-header-content {
+    display: block !important;
+  }
+
+  .dashboard-title {
+    font-size: 34px !important;
+    line-height: 1.05 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .dashboard-header p,
+  .dashboard-description {
+    font-size: 17px !important;
+    line-height: 1.45 !important;
+    max-width: 100% !important;
+  }
+
+  .dashboard-actions {
+    width: 100% !important;
+    margin-top: 14px !important;
+    display: block !important;
+  }
+
+  /* Boutons : ne pas tout casser globalement */
+  button,
+  .btn {
+    white-space: normal !important;
+  }
+
+  .dashboard-actions .btn,
+  .upgrade-banner .btn,
+  .premium-upgrade-box .btn {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    min-height: 52px !important;
+    border-radius: 16px !important;
+    padding: 14px 18px !important;
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Hero */
+  .hero,
+  .hero-section,
+  .search-section {
+    margin: 14px 0 24px !important;
+    padding: 30px 20px 24px !important;
+    border-radius: 26px !important;
+  }
+
+  .hero-title,
+  .hero h1,
+  .search-title {
+    font-size: clamp(36px, 10vw, 46px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.06em !important;
+  }
+
+  .hero-description,
+  .hero p,
+  .search-description {
+    font-size: 16px !important;
+    line-height: 1.55 !important;
+  }
+
+  /* Features : moins vide */
+  .features,
+  .how-it-works,
+  .pricing,
+  .testimonials {
+    padding: 48px 0 !important;
+  }
+
+  .features-grid,
+  .steps,
+  .pricing-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .feature-card,
+  .pricing-card,
+  .testimonial-card {
+    padding: 22px !important;
+    border-radius: 22px !important;
+  }
+
+  .feature-icon {
+    width: 54px !important;
+    height: 54px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .feature-title,
+  .step-title,
+  .pricing-name {
+    font-size: 22px !important;
+    line-height: 1.2 !important;
+  }
+
+  .feature-description,
+  .step-description,
+  .pricing-description {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* How it works compact */
+  .step {
+    padding: 18px 8px !important;
+  }
+
+  .step-number {
+    width: 70px !important;
+    height: 70px !important;
+    margin-bottom: 18px !important;
+  }
+
+  /* Pricing cards */
+  .pricing-card-featured {
+    transform: none !important;
+  }
+
+  .pricing-amount {
+    font-size: 46px !important;
+  }
+
+  .pricing-feature {
+    font-size: 16px !important;
+  }
+
+  /* Tabs / catégories */
+  .category-tags,
+  .categories,
+  .category-list,
+  .chips,
+  .filters,
+  .dashboard-tabs,
+  .tab-switcher {
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    gap: 10px !important;
+    padding: 4px 0 12px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .category-tag,
+  .category-btn,
+  .category-chip,
+  .chip,
+  .filter-btn,
+  .tab-btn,
+  .dashboard-tab {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    max-width: none !important;
+    width: auto !important;
+    white-space: nowrap !important;
+    padding: 11px 16px !important;
+    font-size: 15px !important;
+    line-height: 1.15 !important;
+    border-radius: 999px !important;
+  }
+
+  /* Corrige les tabs trop longues */
+  .tab-btn,
+  .dashboard-tab {
+    min-width: 145px !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  /* Cards moins hautes */
+  .card,
+  .profile-section,
+  .results-card,
+  .premium-result-card {
+    border-radius: 24px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .card-header,
+  .card-body,
+  .results-body,
+  .profile-section {
+    padding: 20px !important;
+  }
+
+  .empty-state {
+    padding: 42px 20px !important;
+  }
+
+  .empty-state-icon {
+    font-size: 3rem !important;
+    margin-bottom: 16px !important;
+  }
+
+  .empty-state-title {
+    font-size: 22px !important;
+  }
+
+  .empty-state-text {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Formulaire génération */
+  .search-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .search-input {
+    width: 100% !important;
+  }
+
+  /* Évite les débordements horizontaux */
+  .container,
+  .dashboard-content,
+  .dashboard-main,
+  .search-section,
+  .profile-section,
+  .card,
+  .pricing-card,
+  .feature-card {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Stats */
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0 !important;
+  }
+
+  .stat-card {
+    padding: 10px 4px !important;
+  }
+
+  .stat-value {
+    font-size: 22px !important;
+  }
+
+  .stat-label {
+    font-size: 11px !important;
+  }
+
+  /* Popup / modal si ton texte devient vertical */
+  .modal,
+  .popup,
+  .premium-modal,
+  .upgrade-modal,
+  .modal-content,
+  .popup-content {
+    width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    padding: 22px !important;
+  }
+
+  .modal *,
+  .popup *,
+  .premium-modal *,
+  .upgrade-modal * {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* Bottom nav safe */
+  .bottom-nav {
+    height: 72px !important;
+  }
+
+  main,
+  .main,
+  .main-content,
+  .dashboard-content,
+  .content {
+    padding-bottom: 92px !important;
+  }
+}
