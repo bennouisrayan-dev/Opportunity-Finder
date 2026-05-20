@@ -3706,3 +3706,52 @@ p {
   }
 
 }
+
+/* FIX DROPDOWN USER QUI PASSE DERRIÈRE LES CARTES */
+@media (max-width: 768px) {
+  .navbar,
+  .navbar-inner,
+  .navbar-actions,
+  .user-menu {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  .navbar {
+    z-index: 99999 !important;
+  }
+
+  .navbar-inner {
+    z-index: 99999 !important;
+  }
+
+  .user-menu {
+    z-index: 100000 !important;
+  }
+
+  .user-menu-dropdown,
+  .user-dropdown {
+    position: absolute !important;
+    top: calc(100% + 10px) !important;
+    right: 0 !important;
+    z-index: 100001 !important;
+    display: none;
+  }
+
+  .user-menu.open .user-menu-dropdown,
+  .user-dropdown.open {
+    display: block !important;
+  }
+
+  .dashboard,
+  .dashboard-main,
+  .dashboard-content,
+  .hero,
+  .search-section,
+  .card,
+  .profile-section,
+  .results-card {
+    position: relative;
+    z-index: 1;
+  }
+}
