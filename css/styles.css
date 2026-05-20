@@ -3755,3 +3755,38 @@ p {
     z-index: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .user-menu-dropdown,
+  .user-dropdown {
+    position: fixed !important;
+    top: 82px !important;
+    right: 18px !important;
+    width: 220px !important;
+    z-index: 2147483647 !important;
+    background: white !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 18px !important;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25) !important;
+    padding: 8px !important;
+  }
+
+  .user-menu.open .user-menu-dropdown,
+  .user-menu.open .user-dropdown,
+  .user-dropdown.open,
+  .user-menu-dropdown.open {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .navbar,
+  .navbar-inner,
+  .navbar-actions,
+  .user-menu,
+  body,
+  html {
+    overflow: visible !important;
+  }
+}
