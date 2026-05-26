@@ -305,6 +305,7 @@ const Auth = {
               <button class="user-menu-toggle">
                 <span class="user-avatar">${currentUser.name.charAt(0).toUpperCase()}</span>
                 <span class="user-name">${currentUser.name}</span>
+                <span class="user-arrow">▾</span>
               </button>
               <div class="user-menu-dropdown">
                 <a href="profile.html" class="user-menu-item">Profil</a>

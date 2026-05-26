@@ -17,19 +17,19 @@
     <div class="container">
       <div class="navbar-inner">
         <a href="index.html" class="navbar-logo">
-          <div class="navbar-logo-icon">🔍</div>
+          <img src="logo.png" alt="Opportunity Finder" class="navbar-logo-img">
           <span>Opportunity Finder</span>
         </a>
 
         <div class="navbar-nav">
-          
           <a href="pricing.html" class="navbar-link">Tarifs</a>
+          <a href="dashboard.html" class="navbar-link">Tableau de bord</a>
         </div>
 
-        <div class="navbar-actions">
-          <a href="dashboard.html" class="navbar-link">Tableau de bord</a>
-          <a href="profile.html" class="btn btn-ghost">Profil</a>
-          <button class="btn btn-secondary" data-action="logout">Déconnexion</button>
+        <div class="navbar-actions navbar-auth">
+          <!-- Injected by auth.js -->
+          <a href="login.html" class="btn btn-ghost">Se connecter</a>
+          <a href="signup.html" class="btn btn-primary">Commencer</a>
         </div>
       </div>
     </div>
