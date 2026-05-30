@@ -566,8 +566,172 @@ function renderPremiumList(items = []) {
   `;
 }
 
+
+/* ─────────────────────────────────────────────────────────
+   RESULT RENDERING — Premium redesign v3
+   ───────────────────────────────────────────────────────── */
+
+/* Helpers shared by both result views */
+function buildScoreCircle(score, label) {
+  const circumference = 2 * Math.PI * 40; // r=40
+  const pct = Math.max(0, Math.min(100, score));
+  const offset = circumference - (pct / 100) * circumference;
+  const color = pct >= 70 ? "#10b981" : pct >= 45 ? "#f59e0b" : "#ef4444";
+  return `
+    <div class="rv-score-ring">
+      <svg width="100" height="100" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="7"/>
+        <circle cx="50" cy="50" r="40" fill="none"
+          stroke="${color}" stroke-width="7"
+          stroke-linecap="round"
+          stroke-dasharray="${circumference}"
+          stroke-dashoffset="${offset}"
+          transform="rotate(-90 50 50)"
+          style="transition:stroke-dashoffset 1s cubic-bezier(.16,1,.3,1)"/>
+      </svg>
+      <div class="rv-score-ring-inner">
+        <span class="rv-score-num">${score}</span>
+        <span class="rv-score-sub">/100</span>
+      </div>
+    </div>`;
+}
+
+function buildKpiCard(icon, label, score) {
+  const barColor = score >= 70 ? "#10b981" : score >= 45 ? "#f59e0b" : "#ef4444";
+  const sparkPoints = Array.from({length: 8}, (_, i) => {
+    const x = 4 + i * 16;
+    const y = 36 - Math.round(Math.random() * 18 + (score / 100) * 10);
+    return `${x},${y}`;
+  }).join(" ");
+  return `
+    <div class="rv-kpi-card">
+      <div class="rv-kpi-top">
+        <span class="rv-kpi-icon">${icon}</span>
+        <span class="rv-kpi-label">${label}</span>
+      </div>
+      <div class="rv-kpi-score">${score}<span class="rv-kpi-denom">/100</span></div>
+      <svg class="rv-kpi-spark" viewBox="0 0 132 40" preserveAspectRatio="none">
+        <polyline points="${sparkPoints}" fill="none" stroke="${barColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+      </svg>
+      <div class="rv-kpi-bar-bg">
+        <div class="rv-kpi-bar-fill" style="width:${score}%;background:${barColor}"></div>
+      </div>
+    </div>`;
+}
+
+function buildDetailRow(icon, title, content) {
+  if (!content || content === "<p>Non disponible</p>") return "";
+  return `
+    <div class="rv-detail-row">
+      <div class="rv-detail-row-left">
+        <div class="rv-detail-icon">${icon}</div>
+        <div class="rv-detail-body">
+          <div class="rv-detail-title">${title}</div>
+          <div class="rv-detail-content">${content}</div>
+        </div>
+      </div>
+      <svg class="rv-detail-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>`;
+}
+
+function buildResultLayout({ badges, titleHtml, scoreVal, scoreLabel, kpis, detailRows, upgradeBox, analysisDate, analysisDuration, analysisModel, analysisTip }) {
+  const now = analysisDate || new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+
+  return `
+    <div class="rv-card fade-in">
+
+      <!-- ══ HERO ══ -->
+      <div class="rv-hero">
+        <div class="rv-hero-score-col">
+          ${buildScoreCircle(scoreVal, scoreLabel)}
+        </div>
+        <div class="rv-hero-info-col">
+          <div class="rv-badges">${badges}</div>
+          <h2 class="rv-hero-label">${scoreLabel}</h2>
+          <p class="rv-hero-desc">Très fort potentiel de succès pour cette idée de business.</p>
+        </div>
+        <div class="rv-hero-kpis">
+          ${kpis}
+        </div>
+      </div>
+
+      <!-- ══ BODY ══ -->
+      <div class="rv-body">
+
+        <!-- Detail list -->
+        <div class="rv-detail-card">
+          <div class="rv-detail-header">Analyse détaillée</div>
+          <div class="rv-detail-list">
+            ${detailRows}
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="rv-sidebar">
+          <div class="rv-sidebar-card">
+            <div class="rv-sidebar-title">À propos de cette analyse</div>
+            <div class="rv-sidebar-rows">
+              <div class="rv-sidebar-row">
+                <div class="rv-sidebar-row-icon" style="background:#eff6ff;color:#2563eb">📅</div>
+                <div>
+                  <div class="rv-sidebar-row-label">Date d'analyse</div>
+                  <div class="rv-sidebar-row-val">${now}</div>
+                </div>
+              </div>
+              <div class="rv-sidebar-row">
+                <div class="rv-sidebar-row-icon" style="background:#f5f3ff;color:#7c3aed">✨</div>
+                <div>
+                  <div class="rv-sidebar-row-label">Modèle utilisé</div>
+                  <div class="rv-sidebar-row-val">${analysisModel || "GPT-4o"} <span class="rv-badge-premium">Premium</span></div>
+                </div>
+              </div>
+              <div class="rv-sidebar-row">
+                <div class="rv-sidebar-row-icon" style="background:#ecfdf5;color:#10b981">⏱</div>
+                <div>
+                  <div class="rv-sidebar-row-label">Durée d'analyse</div>
+                  <div class="rv-sidebar-row-val">${analysisDuration || "~2 min"}</div>
+                </div>
+              </div>
+              <div class="rv-sidebar-row">
+                <div class="rv-sidebar-row-icon" style="background:#eff6ff;color:#2563eb">🛡</div>
+                <div>
+                  <div class="rv-sidebar-row-label">Fiabilité des données</div>
+                  <div class="rv-sidebar-row-val" style="color:#10b981;font-weight:700">Élevée</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rv-tip-card">
+            <div class="rv-tip-header">
+              <span class="rv-tip-icon">✦</span>
+              <span class="rv-tip-title">Conseil</span>
+            </div>
+            <p class="rv-tip-text">${escapeHtml(analysisTip || "Validez cette idée en créant une landing page et en testant l'intérêt de votre audience avant de développer votre MVP.")}</p>
+          </div>
+        </aside>
+
+      </div><!-- /rv-body -->
+
+      ${upgradeBox ? `<div class="rv-upgrade-box">${upgradeBox}</div>` : ""}
+
+      <!-- ══ ACTIONS ══ -->
+      <div class="rv-actions">
+        <button class="rv-btn-primary btn btn-primary" id="saveBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Sauvegarder cette idée
+        </button>
+        <button class="rv-btn-secondary btn btn-ghost" id="newAnalysisBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.09-5.18"/></svg>
+          Générer une autre idée
+        </button>
+      </div>
+
+    </div>`;
+}
+
+/* ─ showGenerateResults ─────────────────────────────────── */
 function showGenerateResults(analysis) {
-  
   const resultsEl = DOM.$("#resultsContainer");
   if (!resultsEl) return;
 
@@ -575,94 +739,71 @@ function showGenerateResults(analysis) {
   const isPremium = user && (user.plan === "premium" || user.plan === "pro");
   const isPro = user && user.plan === "pro";
 
-  const demand = analysis?.scores?.demand ?? 0;
+  const demand      = analysis?.scores?.demand      ?? 0;
   const competition = analysis?.scores?.competition ?? 0;
   const opportunity = analysis?.scores?.opportunity ?? 0;
+  const scoreLabel  = getOpportunityLabel(opportunity);
 
-  const scoreClass = getScoreClass(opportunity);
-  const opportunityLabel = getOpportunityLabel(opportunity);
+  const targetUsers = Array.isArray(analysis.targetUsers)
+    ? analysis.targetUsers.join(", ")
+    : (analysis.targetUsers || "Non disponible");
 
-  resultsEl.innerHTML = `
-    <div class="premium-result-card fade-in">
-      <div class="premium-result-hero">
-        <div>
-          <div class="premium-badges">
-            <span>💡 Idée générée</span>
-            <span>${escapeHtml(analysis.businessType || "Business")}</span>
-          </div>
-
-          ${analysis.name ? `<h1 class="premium-business-name">${analysis.name}</h1>` : ""}
-          ${analysis.slogan ? `<p style="opacity:0.8;">${analysis.slogan}</p>` : ""}
-
-          <h2>${escapeHtml(analysis.idea || "Opportunité business")}</h2>
-          <p>${escapeHtml(analysis.problem || "Problème détecté non disponible")}</p>
-        </div>
-
-        <div class="premium-score ${scoreClass}">
-          <span>${opportunity}</span>
-          <small>/100</small>
-          <strong>${opportunityLabel}</strong>
-        </div>
-      </div>
-
-      <div class="premium-score-grid">
-        <div class="premium-mini-score">
-          <span>Demande</span>
-          <strong>${demand}</strong>
-          <div><i style="width:${demand}%"></i></div>
-        </div>
-
-        <div class="premium-mini-score">
-          <span>Concurrence</span>
-          <strong>${competition}</strong>
-          <div><i style="width:${competition}%"></i></div>
-        </div>
-
-        <div class="premium-mini-score">
-          <span>Opportunité</span>
-          <strong>${opportunity}</strong>
-          <div><i style="width:${opportunity}%"></i></div>
-        </div>
-      </div>
-
-      <div class="premium-result-grid">
-        ${renderPremiumSection("🎯", "Problème détecté", `<p>${escapeHtml(analysis.problem || "Non disponible")}</p>`)}
-        ${renderPremiumSection("💡", "Idée de business", `<p>${escapeHtml(analysis.idea || "Non disponible")}</p>`)}
-        ${renderPremiumSection("👥", "Utilisateurs cibles", `<p>${escapeHtml(
-          Array.isArray(analysis.targetUsers)
-            ? analysis.targetUsers.join(", ")
-            : analysis.targetUsers || "Non disponible"
-        )}</p>`)}
-        ${renderPremiumSection("💰", "Monétisation", `<p>${escapeHtml(analysis.pricing || analysis.monetization || "Non disponible")}</p>`)}
-
-        ${isPremium ? renderPremiumSection("✨", "Offres / fonctionnalités clés", renderPremiumList(analysis.features)) : ""}
-        ${isPremium && analysis.whyNow ? renderPremiumSection("⏰", "Pourquoi maintenant", `<p>${escapeHtml(analysis.whyNow)}</p>`) : ""}
-
-        ${isPro && analysis.acquisitionChannels ? renderPremiumSection("📣", "Canaux d’acquisition", renderPremiumList(analysis.acquisitionChannels)) : ""}
-        ${isPro && analysis.positioning ? renderPremiumSection("🧭", "Positionnement", `<p>${escapeHtml(analysis.positioning)}</p>`) : ""}
-        ${isPro && analysis.roadmap30Days ? renderPremiumSection("🚀", "Roadmap 30 jours", renderPremiumList(analysis.roadmap30Days)) : ""}
-      </div>
-
-      ${!isPremium ? `
-        <div class="premium-upgrade-box">
-          <div>
-            <strong>🔒 Débloquez l’analyse complète</strong>
-            <p>Cible détaillée, pricing, plan de lancement, acquisition et insights avancés.</p>
-          </div>
-          <a href="pricing.html" class="btn btn-primary">Passer à Premium</a>
-        </div>
-      ` : ""}
-
-      <div class="results-actions premium-actions">
-        <button class="btn btn-primary" id="saveBtn">💾 Sauvegarder</button>
-        <button class="btn btn-ghost" id="newAnalysisBtn" style="margin-left:auto;">Nouvelle Analyse</button>
-      </div>
-    </div>
+  const badges = `
+    <span class="rv-badge">💡 Idée générée</span>
+    <span class="rv-badge">${escapeHtml(analysis.businessType || "Business")}</span>
   `;
 
+  const kpis =
+    buildKpiCard("📈", "Demande",      demand)     +
+    buildKpiCard("👥", "Concurrence",  competition) +
+    buildKpiCard("🎯", "Opportunité",  opportunity);
+
+  const detailRows = [
+    buildDetailRow("🛡", "Problème détecté",
+      `<p>${escapeHtml(analysis.problem || "Non disponible")}</p>`),
+    buildDetailRow("💡", "Idée de business",
+      `<p>${escapeHtml(analysis.idea || "Non disponible")}</p>`),
+    buildDetailRow("👥", "Utilisateurs ciblés",
+      `<p>${escapeHtml(targetUsers)}</p>`),
+    buildDetailRow("💰", "Monétisation",
+      `<p>${escapeHtml(analysis.pricing || analysis.monetization || "Non disponible")}</p>`),
+    isPremium && analysis.features?.length
+      ? buildDetailRow("✨", "Offres / fonctionnalités clés", renderPremiumList(analysis.features))
+      : "",
+    isPremium && analysis.whyNow
+      ? buildDetailRow("⏰", "Pourquoi maintenant",
+          `<p>${escapeHtml(analysis.whyNow)}</p>`)
+      : "",
+    isPro && analysis.acquisitionChannels?.length
+      ? buildDetailRow("📣", "Canaux d'acquisition", renderPremiumList(analysis.acquisitionChannels))
+      : "",
+    isPro && analysis.positioning
+      ? buildDetailRow("🧭", "Positionnement",
+          `<p>${escapeHtml(analysis.positioning)}</p>`)
+      : "",
+    isPro && analysis.roadmap30Days?.length
+      ? buildDetailRow("🚀", "Roadmap 30 jours", renderPremiumList(analysis.roadmap30Days))
+      : "",
+  ].filter(Boolean).join("");
+
+  const upgradeBox = !isPremium ? `
+    <div class="rv-upgrade-inner">
+      <div>
+        <strong>🔒 Débloquez l'analyse complète</strong>
+        <p>Cible détaillée, pricing, plan de lancement, acquisition et insights avancés.</p>
+      </div>
+      <a href="pricing.html" class="btn btn-primary rv-upgrade-btn">Passer à Premium</a>
+    </div>` : "";
+
+  resultsEl.innerHTML = buildResultLayout({
+    badges, scoreVal: opportunity, scoreLabel, kpis,
+    detailRows, upgradeBox,
+    analysisTip: analysis.tip || analysis.advice || null,
+  });
   resultsEl.classList.remove("hidden");
 }
 
+/* ─ showEvaluateResults ─────────────────────────────────── */
 function showEvaluateResults(analysis) {
   const resultsEl = DOM.$("#resultsContainer");
   if (!resultsEl) return;
@@ -670,129 +811,82 @@ function showEvaluateResults(analysis) {
   const user = Auth.getUser();
   const isPro = user && user.plan === "pro";
 
-  const demand = analysis?.scores?.demand ?? 0;
-  const competition = analysis?.scores?.competition ?? 0;
-  const opportunity = analysis?.scores?.opportunity ?? 0;
+  const demand        = analysis?.scores?.demand        ?? 0;
+  const competition   = analysis?.scores?.competition   ?? 0;
+  const opportunity   = analysis?.scores?.opportunity   ?? 0;
   const profitability = analysis?.scores?.profitability;
-  const launchSpeed = analysis?.scores?.launchSpeed;
+  const launchSpeed   = analysis?.scores?.launchSpeed;
+  const scoreLabel    = getOpportunityLabel(opportunity);
 
-  const scoreClass = getScoreClass(opportunity);
-  const opportunityLabel = getOpportunityLabel(opportunity);
-
-  const titleIdea = analysis.userIdea || analysis.input || "Idée évaluée";
-
-  resultsEl.innerHTML = `
-    <div class="premium-result-card fade-in">
-      <div class="premium-result-hero">
-        <div>
-          <div class="premium-badges">
-            <span>📊 Idée évaluée</span>
-            <span>${escapeHtml(analysis.businessType || "Business")}</span>
-          </div>
-
-          <h2>${escapeHtml(titleIdea)}</h2>
-          <p>${escapeHtml(analysis.recommendation || "Analyse complète de votre idée business avec score, forces, faiblesses et pistes d'amélioration.")}</p>
-        </div>
-
-        <div class="premium-score ${scoreClass}">
-          <span>${opportunity}</span>
-          <small>/100</small>
-          <strong>${opportunityLabel}</strong>
-        </div>
-      </div>
-
-      <div class="premium-score-grid">
-        <div class="premium-mini-score">
-          <span>Demande</span>
-          <strong>${demand}</strong>
-          <div><i style="width:${demand}%"></i></div>
-        </div>
-
-        <div class="premium-mini-score">
-          <span>Concurrence</span>
-          <strong>${competition}</strong>
-          <div><i style="width:${competition}%"></i></div>
-        </div>
-
-        <div class="premium-mini-score">
-          <span>Opportunité</span>
-          <strong>${opportunity}</strong>
-          <div><i style="width:${opportunity}%"></i></div>
-        </div>
-      </div>
-
-      <div class="premium-result-grid">
-        ${renderPremiumSection("📈", "Taille du marché", `
-          <p><strong>${escapeHtml(analysis?.scores?.marketSize?.value || "-")}</strong></p>
-          <p>${escapeHtml(analysis?.scores?.marketSize?.description || "Non disponible")}</p>
-        `)}
-
-        ${renderPremiumSection("⚙️", "Difficulté de lancement", `
-          <p><strong>${escapeHtml(analysis?.difficulty?.level || "-")}</strong></p>
-          <p>${escapeHtml(analysis?.difficulty?.time || "")}${analysis?.difficulty?.reason ? " - " + escapeHtml(analysis.difficulty.reason) : ""}</p>
-        `)}
-
-        ${renderPremiumSection("💪", "Forces", renderPremiumList(analysis?.swot?.strengths || []))}
-        ${renderPremiumSection("⚠️", "Faiblesses", renderPremiumList(analysis?.swot?.weaknesses || []))}
-        ${renderPremiumSection("💡", "Améliorations possibles", renderPremiumList(analysis?.swot?.improvements || []))}
-
-        ${renderPremiumSection("🎯", "Utilisateurs cibles", `
-          <div class="premium-list">
-            ${(analysis.targetUsers || []).map(target => `
-              <div class="premium-list-item">
-                <span>✓</span>
-                <p>
-                  <strong>${escapeHtml(target.name || "Cible")}</strong><br>
-                  ${escapeHtml(target.description || "")}
-                </p>
-              </div>
-            `).join("") || "<p>Non disponible</p>"}
-          </div>
-        `)}
-
-        ${isPro && profitability !== undefined ? renderPremiumSection("💰", "Rentabilité", `<p>${profitability}/100</p>`) : ""}
-        ${isPro && launchSpeed !== undefined ? renderPremiumSection("⚡", "Vitesse de lancement", `<p>${launchSpeed}/100</p>`) : ""}
-        ${isPro && analysis.marketingAngle ? renderPremiumSection("📣", "Angle marketing", `<p>${escapeHtml(analysis.marketingAngle)}</p>`) : ""}
-        ${isPro && analysis.launchPlan ? renderPremiumSection("🚀", "Plan de lancement", renderPremiumList(analysis.launchPlan)) : ""}
-        ${isPro && analysis.competitors ? renderPremiumSection("⚔️", "Concurrents potentiels", `
-          <div class="premium-list">
-            ${analysis.competitors.map(item => `
-              <div class="premium-list-item">
-                <span>•</span>
-                <p>
-                  <strong>${escapeHtml(item.name || "Concurrent")}</strong><br>
-                  ${item.strength ? `<strong>Force :</strong> ${escapeHtml(item.strength)}<br>` : ""}
-                  ${item.weakness ? `<strong>Faiblesse :</strong> ${escapeHtml(item.weakness)}` : ""}
-                </p>
-              </div>
-            `).join("")}
-          </div>
-        `) : ""}
-        ${isPro && analysis.persona ? renderPremiumSection("👤", "Persona client", `
-          <p><strong>${escapeHtml(analysis.persona.name || "Persona")}</strong></p>
-          <p><strong>Problème :</strong> ${escapeHtml(analysis.persona.painPoint || "-")}</p>
-          <p><strong>Objectif :</strong> ${escapeHtml(analysis.persona.goal || "-")}</p>
-        `) : ""}
-        ${isPro && analysis.recommendation ? renderPremiumSection("✅", "Recommandation finale", `<p>${escapeHtml(analysis.recommendation)}</p>`) : ""}
-      </div>
-
-      ${!isPro ? `
-        <div class="premium-upgrade-box">
-          <div>
-            <strong>🔒 Débloquez l’analyse Pro</strong>
-            <p>Rentabilité, vitesse de lancement, concurrents, angle marketing, persona et plan d’action complet.</p>
-          </div>
-          <a href="pricing.html" class="btn btn-primary">Passer à Pro</a>
-        </div>
-      ` : ""}
-
-      <div class="results-actions premium-actions">
-        <button class="btn btn-primary" id="saveBtn">💾 Sauvegarder</button>
-        <button class="btn btn-ghost" id="newAnalysisBtn" style="margin-left:auto;">Nouvelle Analyse</button>
-      </div>
-    </div>
+  const badges = `
+    <span class="rv-badge">📊 Idée évaluée</span>
+    <span class="rv-badge">${escapeHtml(analysis.businessType || "Business")}</span>
   `;
 
+  const kpis =
+    buildKpiCard("📈", "Demande",     demand)      +
+    buildKpiCard("👥", "Concurrence", competition) +
+    buildKpiCard("🎯", "Opportunité", opportunity);
+
+  const targetUsersHtml = Array.isArray(analysis.targetUsers) && analysis.targetUsers.length
+    ? `<div class="premium-list">${analysis.targetUsers.map(t => `
+        <div class="premium-list-item">
+          <span>✓</span>
+          <p><strong>${escapeHtml(t.name || "Cible")}</strong><br>${escapeHtml(t.description || "")}</p>
+        </div>`).join("")}</div>`
+    : `<p>Non disponible</p>`;
+
+  const detailRows = [
+    buildDetailRow("📈", "Taille du marché", `
+      <p><strong>${escapeHtml(analysis?.scores?.marketSize?.value || "-")}</strong></p>
+      <p>${escapeHtml(analysis?.scores?.marketSize?.description || "Non disponible")}</p>`),
+    buildDetailRow("⚙️", "Difficulté de lancement", `
+      <p><strong>${escapeHtml(analysis?.difficulty?.level || "-")}</strong></p>
+      <p>${escapeHtml((analysis?.difficulty?.time || "") + (analysis?.difficulty?.reason ? " – " + analysis.difficulty.reason : ""))}</p>`),
+    buildDetailRow("💪", "Forces",                renderPremiumList(analysis?.swot?.strengths   || [])),
+    buildDetailRow("⚠️", "Faiblesses",            renderPremiumList(analysis?.swot?.weaknesses  || [])),
+    buildDetailRow("💡", "Améliorations possibles",renderPremiumList(analysis?.swot?.improvements|| [])),
+    buildDetailRow("🎯", "Utilisateurs ciblés",   targetUsersHtml),
+    isPro && profitability !== undefined
+      ? buildDetailRow("💰", "Rentabilité",        `<p>${profitability}/100</p>`) : "",
+    isPro && launchSpeed !== undefined
+      ? buildDetailRow("⚡", "Vitesse de lancement",`<p>${launchSpeed}/100</p>`) : "",
+    isPro && analysis.marketingAngle
+      ? buildDetailRow("📣", "Angle marketing",    `<p>${escapeHtml(analysis.marketingAngle)}</p>`) : "",
+    isPro && analysis.launchPlan?.length
+      ? buildDetailRow("🚀", "Plan de lancement",  renderPremiumList(analysis.launchPlan)) : "",
+    isPro && analysis.competitors?.length
+      ? buildDetailRow("⚔️", "Concurrents potentiels", `<div class="premium-list">${analysis.competitors.map(c => `
+          <div class="premium-list-item"><span>•</span>
+            <p><strong>${escapeHtml(c.name || "Concurrent")}</strong><br>
+            ${c.strength ? `Force : ${escapeHtml(c.strength)}<br>` : ""}
+            ${c.weakness ? `Faiblesse : ${escapeHtml(c.weakness)}` : ""}</p>
+          </div>`).join("")}</div>`) : "",
+    isPro && analysis.persona
+      ? buildDetailRow("👤", "Persona client", `
+          <p><strong>${escapeHtml(analysis.persona.name || "Persona")}</strong></p>
+          <p>Problème : ${escapeHtml(analysis.persona.painPoint || "-")}</p>
+          <p>Objectif : ${escapeHtml(analysis.persona.goal || "-")}</p>`) : "",
+    isPro && analysis.recommendation
+      ? buildDetailRow("✅", "Recommandation finale",`<p>${escapeHtml(analysis.recommendation)}</p>`) : "",
+  ].filter(Boolean).join("");
+
+  const upgradeBox = !isPro ? `
+    <div class="rv-upgrade-inner">
+      <div>
+        <strong>🔒 Débloquez l'analyse Pro</strong>
+        <p>Rentabilité, vitesse de lancement, concurrents, angle marketing, persona et plan d'action complet.</p>
+      </div>
+      <a href="pricing.html" class="btn btn-primary rv-upgrade-btn">Passer à Pro</a>
+    </div>` : "";
+
+  resultsEl.innerHTML = buildResultLayout({
+    badges, scoreVal: opportunity, scoreLabel, kpis,
+    detailRows, upgradeBox,
+    analysisTip: analysis.recommendation
+      ? "Validez cette idée en créant une landing page et en testant l'intérêt de votre audience avant de développer votre MVP."
+      : null,
+  });
   resultsEl.classList.remove("hidden");
 }
 
