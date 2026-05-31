@@ -1437,3 +1437,122 @@ body[data-page="dashboard"] .saved-item:hover {
 .rv-detail-row.rv-expanded .rv-detail-icon {
   background: white;
 }
+
+/* ══════════════════════════════════════════════════════════
+   BUG FIXES — mobile user menu + chips
+══════════════════════════════════════════════════════════ */
+
+/* ── User menu: ensure it always renders above everything ── */
+.user-menu {
+  position: relative;
+  /* do NOT set overflow: hidden here */
+}
+
+.user-menu-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 2147483647;
+  min-width: 210px;
+  background: white;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(15,23,42,.18);
+  padding: 8px;
+  /* prevent any parent overflow from clipping it */
+  pointer-events: auto;
+}
+
+.user-menu.open .user-menu-dropdown {
+  display: block;
+}
+
+/* On mobile: fixed position so no parent overflow can clip it */
+@media (max-width: 768px) {
+  .user-menu-dropdown {
+    position: fixed !important;
+    top: 66px !important;
+    right: 12px !important;
+    left: auto !important;
+    width: 210px !important;
+    z-index: 2147483647 !important;
+  }
+
+  /* The topbar itself must never clip its children */
+  .db-topbar {
+    overflow: visible !important;
+  }
+  .db-topbar-right {
+    overflow: visible !important;
+    position: static !important;
+  }
+
+  /* ── Chips: wrap to multiple lines on mobile (user preference) ── */
+  .db-chips,
+  .category-tags {
+    flex-wrap: wrap !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    gap: 8px !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Each chip: natural auto size, no forced nowrap */
+  .db-chip,
+  .category-tag {
+    flex: 0 0 auto !important;
+    white-space: nowrap;
+    font-size: 12.5px !important;
+    padding: 7px 12px !important;
+  }
+
+  /* Make sure the form container doesn't clip chips */
+  .db-mode-panel,
+  #modeGenerate .search-form,
+  #modeEvaluate .search-form {
+    overflow: visible !important;
+  }
+
+  /* ── General mobile overflow audit ── */
+
+  /* Prevent any card from blocking clicks on menus */
+  .db-card,
+  .db-generator-card,
+  .db-section-card,
+  .rv-card {
+    overflow: visible !important;
+  }
+
+  /* Main scrolls vertically only */
+  .db-main {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* Ensure all interactive elements are tappable */
+  .db-chip,
+  .db-tab,
+  .db-cta-btn,
+  .rv-btn-primary,
+  .rv-btn-secondary,
+  .db-nav-item,
+  .db-bottom-item,
+  .user-menu-toggle,
+  .user-menu-item {
+    -webkit-tap-highlight-color: rgba(79,70,229,.12);
+    touch-action: manipulation;
+    cursor: pointer;
+  }
+
+  /* Bottom nav: always above result cards */
+  .db-bottom-nav {
+    z-index: 1000 !important;
+  }
+
+  /* rv-detail-row: make sure arrow/click works */
+  .rv-detail-row {
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(79,70,229,.06);
+  }
+}

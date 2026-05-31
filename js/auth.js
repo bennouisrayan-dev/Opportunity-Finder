@@ -320,6 +320,9 @@ const Auth = {
         DOM.$$('[data-action="logout"]').forEach((btn) => {
           btn.addEventListener("click", () => this.logout());
         });
+
+        // ── User menu toggle — works on every page (dashboard has no main.js) ──
+        this._bindUserMenuToggle();
       } else {
         authNav.innerHTML = `
           <a href="login.html" class="btn btn-ghost">Se connecter</a>
@@ -370,6 +373,42 @@ const Auth = {
     }
 
     return true;
+  },
+
+  // ── Bind user-menu toggle on ANY page (safe to call multiple times) ──
+  _userMenuBound: false,
+  _bindUserMenuToggle() {
+    if (this._userMenuBound) return;
+    this._userMenuBound = true;
+
+    document.addEventListener("click", (e) => {
+      const toggle = e.target.closest(".user-menu-toggle");
+      const menu   = e.target.closest(".user-menu");
+
+      // Close all menus first
+      document.querySelectorAll(".user-menu").forEach(m => {
+        if (m !== menu) m.classList.remove("open");
+      });
+
+      if (toggle && menu) {
+        e.stopPropagation();
+        menu.classList.toggle("open");
+
+        // Position dropdown with fixed coords on mobile
+        const dropdown = menu.querySelector(".user-menu-dropdown");
+        if (dropdown && window.innerWidth <= 768) {
+          const rect = toggle.getBoundingClientRect();
+          dropdown.style.position  = "fixed";
+          dropdown.style.top       = (rect.bottom + 8) + "px";
+          dropdown.style.right     = "12px";
+          dropdown.style.left      = "auto";
+          dropdown.style.zIndex    = "2147483647";
+          dropdown.style.display   = menu.classList.contains("open") ? "block" : "none";
+        }
+      } else if (!menu) {
+        document.querySelectorAll(".user-menu").forEach(m => m.classList.remove("open"));
+      }
+    });
   }
 };
 
