@@ -146,6 +146,12 @@ const toggleSavedBtn = e.target.closest("#toggleSavedBtn");
 const historyItem = e.target.closest("[data-history-id]");
 const savedItem = e.target.closest("[data-saved-id]");
 
+// Expand/collapse detail rows on click
+const detailRow = e.target.closest(".rv-detail-row");
+if (detailRow && !saveBtn && !newAnalysisBtn) {
+  detailRow.classList.toggle("rv-expanded");
+}
+
 if (toggleHistoryBtn) {
   showAllHistory = !showAllHistory;
   renderHistoryList();
@@ -572,22 +578,23 @@ function renderPremiumList(items = []) {
    ───────────────────────────────────────────────────────── */
 
 /* Helpers shared by both result views */
-function buildScoreCircle(score, label) {
-  const circumference = 2 * Math.PI * 40; // r=40
+function buildScoreCircle(score) {
+  const r = 52, cx = 64, cy = 64, size = 128;
+  const circumference = 2 * Math.PI * r;
   const pct = Math.max(0, Math.min(100, score));
   const offset = circumference - (pct / 100) * circumference;
   const color = pct >= 70 ? "#10b981" : pct >= 45 ? "#f59e0b" : "#ef4444";
   return `
     <div class="rv-score-ring">
-      <svg width="100" height="100" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="7"/>
-        <circle cx="50" cy="50" r="40" fill="none"
-          stroke="${color}" stroke-width="7"
+      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="9"/>
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none"
+          stroke="${color}" stroke-width="9"
           stroke-linecap="round"
           stroke-dasharray="${circumference}"
           stroke-dashoffset="${offset}"
-          transform="rotate(-90 50 50)"
-          style="transition:stroke-dashoffset 1s cubic-bezier(.16,1,.3,1)"/>
+          transform="rotate(-90 ${cx} ${cy})"
+          style="transition:stroke-dashoffset 1.2s cubic-bezier(.16,1,.3,1)"/>
       </svg>
       <div class="rv-score-ring-inner">
         <span class="rv-score-num">${score}</span>
@@ -634,8 +641,44 @@ function buildDetailRow(icon, title, content) {
     </div>`;
 }
 
-function buildResultLayout({ badges, titleHtml, scoreVal, scoreLabel, kpis, detailRows, upgradeBox, analysisDate, analysisDuration, analysisModel, analysisTip }) {
+/* Splits roadmap items into weekly groups of ~2-3 tasks each */
+function buildRoadmap(items = []) {
+  if (!Array.isArray(items) || items.length === 0) return "<p>Non disponible</p>";
+
+  const WEEK_SIZE = 2;
+  const weeks = [];
+  for (let i = 0; i < items.length; i += WEEK_SIZE) {
+    weeks.push(items.slice(i, i + WEEK_SIZE));
+  }
+
+  const weekLabels = ["Semaine 1", "Semaine 2", "Semaine 3", "Semaine 4", "Semaine 5", "Semaine 6"];
+  const weekColors = ["#2563eb", "#4f46e5", "#7c3aed", "#6d28d9", "#0891b2", "#059669"];
+
+  return `<div class="rv-roadmap">${weeks.map((group, wi) => `
+    <div class="rv-roadmap-week">
+      <div class="rv-roadmap-week-label" style="color:${weekColors[wi] || "#7c3aed"}">
+        <span class="rv-roadmap-week-dot" style="background:${weekColors[wi] || "#7c3aed"}"></span>
+        ${weekLabels[wi] || `Semaine ${wi + 1}`}
+      </div>
+      <div class="rv-roadmap-tasks">
+        ${group.map((task, ti) => `
+          <div class="rv-roadmap-task">
+            <span class="rv-roadmap-check">✓</span>
+            <span class="rv-roadmap-task-text">${escapeHtml(task)}</span>
+          </div>`).join("")}
+      </div>
+    </div>`).join("")}
+  </div>`;
+}
+
+function buildResultLayout({ badges, nameHtml, sloganHtml, scoreVal, scoreLabel, scorePotential, kpis, detailRows, upgradeBox, analysisDate, analysisDuration, analysisModel, analysisTip }) {
   const now = analysisDate || new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  const potentialText = scorePotential || (scoreVal >= 80 ? "Très fort potentiel" : scoreVal >= 65 ? "Fort potentiel" : scoreVal >= 45 ? "Potentiel correct" : "Potentiel risqué");
+  const heroDesc = scoreVal >= 80
+    ? "Très fort potentiel de succès pour cette idée de business."
+    : scoreVal >= 65 ? "Bonne opportunité avec un fort potentiel de marché."
+    : scoreVal >= 45 ? "Opportunité correcte, à valider avec soin."
+    : "Opportunité risquée — analysez bien les faiblesses avant de vous lancer.";
 
   return `
     <div class="rv-card fade-in">
@@ -643,12 +686,17 @@ function buildResultLayout({ badges, titleHtml, scoreVal, scoreLabel, kpis, deta
       <!-- ══ HERO ══ -->
       <div class="rv-hero">
         <div class="rv-hero-score-col">
-          ${buildScoreCircle(scoreVal, scoreLabel)}
+          ${buildScoreCircle(scoreVal)}
         </div>
         <div class="rv-hero-info-col">
           <div class="rv-badges">${badges}</div>
+          ${nameHtml ? `<div class="rv-hero-name">${nameHtml}</div>` : ""}
+          ${sloganHtml ? `<div class="rv-hero-slogan">${sloganHtml}</div>` : ""}
           <h2 class="rv-hero-label">${scoreLabel}</h2>
-          <p class="rv-hero-desc">Très fort potentiel de succès pour cette idée de business.</p>
+          <div class="rv-hero-potential">
+            <span class="rv-potential-dot"></span>${potentialText}
+          </div>
+          <p class="rv-hero-desc">${heroDesc}</p>
         </div>
         <div class="rv-hero-kpis">
           ${kpis}
@@ -782,7 +830,7 @@ function showGenerateResults(analysis) {
           `<p>${escapeHtml(analysis.positioning)}</p>`)
       : "",
     isPro && analysis.roadmap30Days?.length
-      ? buildDetailRow("🚀", "Roadmap 30 jours", renderPremiumList(analysis.roadmap30Days))
+      ? buildDetailRow("🚀", "Roadmap 30 jours", buildRoadmap(analysis.roadmap30Days))
       : "",
   ].filter(Boolean).join("");
 
@@ -796,7 +844,10 @@ function showGenerateResults(analysis) {
     </div>` : "";
 
   resultsEl.innerHTML = buildResultLayout({
-    badges, scoreVal: opportunity, scoreLabel, kpis,
+    badges,
+    nameHtml: analysis.name ? `<span class="rv-hero-business-name">${escapeHtml(analysis.name)}</span>` : "",
+    sloganHtml: analysis.slogan ? escapeHtml(analysis.slogan) : "",
+    scoreVal: opportunity, scoreLabel, kpis,
     detailRows, upgradeBox,
     analysisTip: analysis.tip || analysis.advice || null,
   });
@@ -854,7 +905,7 @@ function showEvaluateResults(analysis) {
     isPro && analysis.marketingAngle
       ? buildDetailRow("📣", "Angle marketing",    `<p>${escapeHtml(analysis.marketingAngle)}</p>`) : "",
     isPro && analysis.launchPlan?.length
-      ? buildDetailRow("🚀", "Plan de lancement",  renderPremiumList(analysis.launchPlan)) : "",
+      ? buildDetailRow("🚀", "Plan de lancement",  buildRoadmap(analysis.launchPlan)) : "",
     isPro && analysis.competitors?.length
       ? buildDetailRow("⚔️", "Concurrents potentiels", `<div class="premium-list">${analysis.competitors.map(c => `
           <div class="premium-list-item"><span>•</span>
@@ -881,11 +932,12 @@ function showEvaluateResults(analysis) {
     </div>` : "";
 
   resultsEl.innerHTML = buildResultLayout({
-    badges, scoreVal: opportunity, scoreLabel, kpis,
+    badges,
+    nameHtml: analysis.name ? `<span class="rv-hero-business-name">${escapeHtml(analysis.name)}</span>` : "",
+    sloganHtml: "",
+    scoreVal: opportunity, scoreLabel, kpis,
     detailRows, upgradeBox,
-    analysisTip: analysis.recommendation
-      ? "Validez cette idée en créant une landing page et en testant l'intérêt de votre audience avant de développer votre MVP."
-      : null,
+    analysisTip: "Validez cette idée en créant une landing page et en testant l'intérêt de votre audience avant de développer votre MVP.",
   });
   resultsEl.classList.remove("hidden");
 }
