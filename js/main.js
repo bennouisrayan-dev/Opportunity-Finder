@@ -296,23 +296,22 @@ function initPage() {
   }
 }
 
+// Mark as bound so auth.js doesn't double-bind on pages that load main.js
+window.__userMenuBound = true;
+
 document.addEventListener("click", (e) => {
   const toggle = e.target.closest(".user-menu-toggle");
-  const menu = e.target.closest(".user-menu");
+  const menu   = e.target.closest(".user-menu");
 
   document.querySelectorAll(".user-menu").forEach(item => {
-    if (item !== menu) {
-      item.classList.remove("open");
-    }
+    if (item !== menu) item.classList.remove("open");
   });
 
   if (toggle && menu) {
     e.stopPropagation();
     menu.classList.toggle("open");
-  } else {
-    document.querySelectorAll(".user-menu").forEach(item => {
-      item.classList.remove("open");
-    });
+  } else if (!menu) {
+    document.querySelectorAll(".user-menu").forEach(item => item.classList.remove("open"));
   }
 });
 

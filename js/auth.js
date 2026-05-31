@@ -375,17 +375,17 @@ const Auth = {
     return true;
   },
 
-  // ── Bind user-menu toggle on ANY page (safe to call multiple times) ──
-  _userMenuBound: false,
+  // ── Bind user-menu toggle — only on pages WITHOUT main.js (e.g. dashboard) ──
+  // main.js already handles this on index/profile/pricing — binding twice causes
+  // double-toggle (opens then immediately closes). We use a global flag to prevent it.
   _bindUserMenuToggle() {
-    if (this._userMenuBound) return;
-    this._userMenuBound = true;
+    if (window.__userMenuBound) return;
+    window.__userMenuBound = true;
 
     document.addEventListener("click", (e) => {
       const toggle = e.target.closest(".user-menu-toggle");
       const menu   = e.target.closest(".user-menu");
 
-      // Close all menus first
       document.querySelectorAll(".user-menu").forEach(m => {
         if (m !== menu) m.classList.remove("open");
       });
@@ -393,18 +393,6 @@ const Auth = {
       if (toggle && menu) {
         e.stopPropagation();
         menu.classList.toggle("open");
-
-        // Position dropdown with fixed coords on mobile
-        const dropdown = menu.querySelector(".user-menu-dropdown");
-        if (dropdown && window.innerWidth <= 768) {
-          const rect = toggle.getBoundingClientRect();
-          dropdown.style.position  = "fixed";
-          dropdown.style.top       = (rect.bottom + 8) + "px";
-          dropdown.style.right     = "12px";
-          dropdown.style.left      = "auto";
-          dropdown.style.zIndex    = "2147483647";
-          dropdown.style.display   = menu.classList.contains("open") ? "block" : "none";
-        }
       } else if (!menu) {
         document.querySelectorAll(".user-menu").forEach(m => m.classList.remove("open"));
       }

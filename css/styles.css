@@ -3109,3 +3109,58 @@ p {
   }
 }
 
+
+/* ══════════════════════════════════════════════════════════
+   USER MENU — universal fix (all pages, all screen sizes)
+   Ensures dropdown always appears above page content
+══════════════════════════════════════════════════════════ */
+
+/* Navbar must not clip its dropdown children */
+.navbar {
+  overflow: visible !important;
+}
+.navbar-inner,
+.navbar-actions,
+.navbar-user,
+.user-menu {
+  overflow: visible !important;
+}
+
+/* Dropdown hidden by default, shown when parent has .open */
+.user-menu-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 210px;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,.09);
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(15,23,42,.16);
+  padding: 8px;
+  z-index: 99999;
+  pointer-events: auto;
+}
+
+.user-menu.open .user-menu-dropdown {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Mobile: fixed position so no parent can clip it */
+@media (max-width: 768px) {
+  .user-menu-dropdown {
+    position: fixed !important;
+    top: 68px !important;
+    right: 12px !important;
+    left: auto !important;
+    width: 210px !important;
+    z-index: 2147483647 !important;
+  }
+
+  /* Navbar context: raise it above sticky headers */
+  .navbar {
+    z-index: 9999 !important;
+  }
+}
