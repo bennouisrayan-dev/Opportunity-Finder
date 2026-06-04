@@ -2,9 +2,10 @@
 
 <html lang="fr">
 <head>
-  <link rel="icon" type="image/png" href="/logo2.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <script src="js/theme.js"></script>
   <br>
   <br>
   <br>
@@ -16,6 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/darkmode.css">
 
   <style>
 
@@ -165,7 +167,8 @@
       <a href="pricing.html" class="navbar-link">Tarifs</a>
     </div>
 
-    <div class="navbar-actions navbar-auth">
+    <div class="navbar-actions navbar-auth" style="display:flex;align-items:center;gap:8px;">
+        <button class="theme-toggle-btn" data-theme-toggle aria-label="Passer en mode sombre" title="Mode sombre"><span class="theme-icon">🌙</span></button>
       <a href="login.html" class="btn btn-ghost">Connexion</a>
       <a href="signup.html" class="btn btn-primary">Commencer</a>
     </div>
@@ -199,6 +202,12 @@
       <a href="#how-it-works" class="btn btn-secondary btn-lg">
         Voir comment ça marche
       </a>
+    </div>
+
+    <div class="hero-proof">
+      <div>🔥 +120 idées générées</div>
+      <div>🚀 Entrepreneurs & étudiants</div>
+      <div>⚡ Analyse en moins de 30 secondes</div>
     </div>
 
     <div class="hero-demo">
@@ -270,12 +279,7 @@
     </div>
   </div>
 </div>
-
-<div class="hero-proof">
-      <div>🔥 +120 idées générées</div>
-      <div>🚀 Entrepreneurs & étudiants</div>
-      <div>⚡ Analyse en moins de 30 secondes</div>
-    </div>
+```
 
   </section>
 

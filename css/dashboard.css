@@ -1556,3 +1556,10 @@ body[data-page="dashboard"] .saved-item:hover {
     -webkit-tap-highlight-color: rgba(79,70,229,.06);
   }
 }
+
+/* ── Theme toggle placement in db-page-header ── */
+.db-page-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

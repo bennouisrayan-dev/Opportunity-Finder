@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <script src="js/theme.js"></script>
   <title>Connexion - Opportunity Finder</title>
-  <link rel="icon" type="image/png" href="/logo2.png">
   <meta name="description" content="Connectez-vous à votre compte Opportunity Finder pour découvrir des idées de startup.">
   
   <!-- Fonts -->
@@ -14,8 +15,15 @@
   
   <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/darkmode.css">
+  <style>
+    .theme-float {
+      position: fixed; top: 16px; right: 16px; z-index: 9999;
+    }
+  </style>
 </head>
 <body>
+  <div class="theme-float"><button class="theme-toggle-btn" data-theme-toggle aria-label="Passer en mode sombre" title="Mode sombre"><span class="theme-icon">🌙</span></button></div>
   <!-- Navigation -->
   <nav class="navbar">
     <div class="container">

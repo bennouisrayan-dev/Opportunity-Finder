@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <script src="js/theme.js"></script>
   <title>Profil - Opportunity Finder</title>
-  <link rel="icon" type="image/png" href="/logo2.png">
   <meta name="description" content="Gérez votre compte Opportunity Finder et vos préférences.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/darkmode.css">
 </head>
 
 <body data-page="profile">
@@ -27,7 +29,8 @@
           <a href="dashboard.html" class="navbar-link">Tableau de bord</a>
         </div>
 
-        <div class="navbar-actions navbar-auth">
+        <div class="navbar-actions navbar-auth" style="display:flex;align-items:center;gap:8px;">
+        <button class="theme-toggle-btn" data-theme-toggle aria-label="Passer en mode sombre" title="Mode sombre"><span class="theme-icon">🌙</span></button>
           <!-- Injected by auth.js -->
           <a href="login.html" class="btn btn-ghost">Se connecter</a>
           <a href="signup.html" class="btn btn-primary">Commencer</a>
