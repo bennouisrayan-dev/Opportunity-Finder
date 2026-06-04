@@ -100,13 +100,22 @@ function renderAnalysisLimit() {
 
   if (remaining === 0) {
     limitContainer.innerHTML = `
-      <div class="limit-warning">
-        <div class="limit-warning-icon">🚫</div>
-        <div class="limit-warning-title">Crédits Épuisés</div>
-        <div class="limit-warning-text">
-          Vous avez utilisé vos ${limit} crédits gratuits. Passez à la version supérieure pour débloquer des analyses illimitées.
+      <div class="limit-warning limit-warning-premium">
+        <div class="limit-warning-header">
+          <span class="limit-warning-icon">🚀</span>
+          <div>
+            <div class="limit-warning-title">Vous avez déjà découvert ${used} opportunité${used > 1 ? "s" : ""}</div>
+            <div class="limit-warning-text">La plupart des utilisateurs Premium analysent 15 à 20 idées avant de lancer leur projet.</div>
+          </div>
         </div>
-        <a href="pricing.html" class="btn btn-primary">Passer à la Version Supérieure</a>
+        <div class="limit-features-grid">
+          <span class="limit-feature-item">✓ Analyses illimitées</span>
+          <span class="limit-feature-item">✓ Sauvegarde des idées</span>
+          <span class="limit-feature-item">✓ Historique complet</span>
+          <span class="limit-feature-item">✓ GPT-4o Premium</span>
+          <span class="limit-feature-item">✓ Futures fonctionnalités exclusives</span>
+        </div>
+        <a href="pricing.html" class="btn btn-primary limit-cta-btn">Passer Premium →</a>
       </div>
     `;
     return;
@@ -763,6 +772,26 @@ function buildResultLayout({ badges, nameHtml, sloganHtml, scoreVal, scoreLabel,
 
       ${upgradeBox ? `<div class="rv-upgrade-box">${upgradeBox}</div>` : ""}
 
+      <!-- ══ PREMIUM LOCKED SECTION (free users) ══ -->
+      ${upgradeBox ? `
+      <div class="rv-premium-locked">
+        <div class="rv-premium-locked-header">
+          <span>🔒</span>
+          <div>
+            <div class="rv-premium-locked-title">Analyse avancée Premium</div>
+            <div class="rv-premium-locked-sub">Débloquez l'analyse complète pour prendre la bonne décision</div>
+          </div>
+        </div>
+        <div class="rv-premium-locked-items">
+          <div class="rv-locked-item"><span class="rv-locked-icon">🔒</span><span>Budget de lancement estimé</span></div>
+          <div class="rv-locked-item"><span class="rv-locked-icon">🔒</span><span>Difficulté de mise en œuvre</span></div>
+          <div class="rv-locked-item"><span class="rv-locked-icon">🔒</span><span>Analyse concurrentielle avancée</span></div>
+          <div class="rv-locked-item"><span class="rv-locked-icon">🔒</span><span>Plan marketing recommandé</span></div>
+          <div class="rv-locked-item"><span class="rv-locked-icon">🔒</span><span>Roadmap 30 jours</span></div>
+        </div>
+        <a href="pricing.html" class="btn btn-primary rv-locked-cta">Débloquer Premium →</a>
+      </div>` : ""}
+
       <!-- ══ ACTIONS ══ -->
       <div class="rv-actions">
         <button class="rv-btn-primary btn btn-primary" id="saveBtn">
@@ -1122,7 +1151,7 @@ function renderHistoryList() {
   const historyContainer = DOM.$("#historyList");
   if (!historyContainer) return;
 
-  const history = dashboardState.history || [];
+  const history = dashboardState.history;
 
   if (!history.length) {
     historyContainer.innerHTML = `
@@ -1139,31 +1168,24 @@ function renderHistoryList() {
 
   historyContainer.innerHTML = `
     ${visibleHistory.map(item => {
-      const result = item.result || item.resultJson || {};
-
       const title =
         item.analysisType === "generate"
-          ? (result.idea || result.businessName || "Idée générée")
-          : (item.input || result.userIdea || "Idée évaluée");
+          ? (item.result?.idea || item.result?.name || "Idée générée")
+          : (item.input || item.result?.userIdea || "Idée évaluée");
 
-      const score =
-        result.scores?.opportunity ??
-        result.opportunityScore ??
-        result.score ??
-        "-";
+      const score = item.result?.scores?.opportunity ?? null;
+      const scoreColor = score >= 70 ? "#10b981" : score >= 45 ? "#f59e0b" : "#ef4444";
 
-      const type =
-        item.analysisType === "generate"
-          ? "Idée générée"
-          : "Idée évaluée";
+      const date = new Date(item.createdAt).toLocaleDateString("fr-FR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
 
-      const date = item.createdAt
-        ? new Date(item.createdAt).toLocaleDateString("fr-FR", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
-          })
-        : "";
+      const typeLabel = item.analysisType === "generate" ? "💡 Générée" : "📊 Évaluée";
+      const typeBg    = item.analysisType === "generate"
+        ? "background:rgba(37,99,235,.1);color:#2563eb;"
+        : "background:rgba(124,58,237,.1);color:#7c3aed;";
 
       return `
         <div 
@@ -1171,29 +1193,29 @@ function renderHistoryList() {
           data-history-id="${item.id}"
           style="cursor:pointer;"
         >
-          <div class="history-info">
-            <div>
-              <div class="history-keyword">${escapeHtml(title)}</div>
-              <div class="history-date">${type} • ${date}</div>
+          <div class="history-item-left">
+            <span class="history-item-type" style="${typeBg}">${typeLabel}</span>
+            <span class="history-item-title">${escapeHtml(title.length > 60 ? title.slice(0,60)+"…" : title)}</span>
+          </div>
+          <div class="history-item-right">
+            ${score !== null ? `<span class="history-item-score" style="color:${scoreColor}">${score}<span style="font-size:.7rem;opacity:.7">/100</span></span>` : ""}
+            <span class="history-item-date">${date}</span>
+          </div>
+        </div>
+      `
+              </div>
+              <div style="font-size:0.875rem;color:var(--gray-500);white-space:nowrap;">
+                ${date}
+              </div>
             </div>
-          </div>
-
-          <div class="history-score">
-            <span class="history-score-value">${score}/100</span>
-          </div>
-
-          <div class="history-actions">
-            <button class="history-btn history-btn-view" type="button" data-history-id="${item.id}">
-              Voir
-            </button>
           </div>
         </div>
       `;
     }).join("")}
 
     ${history.length > 3 ? `
-      <button id="toggleHistoryBtn" class="btn btn-secondary btn-full" type="button">
-        ${showAllHistory ? "Voir moins" : `Voir plus (${history.length - 3})`}
+      <button id="toggleHistoryBtn" class="db-btn-ghost btn btn-sm" type="button" style="margin-top:8px;width:100%;">
+        ${showAllHistory ? "Voir moins" : `Voir tout (${history.length})`}
       </button>
     ` : ""}
   `;

@@ -298,6 +298,19 @@ const Auth = {
 
     if (authNav) {
       if (currentUser) {
+        // Insert toggle button BEFORE navbar-auth (as sibling, not child)
+        // so auth.js innerHTML replacement never destroys it
+        const existingToggle = authNav.previousElementSibling;
+        if (!existingToggle || !existingToggle.hasAttribute('data-theme-toggle')) {
+          const toggleBtn = document.createElement('button');
+          toggleBtn.className = 'theme-toggle-btn';
+          toggleBtn.setAttribute('data-theme-toggle', '');
+          toggleBtn.setAttribute('aria-label', 'Basculer le thème');
+          toggleBtn.innerHTML = '<span class="theme-icon">🌙</span>';
+          authNav.parentNode.insertBefore(toggleBtn, authNav);
+          if (typeof Theme !== 'undefined') Theme._updateButtons();
+        }
+
         authNav.innerHTML = `
           <div class="navbar-user">
             <a href="dashboard.html" class="navbar-link">Tableau de bord</a>
@@ -324,6 +337,18 @@ const Auth = {
         // ── User menu toggle — works on every page (dashboard has no main.js) ──
         this._bindUserMenuToggle();
       } else {
+        // Insert toggle BEFORE auth nav for logged-out users too
+        const existingToggle2 = authNav.previousElementSibling;
+        if (!existingToggle2 || !existingToggle2.hasAttribute('data-theme-toggle')) {
+          const toggleBtn2 = document.createElement('button');
+          toggleBtn2.className = 'theme-toggle-btn';
+          toggleBtn2.setAttribute('data-theme-toggle', '');
+          toggleBtn2.setAttribute('aria-label', 'Basculer le thème');
+          toggleBtn2.innerHTML = '<span class="theme-icon">🌙</span>';
+          authNav.parentNode.insertBefore(toggleBtn2, authNav);
+          if (typeof Theme !== 'undefined') Theme._updateButtons();
+        }
+
         authNav.innerHTML = `
           <a href="login.html" class="btn btn-ghost">Se connecter</a>
           <a href="signup.html" class="btn btn-primary">Commencer</a>
