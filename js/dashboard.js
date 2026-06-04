@@ -1122,7 +1122,7 @@ function renderHistoryList() {
   const historyContainer = DOM.$("#historyList");
   if (!historyContainer) return;
 
-  const history = dashboardState.history;
+  const history = dashboardState.history || [];
 
   if (!history.length) {
     historyContainer.innerHTML = `
@@ -1139,45 +1139,53 @@ function renderHistoryList() {
 
   historyContainer.innerHTML = `
     ${visibleHistory.map(item => {
+      const result = item.result || item.resultJson || {};
+
       const title =
         item.analysisType === "generate"
-          ? (item.result?.idea || "Idée générée")
-          : (item.input || item.result?.userIdea || "Idée évaluée");
+          ? (result.idea || result.businessName || "Idée générée")
+          : (item.input || result.userIdea || "Idée évaluée");
 
-      const subtitle =
+      const score =
+        result.scores?.opportunity ??
+        result.opportunityScore ??
+        result.score ??
+        "-";
+
+      const type =
         item.analysisType === "generate"
-          ? (item.result?.problem || item.result?.businessType || "Analyse générée")
-          : `Score opportunité : ${item.result?.scores?.opportunity ?? "-"}/100`;
+          ? "Idée générée"
+          : "Idée évaluée";
 
-      const date = new Date(item.createdAt).toLocaleDateString("fr-FR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric"
-      });
+      const date = item.createdAt
+        ? new Date(item.createdAt).toLocaleDateString("fr-FR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+          })
+        : "";
 
       return `
         <div 
-          class="card"
+          class="history-item"
           data-history-id="${item.id}"
-          style="margin-bottom:16px; cursor:pointer;"
+          style="cursor:pointer;"
         >
-          <div class="card-body">
-            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;">
-              <div>
-                <div style="font-size:0.75rem;font-weight:600;text-transform:uppercase;color:var(--primary-600);margin-bottom:6px;">
-                  ${item.analysisType === "generate" ? "Idée générée" : "Idée évaluée"}
-                </div>
-                <div style="font-weight:700;color:var(--gray-900);margin-bottom:6px;">
-                  ${escapeHtml(title)}
-                </div>
-                <div style="color:var(--gray-600);font-size:0.9375rem;">
-                  ${escapeHtml(subtitle)}
-                </div>
-              </div>
-              <div style="font-size:0.875rem;color:var(--gray-500);white-space:nowrap;">
-                ${date}
-              </div>
+          <div class="history-info">
+            <div>
+              <div class="history-keyword">${escapeHtml(title)}</div>
+              <div class="history-date">${type} • ${date}</div>
             </div>
+          </div>
+
+          <div class="history-score">
+            <span class="history-score-value">${score}/100</span>
+          </div>
+
+          <div class="history-actions">
+            <button class="history-btn history-btn-view" type="button" data-history-id="${item.id}">
+              Voir
+            </button>
           </div>
         </div>
       `;
