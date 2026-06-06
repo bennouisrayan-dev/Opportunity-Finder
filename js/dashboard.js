@@ -1133,7 +1133,7 @@ async function renderHistory() {
     const data = await response.json();
 
     if (!response.ok) {
-      historyContainer.innerHTML = '<p style="color: var(--error-600);">Erreur lors du chargement de l’historique.</p>';
+      historyContainer.innerHTML = `<p style="color: var(--error-600);">Erreur lors du chargement de l’historique.</p>`;
       dashboardState.history = [];
       return;
     }
@@ -1142,7 +1142,7 @@ async function renderHistory() {
     renderHistoryList();
   } catch (error) {
     console.error("Erreur renderHistory:", error);
-    historyContainer.innerHTML = '<p style="color: var(--error-600);">Impossible de charger l’historique.</p>';
+    historyContainer.innerHTML = `<p style="color: var(--error-600);">Impossible de charger l’historique.</p>`;
     dashboardState.history = [];
   }
 }
@@ -1200,14 +1200,6 @@ function renderHistoryList() {
           <div class="history-item-right">
             ${score !== null ? `<span class="history-item-score" style="color:${scoreColor}">${score}<span style="font-size:.7rem;opacity:.7">/100</span></span>` : ""}
             <span class="history-item-date">${date}</span>
-          </div>
-        </div>
-      `
-              </div>
-              <div style="font-size:0.875rem;color:var(--gray-500);white-space:nowrap;">
-                ${date}
-              </div>
-            </div>
           </div>
         </div>
       `;
