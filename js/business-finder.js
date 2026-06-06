@@ -282,14 +282,42 @@ async function submitQuestionnaire() {
       throw new Error(data.error || data.message || "Erreur lors de l'analyse");
     }
 
-    // Parse result
-    let result = data.result || data;
-    if (typeof result === "string") {
-      try { result = JSON.parse(result.replace(/```json|```/g, "").trim()); } catch(e) {}
+    // API returns data.analysis.result (same structure as /evaluate)
+    // The result may be a nested object or a JSON string
+    let raw = data?.analysis?.result ?? data?.result ?? data;
+
+    // If the AI returned a string (sometimes happens), parse it
+    if (typeof raw === "string") {
+      try {
+        raw = JSON.parse(raw.replace(/```json|```/g, "").trim());
+      } catch(e) {
+        console.warn("Could not parse raw string result:", e);
+      }
+    }
+
+    // Map standard evaluate fields to business-finder fields if needed
+    // (fallback: the API may return a standard analysis object)
+    let result = raw;
+
+    // If the API returned a standard analysis (idea/problem/scores),
+    // build a business-finder compatible object from it
+    if (!result.recommendedBusiness && (result.idea || result.scores)) {
+      result = {
+        recommendedBusiness: result.idea || result.name || "Business Opportunity",
+        compatibilityScore:  result.scores?.opportunity ?? result.scores?.overall ?? 0,
+        whyItFits:           result.problem || result.whyNow || "",
+        difficulty:          result.difficulty?.level || "Intermédiaire",
+        estimatedBudget:     result.pricing || result.estimatedBudget || "—",
+        timeToFirstRevenue:  result.timeToFirstRevenue || "—",
+        revenuePotential:    result.revenuePotential || "—",
+        advantages:          result.features || result.advantages || [],
+        risks:               result.risks || [],
+        roadmap30Days:       result.roadmap30Days || result.roadmap || [],
+      };
     }
 
     currentResult = result;
-    await new Promise(r => setTimeout(r, 1800)); // let animation finish
+    await new Promise(r => setTimeout(r, 1800));
     showResults(result);
 
   } catch (err) {
@@ -300,44 +328,30 @@ async function submitQuestionnaire() {
 }
 
 function buildPrompt() {
-  return `Tu es un expert en entrepreneuriat, en analyse de marché et en création de startups.
-Ta mission est de recommander LE business le plus adapté à l'utilisateur en fonction de son profil.
+  const interests = Array.isArray(answers.interests)
+    ? answers.interests.join(", ")
+    : (answers.interests || "Non précisé");
 
-Profil utilisateur :
+  // Send as a structured user profile description that the evaluate endpoint
+  // can analyze and return as a business recommendation
+  return `Business Finder IA — Profil utilisateur :
 Âge : ${answers.age || "Non précisé"}
 Statut : ${answers.status || "Non précisé"}
-Temps disponible : ${answers.weeklyHours || "Non précisé"}
-Budget : ${answers.budget || "Non précisé"}
+Heures disponibles par semaine : ${answers.weeklyHours || "Non précisé"}
+Budget de départ : ${answers.budget || "Non précisé"}
 Niveau business : ${answers.businessLevel || "Non précisé"}
 Niveau technologique : ${answers.techLevel || "Non précisé"}
-Domaines d'intérêt : ${Array.isArray(answers.interests) ? answers.interests.join(", ") : (answers.interests || "Non précisé")}
-Objectif principal : ${answers.goal || "Non précisé"}
-Préférence business : ${answers.businessPreference || "Non précisé"}
+Domaines d'intérêt : ${interests}
+Objectif : ${answers.goal || "Non précisé"}
+Type de business préféré : ${answers.businessPreference || "Non précisé"}
 Prêt à apprendre : ${answers.learning || "Non précisé"}
-Délai souhaité : ${answers.timeGoal || "Non précisé"}
+Délai pour premiers résultats : ${answers.timeGoal || "Non précisé"}
 Tolérance au risque : ${answers.riskLevel || "Non précisé"}
-Préférence de travail : ${answers.workStyle || "Non précisé"}
-Pays ou région : ${answers.location || "Non précisé"}
+Préférence travail : ${answers.workStyle || "Non précisé"}
+Localisation : ${answers.location || "Non précisé"}
 Expérience entrepreneuriale : ${answers.experience || "Non précisé"}
 
-Analyse ce profil en profondeur.
-Recommande UNE seule opportunité ayant les meilleures chances de réussite.
-
-Réponds UNIQUEMENT au format JSON :
-{
-  "recommendedBusiness": "",
-  "compatibilityScore": 0,
-  "whyItFits": "",
-  "difficulty": "",
-  "estimatedBudget": "",
-  "timeToFirstRevenue": "",
-  "revenuePotential": "",
-  "advantages": [""],
-  "risks": [""],
-  "roadmap30Days": ["","","",""]
-}
-
-Ne renvoie aucun texte en dehors du JSON.`;
+En te basant sur ce profil, recommande LE business le plus adapté avec le meilleur potentiel de réussite pour cette personne. Analyse la demande du marché, la concurrence et l'opportunité.`;
 }
 
 function animateLoadingSteps() {
