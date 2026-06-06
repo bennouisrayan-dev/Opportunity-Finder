@@ -1851,3 +1851,72 @@ body[data-page="dashboard"] .saved-item:hover {
   .history-item-left { gap: 7px; }
   .history-item-type { display: none; } /* show only title + score on very small screens */
 }
+
+/* ══════════════════════════════════════════════════════════
+   BUSINESS FINDER TAB — dashboard integration
+══════════════════════════════════════════════════════════ */
+.db-tab-finder {
+  position: relative;
+}
+
+.db-tab-badge {
+  font-size: 10px;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+/* Finder tab active state — gold tint */
+.db-tab-finder.active,
+#btnModeFinder.active {
+  color: #d97706 !important;
+  border-bottom-color: #d97706 !important;
+}
+
+/* Dashboard finder CTA panel */
+.bf-dashboard-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bf-dashboard-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bf-dashboard-features span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  background: rgba(16,185,129,.08);
+  border: 1px solid rgba(16,185,129,.2);
+  border-radius: 99px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #059669;
+  white-space: nowrap;
+}
+
+/* Dark mode */
+[data-theme="dark"] .db-tab-finder.active,
+[data-theme="dark"] #btnModeFinder.active {
+  color: #fbbf24 !important;
+  border-bottom-color: #fbbf24 !important;
+}
+
+[data-theme="dark"] .bf-dashboard-features span {
+  background: rgba(16,185,129,.12);
+  color: #34d399;
+}
+
+/* Mobile: hide "Business Finder IA" text, show only icon + badge */
+@media (max-width: 640px) {
+  #btnModeFinder span:not(.db-tab-badge) {
+    display: none;
+  }
+  #btnModeFinder {
+    padding: 12px 14px;
+  }
+}

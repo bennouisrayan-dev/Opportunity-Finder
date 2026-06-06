@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <script src="js/theme.js"></script>
+  <title>Business Finder IA — Opportunity Finder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/darkmode.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/business-finder.css">
+</head>
+<body data-page="dashboard">
+
+<!-- ── SIDEBAR (desktop) ── -->
+<aside class="db-sidebar" id="dbSidebar">
+  <div class="db-sidebar-inner">
+    <a href="index.html" class="db-brand">
+      <img src="logo.png" alt="Opportunity Finder" class="db-brand-logo">
+      <div class="db-brand-text">
+        <span class="db-brand-name">Opportunity</span>
+        <span class="db-brand-sub">Finder</span>
+      </div>
+    </a>
+    <div class="db-user-card">
+      <div class="db-user-avatar" id="sidebarAvatar">U</div>
+      <div class="db-user-info">
+        <div class="db-user-name sidebar-user-name">Utilisateur</div>
+        <div class="db-user-plan sidebar-user-plan">
+          <span class="db-plan-dot"></span><span>Forfait Gratuit</span>
+        </div>
+      </div>
+    </div>
+    <nav class="db-nav">
+      <a href="dashboard.html" class="db-nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Analyser</span>
+      </a>
+      <a href="business-finder.html" class="db-nav-item active">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Business Finder IA</span>
+      </a>
+      <a href="dashboard.html#saved" class="db-nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span>Idées sauvegardées</span>
+      </a>
+      <a href="profile.html" class="db-nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Profil</span>
+      </a>
+      <a href="pricing.html" class="db-nav-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>Tarifs</span>
+      </a>
+    </nav>
+    <div class="db-sidebar-stats">
+      <div class="db-stat-row">
+        <span class="db-stat-label">Crédits restants</span>
+        <span class="db-stat-val" id="statCredits">—</span>
+      </div>
+      <div class="db-credits-bar"><div class="db-credits-fill" id="creditsBar" style="width:40%"></div></div>
+    </div>
+    <a href="pricing.html" class="db-upgrade-cta">
+      <div class="db-upgrade-icon">⭐</div>
+      <div>
+        <div class="db-upgrade-title">Passer Premium</div>
+        <div class="db-upgrade-sub">Analyses illimitées & GPT-4o</div>
+      </div>
+    </a>
+  </div>
+</aside>
+
+<!-- ── TOP BAR (mobile) ── -->
+<header class="db-topbar" id="dbTopbar">
+  <a href="index.html" class="db-topbar-brand">
+    <img src="logo.png" alt="" class="db-topbar-logo">
+    <span>Opportunity</span>
+  </a>
+  <div class="db-topbar-right navbar-auth">
+    <a href="login.html" class="btn btn-ghost btn-sm">Connexion</a>
+    <a href="signup.html" class="btn btn-primary btn-sm">Commencer</a>
+  </div>
+</header>
+
+<!-- ── MAIN ── -->
+<main class="db-main" id="bfMain">
+
+  <div class="db-page-header">
+    <div class="db-page-header-left">
+      <h1 class="db-page-title">Business Finder IA <span class="bf-premium-badge">⭐ PREMIUM</span></h1>
+      <p class="db-page-sub">Découvrez le business le plus adapté à votre profil</p>
+    </div>
+    <div class="db-page-header-right">
+      <a href="pricing.html" class="db-upgrade-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Passer Premium
+      </a>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 1: Welcome ── -->
+  <div id="bfWelcome" class="bf-screen">
+    <div class="bf-welcome-card db-card">
+      <div class="bf-welcome-hero">
+        <div class="bf-welcome-icon">🎯</div>
+        <h2 class="bf-welcome-title">Trouvez le business idéal pour vous</h2>
+        <p class="bf-welcome-desc">Notre IA analyse votre profil afin de trouver l'opportunité ayant les meilleures chances de réussite pour votre situation.</p>
+        <div class="bf-welcome-features">
+          <div class="bf-welcome-feat"><span>✓</span> Recommandation personnalisée</div>
+          <div class="bf-welcome-feat"><span>✓</span> Score de compatibilité</div>
+          <div class="bf-welcome-feat"><span>✓</span> Analyse du profil complet</div>
+          <div class="bf-welcome-feat"><span>✓</span> Difficulté & budget estimés</div>
+        </div>
+        <button id="bfStartBtn" class="bf-start-btn db-cta-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Commencer l'analyse
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 2: Questionnaire ── -->
+  <div id="bfQuestionnaire" class="bf-screen hidden">
+    <div class="bf-quiz-card db-card">
+
+      <!-- Progress -->
+      <div class="bf-progress-bar">
+        <div class="bf-progress-fill" id="bfProgressFill"></div>
+      </div>
+      <div class="bf-progress-label">
+        <span id="bfProgressText">Question 1 sur 15</span>
+        <span id="bfProgressPct">0%</span>
+      </div>
+
+      <!-- Question area -->
+      <div id="bfQuestionArea" class="bf-question-area"></div>
+
+      <!-- Navigation -->
+      <div class="bf-quiz-nav">
+        <button id="bfPrevBtn" class="bf-btn-prev" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Précédent
+        </button>
+        <button id="bfNextBtn" class="bf-btn-next db-cta-btn">
+          Suivant
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SCREEN 3: Loading ── -->
+  <div id="bfLoading" class="bf-screen hidden">
+    <div class="bf-loading-card db-card">
+      <div class="bf-loading-icon-wrap">
+        <div class="bf-loading-ring"></div>
+        <span class="bf-loading-emoji" id="bfLoadingEmoji">🔍</span>
+      </div>
+      <div class="bf-loading-title" id="bfLoadingTitle">Analyse de votre profil</div>
+      <div class="bf-loading-steps">
+        <div class="bf-loading-step active" id="bfStep1"><span>🔍</span> Analyse de votre profil</div>
+        <div class="bf-loading-step" id="bfStep2"><span>📊</span> Recherche des meilleures opportunités</div>
+        <div class="bf-loading-step" id="bfStep3"><span>🤖</span> Génération de recommandations personnalisées</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 4: Results ── -->
+  <div id="bfResults" class="bf-screen hidden"></div>
+
+</main>
+
+<!-- Mobile bottom nav -->
+<nav class="db-bottom-nav">
+  <a href="dashboard.html" class="db-bottom-item">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    <span>Dashboard</span>
+  </a>
+  <a href="business-finder.html" class="db-bottom-item active">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <span>Finder</span>
+  </a>
+  <a href="profile.html" class="db-bottom-item">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+<div class="toast-container"></div>
+
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/business-finder.js"></script>
+</body>
+</html>

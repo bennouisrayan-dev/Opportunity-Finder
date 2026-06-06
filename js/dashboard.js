@@ -201,6 +201,20 @@ function bindModeSwitcher() {
     btnModeEvaluate.addEventListener("click", () => switchMode("evaluate"));
     btnModeEvaluate.dataset.bound = "true";
   }
+
+  const btnModeFinder = DOM.$("#btnModeFinder");
+  if (btnModeFinder && !btnModeFinder.dataset.bound) {
+    btnModeFinder.addEventListener("click", () => {
+      const user = Auth.getUser();
+      if (!user || user.plan === "free") {
+        Toast.warning("Business Finder IA est réservé aux plans Premium et Pro");
+        setTimeout(() => { window.location.href = "pricing.html"; }, 1200);
+        return;
+      }
+      window.location.href = "business-finder.html";
+    });
+    btnModeFinder.dataset.bound = "true";
+  }
 }
 
 function switchMode(mode) {
