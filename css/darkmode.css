@@ -876,3 +876,231 @@
 [data-theme="dark"] .user-menu-item--logout {
   color: #f87171 !important;
 }
+
+/* ══════════════════════════════════════════════════════════
+   FIX 1 — Hero title gradient (invisible on dark bg)
+══════════════════════════════════════════════════════════ */
+[data-theme="dark"] .hero-title {
+  background: linear-gradient(135deg, #f1f5f9 0%, #93c5fd 50%, #c4b5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 2 — Hero demo card (index.html)
+══════════════════════════════════════════════════════════ */
+[data-theme="dark"] .hero-demo-card {
+  background: var(--dm-surface) !important;
+  border-color: var(--dm-border) !important;
+  box-shadow: 0 24px 70px rgba(0,0,0,.5) !important;
+}
+
+/* Input "E-commerce fitness" inside demo card */
+[data-theme="dark"] .hero-demo-card [style*="background:var(--gray-50)"],
+[data-theme="dark"] .hero-demo-card [style*="background: var(--gray-50)"] {
+  background: var(--dm-input-bg) !important;
+  border-color: rgba(79,70,229,.35) !important;
+  color: var(--dm-text) !important;
+}
+
+[data-theme="dark"] .hero-demo-card [style*="color:var(--gray-600)"],
+[data-theme="dark"] .hero-demo-card [style*="color: var(--gray-600)"] {
+  color: var(--dm-text3) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 3 — Profile: plan card + danger zone
+══════════════════════════════════════════════════════════ */
+
+/* Plan card — background: var(--gray-50) → hardcoded inline */
+[data-theme="dark"] .profile-section [style*="background: var(--gray-50)"],
+[data-theme="dark"] .profile-section [style*="background:var(--gray-50)"] {
+  background: var(--dm-surface2) !important;
+  border: 1px solid var(--dm-border) !important;
+}
+
+/* Plan title and description text */
+[data-theme="dark"] #currentPlanTitle {
+  color: var(--dm-text) !important;
+}
+[data-theme="dark"] #currentPlanDescription {
+  color: var(--dm-text2) !important;
+}
+
+/* Plan features list items */
+[data-theme="dark"] #currentPlanFeatures,
+[data-theme="dark"] #currentPlanFeatures * {
+  color: var(--dm-text2) !important;
+}
+
+/* Badge "Actuel" */
+[data-theme="dark"] .badge-primary {
+  background: rgba(79,70,229,.2) !important;
+  color: #93c5fd !important;
+}
+
+/* Danger zone section border */
+[data-theme="dark"] .profile-section[style*="border-color: var(--error-200)"],
+[data-theme="dark"] .profile-section[style*="border-color:var(--error-200)"] {
+  border-color: rgba(220,38,38,.3) !important;
+}
+
+/* Danger zone title */
+[data-theme="dark"] .profile-section h3[style*="color: var(--error-700)"],
+[data-theme="dark"] .profile-section h3[style*="color:var(--error-700)"] {
+  color: #f87171 !important;
+}
+
+/* Danger zone red box */
+[data-theme="dark"] [style*="background: var(--error-50)"],
+[data-theme="dark"] [style*="background:var(--error-50)"] {
+  background: rgba(220,38,38,.1) !important;
+  border: 1px solid rgba(220,38,38,.25) !important;
+}
+
+[data-theme="dark"] [style*="color: var(--error-700)"],
+[data-theme="dark"] [style*="color:var(--error-700)"] {
+  color: #f87171 !important;
+}
+
+[data-theme="dark"] [style*="color: var(--error-600)"],
+[data-theme="dark"] [style*="color:var(--error-600)"] {
+  color: #fca5a5 !important;
+}
+
+/* Danger zone delete button */
+[data-theme="dark"] [style*="border-color: var(--error-300)"],
+[data-theme="dark"] [style*="color: var(--error-600)"] {
+  background: rgba(220,38,38,.15) !important;
+  border-color: rgba(220,38,38,.4) !important;
+  color: #f87171 !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 4 — Pricing: comparison table
+══════════════════════════════════════════════════════════ */
+[data-theme="dark"] .comparison-table th,
+[data-theme="dark"] .comparison-table td {
+  border-bottom-color: var(--dm-border) !important;
+  color: var(--dm-text2) !important;
+}
+
+[data-theme="dark"] .comparison-table thead th {
+  border-bottom-color: var(--dm-border2) !important;
+  color: var(--dm-text) !important;
+  background: var(--dm-surface) !important;
+}
+
+[data-theme="dark"] .comparison-table tr:hover td {
+  background: var(--dm-surface2) !important;
+}
+
+[data-theme="dark"] .comparison-table thead th:first-child {
+  color: var(--dm-text) !important;
+}
+
+/* Comparison section white background override */
+[data-theme="dark"] .features[style*="background: white"],
+[data-theme="dark"] .features[style*="background:white"] {
+  background: var(--dm-bg2) !important;
+}
+
+[data-theme="dark"] .comparison-table [style*="color: var(--gray-400)"],
+[data-theme="dark"] .comparison-table [style*="color:var(--gray-400)"] {
+  color: var(--dm-text4) !important;
+}
+
+[data-theme="dark"] .comparison-table [style*="color: var(--primary-600)"],
+[data-theme="dark"] .comparison-table [style*="color:var(--primary-600)"] {
+  color: #93c5fd !important;
+}
+
+[data-theme="dark"] .comparison-table [style*="color: var(--purple-600)"],
+[data-theme="dark"] .comparison-table [style*="color:var(--purple-600)"] {
+  color: #c4b5fd !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 5 — CTA section (pricing & index)
+══════════════════════════════════════════════════════════ */
+
+/* CTA keeps its gradient but remove inner dark card clash */
+[data-theme="dark"] .cta {
+  /* Keep gradient background — it looks good in dark too */
+  background: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%) !important;
+}
+
+/* Fix btn-white to be readable on gradient */
+[data-theme="dark"] .btn-white {
+  background: white !important;
+  color: #4f46e5 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3) !important;
+}
+
+[data-theme="dark"] .btn-outline-white {
+  background: rgba(255,255,255,.12) !important;
+  color: white !important;
+  border-color: rgba(255,255,255,.4) !important;
+}
+
+[data-theme="dark"] .btn-outline-white:hover {
+  background: rgba(255,255,255,.2) !important;
+  border-color: white !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 6 — User name truncation in navbar toggle
+══════════════════════════════════════════════════════════ */
+.user-menu-toggle .user-name {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.user-menu-toggle {
+  max-width: 200px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 7 — Pricing badge colors in dark
+══════════════════════════════════════════════════════════ */
+[data-theme="dark"] .pricing-badge-popular {
+  background: rgba(79,70,229,.2) !important;
+  color: #93c5fd !important;
+}
+
+[data-theme="dark"] .pricing-badge-pro {
+  background: rgba(124,58,237,.2) !important;
+  color: #c4b5fd !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 8 — Gray CSS variable patches for dark mode
+   (catches inline style="color:var(--gray-XXX)")
+══════════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  --gray-50:  #1e293b;
+  --gray-100: #334155;
+  --gray-200: #475569;
+  --gray-600: #94a3b8;
+  --gray-700: #cbd5e1;
+  --gray-800: #e2e8f0;
+  --gray-900: #f8fafc;
+  --error-50:  rgba(220,38,38,.1);
+  --error-200: rgba(220,38,38,.25);
+  --error-300: rgba(220,38,38,.35);
+  --error-600: #fca5a5;
+  --error-700: #f87171;
+}
+
+/* Comparison section specific class */
+.pricing-comparison-section {
+  background: white;
+}
+[data-theme="dark"] .pricing-comparison-section {
+  background: var(--dm-bg2) !important;
+}
