@@ -317,6 +317,8 @@ async function submitQuestionnaire() {
     }
 
     currentResult = result;
+    // Store the analysis ID for saving
+    currentResult._analysisId = data?.analysis?.id || null;
     await new Promise(r => setTimeout(r, 1800));
     showResults(result);
 
@@ -498,9 +500,13 @@ function showResults(r) {
       ${proLockedHtml}
 
       <div class="bf-result-actions">
-        <button class="bf-btn-primary" onclick="restartFinder()">
+        <button class="bf-btn-primary" id="bfSaveBtn" onclick="saveBfResult()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Sauvegarder
+        </button>
+        <button class="bf-btn-secondary" onclick="restartFinder()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.09-5.18"/></svg>
-          Recommencer l'analyse
+          Recommencer
         </button>
         <a href="dashboard.html" class="bf-btn-secondary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -541,6 +547,67 @@ function restartFinder() {
   answers = {};
   showScreen("bfQuestionnaire");
   renderQuestion();
+}
+
+async function saveBfResult() {
+  const user = Auth.getUser();
+  if (!user) {
+    Toast.error("Veuillez vous connecter");
+    return;
+  }
+
+  if (user.plan === "free") {
+    Toast.warning("La sauvegarde est réservée aux plans Premium et Pro");
+    setTimeout(() => { window.location.href = "pricing.html"; }, 1200);
+    return;
+  }
+
+  const id = currentResult?._analysisId;
+  if (!id) {
+    Toast.error("Aucune analyse à sauvegarder");
+    return;
+  }
+
+  const btn = document.getElementById("bfSaveBtn");
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg> Sauvegarde…`;
+  }
+
+  try {
+    const token = Auth.getToken();
+    const response = await fetch(
+      `https://opportunity-finder-api.onrender.com/api/analyze/save/${id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || data.message || "Erreur lors de la sauvegarde");
+    }
+
+    Toast.success("Analyse sauvegardée ! Retrouvez-la dans le tableau de bord.");
+
+    if (btn) {
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Sauvegardée`;
+      btn.style.background = "linear-gradient(135deg,#059669,#10b981)";
+    }
+
+  } catch (err) {
+    console.error("Save error:", err);
+    Toast.error(err.message || "Impossible de sauvegarder");
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Sauvegarder`;
+    }
+  }
 }
 
 function escapeHtml(str) {

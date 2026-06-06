@@ -1196,9 +1196,11 @@ function renderHistoryList() {
         year: "numeric"
       });
 
-      const typeLabel = item.analysisType === "generate" ? "💡 Générée" : "📊 Évaluée";
+      const typeLabel = item.analysisType === "generate" ? "💡 Générée" : item.analysisType === "finder" ? "🎯 Finder" : "📊 Évaluée";
       const typeBg    = item.analysisType === "generate"
         ? "background:rgba(37,99,235,.1);color:#2563eb;"
+        : item.analysisType === "finder"
+        ? "background:rgba(245,158,11,.1);color:#d97706;"
         : "background:rgba(124,58,237,.1);color:#7c3aed;";
 
       return `
