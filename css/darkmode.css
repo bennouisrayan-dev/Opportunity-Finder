@@ -696,3 +696,183 @@
 [data-theme="dark"] .db-page-header-right .theme-toggle-btn {
   border-color: var(--dm-border2);
 }
+
+/* ══════════════════════════════════════════════════════════
+   PROFILE PAGE — sidebar, cards, form inputs
+══════════════════════════════════════════════════════════ */
+[data-theme="dark"] .sidebar-card {
+  background: var(--dm-surface) !important;
+  border-color: var(--dm-border) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,.3) !important;
+}
+
+[data-theme="dark"] .sidebar-item {
+  border-bottom-color: var(--dm-border) !important;
+}
+
+[data-theme="dark"] .sidebar-link {
+  color: var(--dm-text2) !important;
+}
+
+[data-theme="dark"] .sidebar-link:hover {
+  background: rgba(79,70,229,.12) !important;
+  color: #93c5fd !important;
+}
+
+[data-theme="dark"] .sidebar-link.active {
+  background: rgba(79,70,229,.15) !important;
+  color: #93c5fd !important;
+  border-left-color: #4f46e5 !important;
+}
+
+/* Profile sections */
+[data-theme="dark"] .profile-section {
+  background: var(--dm-surface) !important;
+  border-color: var(--dm-border) !important;
+}
+
+[data-theme="dark"] .profile-header {
+  border-bottom-color: var(--dm-border) !important;
+}
+
+[data-theme="dark"] .profile-name,
+[data-theme="dark"] .profile-section h2,
+[data-theme="dark"] .profile-section h3 {
+  color: var(--dm-text) !important;
+}
+
+[data-theme="dark"] .profile-email,
+[data-theme="dark"] .profile-section p {
+  color: var(--dm-text2) !important;
+}
+
+/* Stat cards */
+[data-theme="dark"] .stat-card {
+  background: var(--dm-surface2) !important;
+  border-color: var(--dm-border) !important;
+}
+
+[data-theme="dark"] .stat-value,
+[data-theme="dark"] .stat-number {
+  color: var(--dm-text) !important;
+}
+
+[data-theme="dark"] .stat-label {
+  color: var(--dm-text3) !important;
+}
+
+/* Form groups and inputs */
+[data-theme="dark"] .form-group label,
+[data-theme="dark"] .form-label {
+  color: var(--dm-text2) !important;
+}
+
+[data-theme="dark"] .form-input,
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[disabled],
+[data-theme="dark"] input[readonly] {
+  background: var(--dm-input-bg) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border2) !important;
+}
+
+[data-theme="dark"] input[disabled],
+[data-theme="dark"] input[readonly] {
+  background: var(--dm-bg2) !important;
+  color: var(--dm-text3) !important;
+  cursor: not-allowed;
+}
+
+[data-theme="dark"] .form-hint,
+[data-theme="dark"] .form-note {
+  color: var(--dm-text3) !important;
+}
+
+/* Profile avatar */
+[data-theme="dark"] .profile-avatar {
+  box-shadow: 0 0 0 3px rgba(79,70,229,.3) !important;
+}
+
+/* Plan badges on profile */
+[data-theme="dark"] .plan-badge {
+  border-color: var(--dm-border2) !important;
+}
+
+/* Dashboard header (profile page uses this) */
+[data-theme="dark"] .dashboard {
+  background: var(--dm-bg) !important;
+}
+
+[data-theme="dark"] .dashboard-header {
+  background: var(--dm-surface) !important;
+  border-bottom-color: var(--dm-border) !important;
+}
+
+[data-theme="dark"] .dashboard-title,
+[data-theme="dark"] .dashboard-description {
+  color: var(--dm-text) !important;
+}
+
+[data-theme="dark"] .dashboard-header p {
+  color: var(--dm-text2) !important;
+}
+
+/* Buttons in profile */
+[data-theme="dark"] .btn-outline,
+[data-theme="dark"] .btn-secondary {
+  background: var(--dm-surface2) !important;
+  color: var(--dm-text2) !important;
+  border-color: var(--dm-border2) !important;
+}
+[data-theme="dark"] .btn-outline:hover,
+[data-theme="dark"] .btn-secondary:hover {
+  background: var(--dm-surface) !important;
+  color: var(--dm-text) !important;
+  border-color: rgba(79,70,229,.4) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   NAVBAR toggle alignment fix
+   Toggle is now a sibling AFTER .navbar-auth — align it with the avatar
+══════════════════════════════════════════════════════════ */
+.navbar-inner {
+  align-items: center;
+  gap: 8px;
+}
+
+/* Toggle sits right after the user-menu, looks part of the auth group */
+.navbar-actions + .theme-toggle-btn {
+  margin-left: 0;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   LANDING PAGE — hero demo card input dark mode
+══════════════════════════════════════════════════════════ */
+[data-theme="dark"] .hero-demo-card {
+  background: var(--dm-surface) !important;
+  border-color: var(--dm-border) !important;
+}
+
+[data-theme="dark"] .hero-demo-card input,
+[data-theme="dark"] .hero-demo-card select,
+[data-theme="dark"] .hero-demo-card .form-input {
+  background: var(--dm-input-bg) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border2) !important;
+}
+
+[data-theme="dark"] .hero-demo-card label,
+[data-theme="dark"] .hero-demo-card .form-label {
+  color: var(--dm-text2) !important;
+}
+
+/* User menu logout item — red tint */
+.user-menu-item--logout {
+  color: #dc2626 !important;
+}
+[data-theme="dark"] .user-menu-item--logout {
+  color: #f87171 !important;
+}

@@ -300,20 +300,20 @@ const Auth = {
       if (currentUser) {
         // Insert toggle button BEFORE navbar-auth (as sibling, not child)
         // so auth.js innerHTML replacement never destroys it
-        const existingToggle = authNav.previousElementSibling;
+        // Insert toggle AFTER authNav so it sits right of the avatar, not floating left
+        const existingToggle = authNav.nextElementSibling;
         if (!existingToggle || !existingToggle.hasAttribute('data-theme-toggle')) {
           const toggleBtn = document.createElement('button');
           toggleBtn.className = 'theme-toggle-btn';
           toggleBtn.setAttribute('data-theme-toggle', '');
           toggleBtn.setAttribute('aria-label', 'Basculer le thème');
           toggleBtn.innerHTML = '<span class="theme-icon">🌙</span>';
-          authNav.parentNode.insertBefore(toggleBtn, authNav);
+          authNav.parentNode.insertBefore(toggleBtn, authNav.nextSibling);
           if (typeof Theme !== 'undefined') Theme._updateButtons();
         }
 
         authNav.innerHTML = `
           <div class="navbar-user">
-            <a href="dashboard.html" class="navbar-link">Tableau de bord</a>
             <div class="user-menu">
               <button class="user-menu-toggle">
                 <span class="user-avatar">${currentUser.name.charAt(0).toUpperCase()}</span>
@@ -321,10 +321,10 @@ const Auth = {
                 <span class="user-arrow">▾</span>
               </button>
               <div class="user-menu-dropdown">
-                <a href="profile.html" class="user-menu-item">Profil</a>
                 <a href="dashboard.html" class="user-menu-item">Tableau de bord</a>
+                <a href="profile.html" class="user-menu-item">Profil</a>
                 <hr class="user-menu-divider">
-                <button class="user-menu-item" data-action="logout">Déconnexion</button>
+                <button class="user-menu-item user-menu-item--logout" data-action="logout">Déconnexion</button>
               </div>
             </div>
           </div>
@@ -337,15 +337,15 @@ const Auth = {
         // ── User menu toggle — works on every page (dashboard has no main.js) ──
         this._bindUserMenuToggle();
       } else {
-        // Insert toggle BEFORE auth nav for logged-out users too
-        const existingToggle2 = authNav.previousElementSibling;
+        // Insert toggle AFTER auth nav (right of login/signup buttons)
+        const existingToggle2 = authNav.nextElementSibling;
         if (!existingToggle2 || !existingToggle2.hasAttribute('data-theme-toggle')) {
           const toggleBtn2 = document.createElement('button');
           toggleBtn2.className = 'theme-toggle-btn';
           toggleBtn2.setAttribute('data-theme-toggle', '');
           toggleBtn2.setAttribute('aria-label', 'Basculer le thème');
           toggleBtn2.innerHTML = '<span class="theme-icon">🌙</span>';
-          authNav.parentNode.insertBefore(toggleBtn2, authNav);
+          authNav.parentNode.insertBefore(toggleBtn2, authNav.nextSibling);
           if (typeof Theme !== 'undefined') Theme._updateButtons();
         }
 
