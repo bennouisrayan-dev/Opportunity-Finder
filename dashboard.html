@@ -6,25 +6,19 @@
   <meta name="theme-color" content="#ffffff">
   <script src="js/theme.js"></script>
   <title>Tableau de Bord — Opportunity Finder</title>
-  <meta name="description" content="Analysez les marchés et découvrez des opportunités de startup.">
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/darkmode.css">
   <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body data-page="dashboard">
 
-<!-- ══════════════════════════════════════
-     SIDEBAR (desktop)
-══════════════════════════════════════ -->
+<!-- ══ SIDEBAR ══ -->
 <aside class="db-sidebar" id="dbSidebar">
   <div class="db-sidebar-inner">
 
-    <!-- Brand -->
     <a href="index.html" class="db-brand">
       <img src="logo.png" alt="Opportunity Finder" class="db-brand-logo">
       <div class="db-brand-text">
@@ -35,13 +29,12 @@
 
     <!-- User card -->
     <div class="db-user-card">
-      <div class="db-user-avatar" id="sidebarAvatar">D</div>
+      <div class="db-user-avatar" id="sidebarAvatar">U</div>
       <div class="db-user-info">
         <div class="db-user-name sidebar-user-name">Utilisateur</div>
-        <div class="db-user-plan sidebar-user-plan">
-          <span class="db-plan-dot"></span>Forfait Gratuit
-        </div>
+        <div class="db-user-plan sidebar-user-plan">Forfait Gratuit</div>
       </div>
+      <span class="db-user-plan-badge" id="sidebarPlanBadge">Free</span>
     </div>
 
     <!-- Nav -->
@@ -68,7 +61,7 @@
       </a>
     </nav>
 
-    <!-- Stats -->
+    <!-- Credits -->
     <div class="db-sidebar-stats">
       <div class="db-stat-row">
         <span class="db-stat-label">Crédits restants</span>
@@ -91,9 +84,8 @@
       </div>
     </div>
 
-    <!-- Upgrade CTA -->
     <a href="pricing.html" class="db-upgrade-cta">
-      <div class="db-upgrade-icon">⭐</div>
+      <span class="db-upgrade-icon">⭐</span>
       <div>
         <div class="db-upgrade-title">Passer Premium</div>
         <div class="db-upgrade-sub">Analyses illimitées & GPT-4o</div>
@@ -103,24 +95,19 @@
   </div>
 </aside>
 
-<!-- ══════════════════════════════════════
-     TOP BAR (mobile)
-══════════════════════════════════════ -->
+<!-- ══ MOBILE TOPBAR ══ -->
 <header class="db-topbar" id="dbTopbar">
   <a href="index.html" class="db-topbar-brand">
     <img src="logo.png" alt="" class="db-topbar-logo">
     <span>Opportunity</span>
   </a>
   <div class="db-topbar-right navbar-auth">
-    <!-- injected by auth.js -->
     <a href="login.html" class="btn btn-ghost btn-sm">Connexion</a>
     <a href="signup.html" class="btn btn-primary btn-sm">Commencer</a>
   </div>
 </header>
 
-<!-- ══════════════════════════════════════
-     MAIN CONTENT
-══════════════════════════════════════ -->
+<!-- ══ MAIN ══ -->
 <main class="db-main" id="dbMain">
 
   <!-- Page header -->
@@ -130,9 +117,9 @@
       <p class="db-page-sub">Générez des idées ou évaluez votre concept de startup</p>
     </div>
     <div class="db-page-header-right">
-      <button class="theme-toggle-btn" data-theme-toggle aria-label="Passer en mode sombre" title="Mode sombre"><span class="theme-icon">🌙</span></button>
+      <button class="theme-toggle-btn" data-theme-toggle aria-label="Basculer le thème"><span class="theme-icon">🌙</span></button>
       <a href="pricing.html" class="db-upgrade-pill">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         Passer Premium
       </a>
     </div>
@@ -141,27 +128,68 @@
   <!-- Limit banner -->
   <div id="analysisLimitContainer"></div>
 
-  <!-- ── GENERATOR CARD ── -->
-  <div class="db-card db-generator-card">
+  <!-- ══ HERO CARD ══ -->
+  <div class="db-hero-card">
+    <div class="db-hero-content">
+      <div class="db-hero-text">
+        <h2 class="db-hero-title">Welcome back, <span id="heroUserName">toi</span> 👋</h2>
+        <p class="db-hero-sub">Prêt à trouver votre prochaine opportunité à fort potentiel ?</p>
+      </div>
+      <div class="db-hero-stats">
+        <div class="db-hero-stat">
+          <div class="db-hero-stat-icon db-hero-stat-icon--blue">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div>
+            <div class="db-hero-stat-val" id="heroStatGenerated">0</div>
+            <div class="db-hero-stat-label">Idées générées</div>
+            <div class="db-hero-stat-sub" id="heroStatGeneratedSub"></div>
+          </div>
+        </div>
+        <div class="db-hero-stat">
+          <div class="db-hero-stat-icon db-hero-stat-icon--green">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="db-hero-stat-val" id="heroStatScore">—</div>
+            <div class="db-hero-stat-label">Score moyen</div>
+            <div class="db-hero-stat-sub" id="heroStatScoreSub"></div>
+          </div>
+        </div>
+        <div class="db-hero-stat">
+          <div class="db-hero-stat-icon db-hero-stat-icon--orange">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div>
+            <div class="db-hero-stat-val" id="heroStatSaved">0</div>
+            <div class="db-hero-stat-label">Opportunités sauvegardées</div>
+            <div class="db-hero-stat-sub db-hero-stat-link" onclick="scrollToSection('savedSection')">Voir vos idées</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="db-hero-illustration" aria-hidden="true">🚀</div>
+  </div>
 
-    <!-- Mode tabs -->
+  <!-- ══ GENERATOR CARD ══ -->
+  <div class="db-card db-generator-card">
     <div class="db-tabs">
       <button type="button" class="db-tab active" id="btnModeGenerate" data-mode="generate">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         Trouver des opportunités
       </button>
       <button type="button" class="db-tab" id="btnModeEvaluate" data-mode="evaluate">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         Évaluer mon idée
       </button>
       <button type="button" class="db-tab db-tab-finder" id="btnModeFinder" data-mode="finder">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         Business Finder IA
         <span class="db-tab-badge">⭐</span>
       </button>
     </div>
 
-    <!-- Mode 1: Generate -->
+    <!-- Mode: Generate -->
     <div id="modeGenerate" class="mode-content active db-mode-panel">
       <div class="db-mode-header">
         <h2 class="db-mode-title">Générer des idées de business</h2>
@@ -178,13 +206,13 @@
           <button type="button" class="db-chip category-tag" data-category="random">🔥 Surprise</button>
         </div>
         <button type="button" id="generateBtn" class="db-cta-btn generate-btn btn btn-primary">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           Générer une idée de startup
         </button>
       </form>
     </div>
 
-    <!-- Mode 3: Business Finder IA -->
+    <!-- Mode: Finder -->
     <div id="modeFinder" class="mode-content db-mode-panel">
       <div class="db-mode-header">
         <h2 class="db-mode-title">🎯 Business Finder IA <span class="bf-premium-badge">⭐ PREMIUM</span></h2>
@@ -197,39 +225,33 @@
           <span>✓ Budget & difficulté estimés</span>
         </div>
         <a href="business-finder.html" id="goToFinderBtn" class="db-cta-btn" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:9px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Commencer l'analyse
         </a>
       </div>
     </div>
 
-    <!-- Mode 2: Evaluate -->
+    <!-- Mode: Evaluate -->
     <div id="modeEvaluate" class="mode-content db-mode-panel">
       <div class="db-mode-header">
         <h2 class="db-mode-title">Évaluer mon idée de business</h2>
         <p class="db-mode-desc mode-description">Décrivez votre concept de startup et obtenez une analyse complète avec scores et recommandations.</p>
       </div>
       <form id="evaluateForm" class="search-form">
-        <textarea
-          id="ideaInput"
-          class="db-textarea idea-textarea"
-          placeholder="Décrivez votre idée de startup...&#10;&#10;Exemple : Un générateur de factures avec IA pour freelances qui automatise la création, l'envoi et le suivi des paiements."
-          autocomplete="off"
-        ></textarea>
+        <textarea id="ideaInput" class="db-textarea idea-textarea"
+          placeholder="Décrivez votre idée de startup...&#10;&#10;Exemple : Un générateur de factures avec IA pour freelances..."
+          autocomplete="off"></textarea>
         <button type="button" id="evaluateBtn" class="db-cta-btn generate-btn btn btn-primary">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
           Analyser mon idée
         </button>
       </form>
     </div>
-
-  </div><!-- /db-generator-card -->
+  </div>
 
   <!-- Loading -->
   <div id="loadingState" class="db-loading hidden loading">
-    <div class="db-loading-ring">
-      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke-width="5"/></svg>
-    </div>
+    <div class="db-loading-ring"></div>
     <p class="db-loading-text loading-text" id="loadingText">Analyse en cours…</p>
     <p class="db-loading-hint">Notre IA analyse les tendances du marché</p>
   </div>
@@ -237,54 +259,101 @@
   <!-- Results -->
   <div id="resultsContainer" class="hidden"></div>
 
-  <!-- ── SAVED IDEAS ── -->
+  <!-- ══ BOTTOM GRID: Last result + Booster ══ -->
+  <div class="db-bottom-grid">
+
+    <!-- Last Result -->
+    <div class="db-last-result-card db-card" id="lastResultCard">
+      <div class="db-last-result-empty">
+        <div class="db-last-result-empty-icon">📊</div>
+        <p>Aucun résultat récent</p>
+        <p style="font-size:12px;opacity:.6;margin-top:4px">Générez ou évaluez une idée pour voir votre dernier résultat ici</p>
+      </div>
+    </div>
+
+    <!-- Opportunity Booster AI card -->
+    <div class="db-booster-promo" id="opportunityBoosterCard">
+      <div class="db-booster-promo-inner">
+        <div class="db-booster-promo-badge">✨ NOUVEAUTÉ PREMIUM</div>
+        <h3 class="db-booster-promo-title">🚀 Opportunity Booster AI</h3>
+        <p class="db-booster-promo-desc">Découvrez si cette opportunité est vraiment adaptée à votre profil, votre budget et votre expérience.</p>
+        <div class="db-booster-promo-benefits">
+          <div class="db-booster-promo-benefit">
+            <span class="db-booster-promo-benefit-icon">👤</span>
+            <span>Analyse personnalisée selon votre profil</span>
+          </div>
+          <div class="db-booster-promo-benefit">
+            <span class="db-booster-promo-benefit-icon">✅</span>
+            <span>Plan d'action adapté à votre budget</span>
+          </div>
+          <div class="db-booster-promo-benefit">
+            <span class="db-booster-promo-benefit-icon">⚡</span>
+            <span>Conseils concrets pour lancer plus vite</span>
+          </div>
+        </div>
+        <button class="db-booster-promo-cta" id="boosterLaunchBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Lancer mon analyse personnalisée
+        </button>
+      </div>
+      <!-- decorative wave -->
+      <div class="db-booster-promo-wave" aria-hidden="true">
+        <svg viewBox="0 0 400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,60 C100,100 200,20 300,60 S400,100 400,60 L400,120 L0,120 Z" fill="rgba(255,255,255,0.05)"/>
+          <path d="M0,80 C80,50 180,90 280,70 S380,40 400,80 L400,120 L0,120 Z" fill="rgba(255,255,255,0.04)"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ HISTORIQUE RÉCENT ══ -->
+  <div id="historySection" class="db-card db-section-card">
+    <div class="db-section-head card-header">
+      <div class="db-section-head-left">
+        <div class="db-section-icon db-icon-history">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <h3 class="db-section-title">Historique récent</h3>
+          <p class="db-section-sub">Vos analyses et générations récentes</p>
+        </div>
+      </div>
+      <button type="button" id="toggleHistoryBtn" class="db-btn-ghost btn btn-sm">Voir tout</button>
+    </div>
+    <div class="db-section-body card-body" id="historyList">
+      <div class="db-empty empty-state">
+        <div class="db-empty-icon">📊</div>
+        <div class="db-empty-title">Aucune analyse</div>
+        <div class="db-empty-text">Commencez par générer ou évaluer une idée ci-dessus</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ IDÉES SAUVEGARDÉES ══ -->
   <div id="savedSection" class="db-card db-section-card">
     <div class="db-section-head card-header">
       <div class="db-section-head-left">
         <div class="db-section-icon db-icon-save">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
         </div>
         <div>
           <h3 class="db-section-title">Idées Sauvegardées</h3>
           <p class="db-section-sub">Votre collection d'opportunités prometteuses</p>
         </div>
       </div>
-      <button type="button" id="toggleSavedBtn" class="db-btn-ghost btn btn-sm btn-secondary">
-        Voir plus
-      </button>
+      <button type="button" id="toggleSavedBtn" class="db-btn-ghost btn btn-sm">Voir plus</button>
     </div>
     <div class="db-section-body card-body" id="savedIdeasList">
       <div class="db-empty empty-state">
-        <div class="db-empty-icon empty-state-icon">💡</div>
-        <div class="db-empty-title empty-state-title">Aucune idée sauvegardée</div>
-        <div class="db-empty-text empty-state-text">Sauvegardez les opportunités intéressantes pour les consulter plus tard</div>
+        <div class="db-empty-icon">💡</div>
+        <div class="db-empty-title">Aucune idée sauvegardée</div>
+        <div class="db-empty-text">Sauvegardez les opportunités intéressantes pour les consulter plus tard</div>
       </div>
     </div>
   </div>
 
-  <!-- ── HISTORY ── -->
-  <div id="historySection" class="db-card db-section-card">
-    <div class="db-section-head card-header">
-      <div class="db-section-head-left">
-        <div class="db-section-icon db-icon-history">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        </div>
-        <div>
-          <h3 class="db-section-title">Historique Récent</h3>
-          <p class="db-section-sub">Vos analyses et générations récentes</p>
-        </div>
-      </div>
-    </div>
-    <div class="db-section-body card-body" id="historyList">
-      <div class="db-empty empty-state">
-        <div class="db-empty-icon empty-state-icon">📊</div>
-        <div class="db-empty-title empty-state-title">Aucune analyse</div>
-        <div class="db-empty-text empty-state-text">Commencez par générer ou évaluer une idée ci-dessus</div>
-      </div>
-    </div>
-  </div>
-
-</main><!-- /db-main -->
+</main>
 
 <!-- Toast -->
 <div class="toast-container"></div>
@@ -292,24 +361,23 @@
 <!-- Mobile bottom nav -->
 <nav class="db-bottom-nav">
   <a href="dashboard.html" class="db-bottom-item active">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
     <span>Dashboard</span>
   </a>
   <a href="#saved" class="db-bottom-item" onclick="scrollToSection('savedSection'); return false;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
     <span>Idées</span>
   </a>
   <a href="#history" class="db-bottom-item" onclick="scrollToSection('historySection'); return false;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
     <span>Historique</span>
   </a>
   <a href="profile.html" class="db-bottom-item">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     <span>Profil</span>
   </a>
 </nav>
 
-<!-- Scripts — UNCHANGED -->
 <script src="js/utils.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/analyzer.js"></script>

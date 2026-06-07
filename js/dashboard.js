@@ -31,6 +31,8 @@ async function refreshDashboardData() {
   renderUserInfo();
   renderAnalysisLimit();
   updateDashboardStats();
+  renderHeroCard();
+  renderLastResult();
 }
 
 function renderUserInfo() {
@@ -1666,4 +1668,129 @@ function renderBoosterResult(r) {
     </div>`;
 
   container.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* ══════════════════════════════════════════════════════════
+   DASHBOARD REDESIGN — Hero card + Last Result
+══════════════════════════════════════════════════════════ */
+
+function renderHeroCard() {
+  const user = Auth.getUser();
+  if (!user) return;
+
+  // User name in hero
+  const heroName = document.getElementById("heroUserName");
+  if (heroName) heroName.textContent = user.name?.split(" ")[0] || user.name || "toi";
+
+  // Plan badge in sidebar
+  const planBadge = document.getElementById("sidebarPlanBadge");
+  if (planBadge) {
+    planBadge.textContent = user.plan === "pro" ? "Pro" : user.plan === "premium" ? "Premium" : "Free";
+    planBadge.style.background = user.plan === "pro"
+      ? "linear-gradient(135deg,#059669,#10b981)"
+      : user.plan === "premium"
+      ? "linear-gradient(135deg,#d97706,#f59e0b)"
+      : "linear-gradient(135deg,#2563eb,#7c3aed)";
+  }
+
+  const history = dashboardState.history || [];
+  const saved   = dashboardState.saved   || [];
+
+  // Total generated
+  const generated = history.filter(h => h.analysisType === "generate").length;
+  const heroGen = document.getElementById("heroStatGenerated");
+  if (heroGen) heroGen.textContent = generated;
+
+  const heroGenSub = document.getElementById("heroStatGeneratedSub");
+  if (heroGenSub && generated > 0) {
+    const thisWeek = history.filter(h => {
+      const d = new Date(h.createdAt);
+      const now = new Date();
+      return (now - d) < 7 * 24 * 3600 * 1000 && h.analysisType === "generate";
+    }).length;
+    if (thisWeek > 0) heroGenSub.textContent = `+${thisWeek} cette semaine`;
+  }
+
+  // Average score
+  const scores = history
+    .map(h => h.result?.scores?.opportunity ?? h.result?.compatibilityScore ?? null)
+    .filter(s => s !== null && !isNaN(s));
+
+  const heroScore = document.getElementById("heroStatScore");
+  if (heroScore) {
+    if (scores.length > 0) {
+      const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+      heroScore.textContent = avg + "%";
+      const sub = document.getElementById("heroStatScoreSub");
+      if (sub) {
+        sub.textContent = avg >= 75 ? "Très bon potentiel" : avg >= 55 ? "Bon potentiel" : "Potentiel correct";
+        sub.style.color = avg >= 75 ? "#10b981" : avg >= 55 ? "#f59e0b" : "#94a3b8";
+      }
+    }
+  }
+
+  // Saved count
+  const heroSaved = document.getElementById("heroStatSaved");
+  if (heroSaved) heroSaved.textContent = saved.length;
+}
+
+function renderLastResult() {
+  const card = document.getElementById("lastResultCard");
+  if (!card) return;
+
+  const history = dashboardState.history || [];
+  if (!history.length) return; // keep empty state
+
+  const last = history[0];
+  const result = last.result || {};
+  const score = result.scores?.opportunity ?? result.compatibilityScore ?? null;
+  const summary = result.idea || result.userIdea || result.recommendedBusiness || "Analyse récente";
+  const typeLabel = last.analysisType === "generate" ? "Idée Générée" : "Idée Évaluée";
+  const typeCls   = last.analysisType === "generate" ? "generate" : "evaluate";
+  const scoreColor = score >= 70 ? "#10b981" : score >= 45 ? "#f59e0b" : "#ef4444";
+
+  const date = new Date(last.createdAt).toLocaleDateString("fr-FR", {
+    day: "2-digit", month: "2-digit", year: "numeric"
+  });
+
+  card.innerHTML = `
+    <div class="db-last-result-header">
+      <span class="db-last-result-label">Dernier résultat</span>
+      ${score !== null ? `<span class="db-last-result-score" style="color:${scoreColor};background:${scoreColor}18">Score : ${score}/100</span>` : ""}
+    </div>
+    <div class="db-last-result-body">
+      <span class="db-last-result-badge db-last-result-badge--${typeCls}">${typeLabel}</span>
+      <div class="db-last-result-summary">${escapeHtml(summary)}</div>
+      <div style="font-size:11.5px;color:var(--db-text3)">${date}</div>
+    </div>
+    <div class="db-last-result-actions">
+      <button class="db-last-result-btn db-last-result-btn--ghost" onclick="openAnalysisFromList('${last.id}', dashboardState.history)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Voir le détail
+      </button>
+      <button class="db-last-result-btn db-last-result-btn--ghost" onclick="currentAnalysis={id:'${last.id}',...(dashboardState.history.find(h=>h.id==='${last.id}')?.result||{})};handleSave()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+        Sauvegarder
+      </button>
+      <button class="db-last-result-btn db-last-result-btn--primary" onclick="openAnalysisFromList('${last.id}', dashboardState.history)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Partager
+      </button>
+    </div>`;
+}
+
+// Hook into refreshDashboardData
+const _origRefresh = typeof refreshDashboardData === "function" ? refreshDashboardData : null;
+const _wrappedRefresh = async function() {
+  if (_origRefresh) await _origRefresh();
+  renderHeroCard();
+  renderLastResult();
+};
+
+// Override refreshDashboardData if it exists
+if (typeof window !== "undefined") {
+  window.addEventListener("dashboardRefreshed", () => {
+    renderHeroCard();
+    renderLastResult();
+  });
 }
