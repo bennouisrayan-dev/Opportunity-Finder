@@ -150,6 +150,9 @@ function handleDashboardDynamicClicks(e) {
   const exportBtn = e.target.closest("#exportBtn");
   const shareBtn = e.target.closest("#shareBtn");
   const newAnalysisBtn = e.target.closest("#newAnalysisBtn");
+  const boosterLaunchBtn = e.target.closest("#boosterLaunchBtn");
+  const boosterSubmitBtn = e.target.closest("#boosterSubmitBtn");
+  const boosterCloseModal = e.target.closest("#boosterCloseModal, .ob-modal-overlay");
   const toggleHistoryBtn = e.target.closest("#toggleHistoryBtn");
 const toggleSavedBtn = e.target.closest("#toggleSavedBtn");
 const historyItem = e.target.closest("[data-history-id]");
@@ -186,6 +189,9 @@ if (savedItem) {
   if (exportBtn) handleExport();
   if (shareBtn) handleShare();
   if (newAnalysisBtn) hideResults();
+  if (boosterLaunchBtn) handleBoosterLaunch();
+  if (boosterSubmitBtn) handleBoosterSubmit();
+  if (boosterCloseModal) closeBoosterModal();
 }
 
 function bindModeSwitcher() {
@@ -818,6 +824,31 @@ function buildResultLayout({ badges, nameHtml, sloganHtml, scoreVal, scoreLabel,
         </button>
       </div>
 
+      <!-- ══ OPPORTUNITY BOOSTER AI ══ -->
+      <div class="ob-card" id="opportunityBoosterCard">
+        <div class="ob-card-inner">
+          <div class="ob-card-left">
+            <div class="ob-badge">✨ PREMIUM</div>
+            <h3 class="ob-title">🚀 Opportunity Booster AI</h3>
+            <p class="ob-desc">Découvrez si cette opportunité est vraiment adaptée à votre profil, votre budget et votre expérience.</p>
+            <div class="ob-benefits">
+              <div class="ob-benefit"><span class="ob-benefit-icon">🎯</span> Analyse personnalisée selon votre profil</div>
+              <div class="ob-benefit"><span class="ob-benefit-icon">💰</span> Plan d'action adapté à votre budget</div>
+              <div class="ob-benefit"><span class="ob-benefit-icon">⚡</span> Conseils concrets pour lancer plus vite</div>
+            </div>
+          </div>
+          <div class="ob-card-right">
+            <button class="ob-cta-btn" id="boosterLaunchBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Lancer mon analyse personnalisée
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ BOOSTER RESULT (injected here) ══ -->
+      <div id="boosterResultContainer"></div>
+
     </div>`;
 }
 
@@ -1340,3 +1371,299 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   await initDashboard();
 });
+/* ══════════════════════════════════════════════════════════
+   OPPORTUNITY BOOSTER AI
+══════════════════════════════════════════════════════════ */
+
+const BOOSTER_API = "https://opportunity-finder-api.onrender.com/api/booster/analyze";
+
+function handleBoosterLaunch() {
+  const user = Auth.getUser();
+  if (!user || user.plan === "free") {
+    showBoosterModal();
+  } else {
+    showBoosterQuestionnaire();
+  }
+}
+
+/* ── Premium gate modal ─────────────────────────────────── */
+function showBoosterModal() {
+  const existing = document.getElementById("boosterModal");
+  if (existing) existing.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "boosterModal";
+  modal.innerHTML = `
+    <div class="ob-modal-overlay" id="boosterCloseModal">
+      <div class="ob-modal" role="dialog" aria-modal="true">
+        <button class="ob-modal-close" id="boosterCloseModal" aria-label="Fermer">✕</button>
+        <div class="ob-modal-icon">🚀</div>
+        <h3 class="ob-modal-title">Opportunity Booster AI</h3>
+        <p class="ob-modal-desc">Opportunity Booster AI est réservé aux membres Premium.<br>Obtenez une analyse personnalisée basée sur votre profil exact.</p>
+        <div class="ob-modal-features">
+          <div class="ob-modal-feat">✅ Score d'adéquation profil/opportunité</div>
+          <div class="ob-modal-feat">✅ Points forts et risques personnalisés</div>
+          <div class="ob-modal-feat">✅ Plan d'action 30 jours sur mesure</div>
+          <div class="ob-modal-feat">✅ Première action concrète à faire aujourd'hui</div>
+        </div>
+        <div class="ob-modal-actions">
+          <a href="pricing.html" class="ob-modal-cta">⭐ Passer Premium</a>
+          <button class="ob-modal-skip" id="boosterCloseModal">Plus tard</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.querySelector(".ob-modal-overlay").classList.add("ob-modal-visible"));
+}
+
+function closeBoosterModal() {
+  const modal = document.getElementById("boosterModal");
+  if (!modal) return;
+  const overlay = modal.querySelector(".ob-modal-overlay");
+  overlay.classList.remove("ob-modal-visible");
+  setTimeout(() => modal.remove(), 280);
+}
+
+/* ── Questionnaire modal ─────────────────────────────────── */
+function showBoosterQuestionnaire() {
+  const existing = document.getElementById("boosterModal");
+  if (existing) existing.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "boosterModal";
+  modal.innerHTML = `
+    <div class="ob-modal-overlay" id="boosterCloseModal">
+      <div class="ob-modal ob-modal-quiz" role="dialog" aria-modal="true">
+        <button class="ob-modal-close" id="boosterCloseModal" aria-label="Fermer">✕</button>
+        <div class="ob-quiz-header">
+          <div class="ob-quiz-icon">🎯</div>
+          <h3 class="ob-modal-title">Analyse personnalisée</h3>
+          <p class="ob-modal-desc">Répondez à 6 questions pour personnaliser l'analyse.</p>
+        </div>
+        <form class="ob-quiz-form" id="boosterForm">
+          <div class="ob-field">
+            <label class="ob-label">1. Quel âge avez-vous ?</label>
+            <select class="ob-input" name="age" required>
+              <option value="">Sélectionner…</option>
+              <option>Moins de 20 ans</option>
+              <option>20 à 30 ans</option>
+              <option>30 à 40 ans</option>
+              <option>40 ans et plus</option>
+            </select>
+          </div>
+          <div class="ob-field">
+            <label class="ob-label">2. Quel budget pouvez-vous investir ?</label>
+            <select class="ob-input" name="budget" required>
+              <option value="">Sélectionner…</option>
+              <option>0€ (Bootstrap)</option>
+              <option>100€ à 500€</option>
+              <option>500€ à 2 000€</option>
+              <option>2 000€ à 10 000€</option>
+              <option>Plus de 10 000€</option>
+            </select>
+          </div>
+          <div class="ob-field">
+            <label class="ob-label">3. Avez-vous déjà lancé un projet ou un business ?</label>
+            <select class="ob-input" name="experience" required>
+              <option value="">Sélectionner…</option>
+              <option>Non, c'est mon premier projet</option>
+              <option>J'ai essayé sans succès</option>
+              <option>Oui, avec un succès partiel</option>
+              <option>Oui, j'ai déjà un business actif</option>
+            </select>
+          </div>
+          <div class="ob-field">
+            <label class="ob-label">4. Combien de temps par semaine pouvez-vous consacrer à cette opportunité ?</label>
+            <select class="ob-input" name="weeklyTime" required>
+              <option value="">Sélectionner…</option>
+              <option>Moins de 5h</option>
+              <option>5h à 10h</option>
+              <option>10h à 20h</option>
+              <option>Plus de 20h (temps plein)</option>
+            </select>
+          </div>
+          <div class="ob-field">
+            <label class="ob-label">5. Quelles sont vos compétences principales ?</label>
+            <input type="text" class="ob-input" name="skills" placeholder="Ex: marketing, développement web, vente…" required>
+          </div>
+          <div class="ob-field">
+            <label class="ob-label">6. Quel est votre objectif principal ?</label>
+            <div class="ob-radio-group">
+              <label class="ob-radio"><input type="radio" name="goal" value="Revenu complémentaire" required><span>💰 Revenu complémentaire</span></label>
+              <label class="ob-radio"><input type="radio" name="goal" value="Business complet"><span>🏢 Business complet</span></label>
+              <label class="ob-radio"><input type="radio" name="goal" value="Apprentissage"><span>📚 Apprentissage</span></label>
+              <label class="ob-radio"><input type="radio" name="goal" value="Autre"><span>🎯 Autre</span></label>
+            </div>
+          </div>
+          <button type="button" class="ob-submit-btn" id="boosterSubmitBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Lancer mon analyse
+          </button>
+        </form>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.querySelector(".ob-modal-overlay").classList.add("ob-modal-visible"));
+}
+
+async function handleBoosterSubmit() {
+  const form = document.getElementById("boosterForm");
+  if (!form) return;
+
+  // Validate
+  const age = form.age?.value;
+  const budget = form.budget?.value;
+  const experience = form.experience?.value;
+  const weeklyTime = form.weeklyTime?.value;
+  const skills = form.skills?.value?.trim();
+  const goal = form.querySelector('input[name="goal"]:checked')?.value;
+
+  if (!age || !budget || !experience || !weeklyTime || !skills || !goal) {
+    Toast.warning("Veuillez répondre à toutes les questions.");
+    return;
+  }
+
+  const submitBtn = document.getElementById("boosterSubmitBtn");
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4"/></svg> Analyse en cours…`;
+  }
+
+  closeBoosterModal();
+
+  // Show inline loading
+  const container = document.getElementById("boosterResultContainer");
+  if (container) {
+    container.innerHTML = `
+      <div class="ob-result-loading">
+        <div class="ob-result-loading-ring"></div>
+        <div class="ob-result-loading-text">🤖 Analyse de votre profil en cours…</div>
+        <div class="ob-result-loading-hint">Notre IA analyse la compatibilité entre votre profil et cette opportunité</div>
+      </div>`;
+    container.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  try {
+    const token = Auth.getToken();
+    const response = await fetch(BOOSTER_API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        opportunity: currentAnalysis,
+        profile: { age, budget, experience, weeklyTime, skills, goal }
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Erreur lors de l'analyse Booster");
+    }
+
+    renderBoosterResult(data.result);
+
+  } catch (err) {
+    console.error("Booster error:", err);
+    if (container) {
+      container.innerHTML = `
+        <div class="ob-result-error">
+          <span>⚠️</span> ${escapeHtml(err.message || "Erreur lors de l'analyse. Réessayez.")}
+          <button class="ob-retry-btn" onclick="handleBoosterLaunch()">Réessayer</button>
+        </div>`;
+    }
+  }
+}
+
+/* ── Render result ───────────────────────────────────────── */
+function renderBoosterResult(r) {
+  const container = document.getElementById("boosterResultContainer");
+  if (!container || !r) return;
+
+  const score = r.fitScore || 0;
+  const scoreColor = score >= 75 ? "#10b981" : score >= 50 ? "#f59e0b" : "#ef4444";
+  const circ = 2 * Math.PI * 32;
+  const offset = circ - (score / 100) * circ;
+
+  const roadmapHtml = Array.isArray(r.actionPlan30Days) && r.actionPlan30Days.length
+    ? r.actionPlan30Days.map((step, i) => `
+        <div class="ob-roadmap-item">
+          <div class="ob-roadmap-num">${i + 1}</div>
+          <div class="ob-roadmap-text">${escapeHtml(step)}</div>
+        </div>`).join("")
+    : "<p>Non disponible</p>";
+
+  container.innerHTML = `
+    <div class="ob-result-card" id="boosterResult">
+      <div class="ob-result-header">
+        <div class="ob-result-score-wrap">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="7"/>
+            <circle cx="40" cy="40" r="32" fill="none"
+              stroke="${scoreColor}" stroke-width="7"
+              stroke-linecap="round"
+              stroke-dasharray="${circ}"
+              stroke-dashoffset="${offset}"
+              transform="rotate(-90 40 40)"
+              style="transition:stroke-dashoffset 1.2s cubic-bezier(.16,1,.3,1)"/>
+          </svg>
+          <div class="ob-result-score-inner">
+            <span class="ob-result-score-num">${score}</span>
+            <span class="ob-result-score-sub">/100</span>
+          </div>
+        </div>
+        <div class="ob-result-header-info">
+          <div class="ob-result-badge">🚀 Opportunity Booster AI</div>
+          <div class="ob-result-fit-label">${escapeHtml(r.fitLabel || "Analyse complète")}</div>
+          <p class="ob-result-advice">${escapeHtml(r.personalizedAdvice || "")}</p>
+        </div>
+      </div>
+
+      <div class="ob-result-grid">
+        <div class="ob-result-section">
+          <div class="ob-result-section-title">💪 Points forts de votre profil</div>
+          <div class="ob-result-list">
+            ${(r.strengths || []).map(s => `
+              <div class="ob-result-item ob-result-item--green">
+                <span>✓</span>${escapeHtml(s)}
+              </div>`).join("")}
+          </div>
+        </div>
+        <div class="ob-result-section">
+          <div class="ob-result-section-title">⚠️ Risques pour votre profil</div>
+          <div class="ob-result-list">
+            ${(r.risks || []).map(risk => `
+              <div class="ob-result-item ob-result-item--orange">
+                <span>→</span>${escapeHtml(risk)}
+              </div>`).join("")}
+          </div>
+        </div>
+      </div>
+
+      <div class="ob-result-meta-row">
+        <div class="ob-result-meta-card">
+          <div class="ob-result-meta-icon">💰</div>
+          <div>
+            <div class="ob-result-meta-label">Budget conseillé</div>
+            <div class="ob-result-meta-val">${escapeHtml(r.recommendedBudget || "—")}</div>
+          </div>
+        </div>
+        <div class="ob-result-meta-card ob-result-meta-card--highlight">
+          <div class="ob-result-meta-icon">⚡</div>
+          <div>
+            <div class="ob-result-meta-label">Première action aujourd'hui</div>
+            <div class="ob-result-meta-val">${escapeHtml(r.firstActionToday || "—")}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ob-result-roadmap-section">
+        <div class="ob-result-section-title">🗓️ Plan d'action personnalisé sur 30 jours</div>
+        <div class="ob-roadmap">${roadmapHtml}</div>
+      </div>
+    </div>`;
+
+  container.scrollIntoView({ behavior: "smooth", block: "start" });
+}

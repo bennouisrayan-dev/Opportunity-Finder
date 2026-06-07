@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes.js";
 import analyzeRoutes from "./routes/analyze.routes.js";
 import stripeRoutes from "./routes/stripe.routes.js";
+import boosterRoutes from "./routes/booster.routes.js";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/analyze", analyzeRoutes);
 app.use("/api/stripe", stripeRoutes);
+app.use("/api/booster", boosterRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
