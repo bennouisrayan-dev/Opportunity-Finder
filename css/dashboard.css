@@ -49,6 +49,20 @@
   --t-slow: 300ms;
 }
 
+/* ── Dashboard tokens: dark mode overrides ─────────────── */
+[data-theme="dark"] {
+  --db-surface:  #1E293B;
+  --db-surface2: #263449;
+  --db-bg:       #0F172A;
+  --db-bg2:      #111827;
+  --db-border:   rgba(148,163,184,.18);
+  --db-border2:  rgba(148,163,184,.25);
+  --db-text:     #F8FAFC;
+  --db-text2:    #CBD5E1;
+  --db-text3:    #94A3B8;
+  --db-grad-soft: linear-gradient(135deg, rgba(79,70,229,.15) 0%, rgba(124,58,237,.12) 100%);
+}
+
 /* ── Global reset ───────────────────────────────────────── */
 body[data-page="dashboard"] {
   background: var(--db-bg);
