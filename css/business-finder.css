@@ -808,3 +808,65 @@
   .bf-start-btn { border-radius: 13px !important; }
   .bf-question-area { min-height: 240px; padding: 20px 18px 14px; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   FIX 6 — Score: centered premium layout
+══════════════════════════════════════════════════════════ */
+
+/* Override hero to center score on all screens */
+.bf-result-hero {
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center;
+  padding: 32px 28px 28px !important;
+  gap: 20px !important;
+}
+
+.bf-result-score-ring {
+  width: 140px !important;
+  height: 140px !important;
+  margin: 0 auto;
+}
+
+.bf-result-score-num  { font-size: 2.6rem !important; }
+.bf-result-score-lbl  { font-size: .7rem !important; }
+
+.bf-result-hero-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+}
+
+.bf-result-hero-label { justify-content: center; }
+.bf-result-hero-name  { text-align: center; font-size: 1.5rem !important; }
+.bf-result-hero-why   { text-align: center; max-width: 500px; }
+
+.bf-result-meta {
+  grid-template-columns: repeat(2, 1fr) !important;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 18px !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 7 — Business Finder results: clean Premium/Pro split
+══════════════════════════════════════════════════════════ */
+/* All sections visible by default for Premium */
+/* Pro sections shown only when isPro=true (handled in JS) */
+
+/* ══════════════════════════════════════════════════════════
+   FIX 8+9 — Mobile overflow audit for business-finder
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .bf-result-meta {
+    grid-template-columns: 1fr !important;
+    max-width: 100%;
+    padding: 14px !important;
+  }
+
+  .bf-result-hero { padding: 22px 16px 20px !important; }
+  .bf-result-score-ring { width: 120px !important; height: 120px !important; }
+}

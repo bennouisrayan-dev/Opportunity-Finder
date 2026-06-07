@@ -152,7 +152,7 @@
 </head>
 <body data-page="landing">
 
-  <nav class="navbar">
+  <nav class="navbar" id="mainNavbar">
     <div class="container">
       <div class="navbar-inner">
         <a href="index.html" class="navbar-logo">
@@ -160,21 +160,34 @@
           <span>Opportunity Finder</span>
         </a>
 
+        <div class="navbar-nav">
+          <a href="#features" class="navbar-link">Fonctionnalités</a>
+          <a href="#how-it-works" class="navbar-link">Comment ça marche</a>
+          <a href="pricing.html" class="navbar-link">Tarifs</a>
+        </div>
 
-    <div class="navbar-nav">
-      <a href="#features" class="navbar-link">Fonctionnalités</a>
-      <a href="#how-it-works" class="navbar-link">Comment ça marche</a>
-      <a href="pricing.html" class="navbar-link">Tarifs</a>
+        <div class="navbar-actions navbar-auth">
+          <!-- Injected by auth.js when logged in, otherwise shows static buttons -->
+          <a href="login.html" class="btn btn-ghost navbar-login-btn">Connexion</a>
+          <a href="signup.html" class="btn btn-primary">Commencer</a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button class="navbar-hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <!-- Mobile menu -->
+      <div class="navbar-mobile-menu" id="navMobileMenu">
+        <a href="#features" class="navbar-mobile-link">Fonctionnalités</a>
+        <a href="#how-it-works" class="navbar-mobile-link">Comment ça marche</a>
+        <a href="pricing.html" class="navbar-mobile-link">Tarifs</a>
+        <div class="navbar-mobile-divider"></div>
+        <a href="login.html" class="navbar-mobile-link navbar-mobile-link--auth">Connexion</a>
+        <a href="signup.html" class="btn btn-primary navbar-mobile-cta">Commencer gratuitement</a>
+      </div>
     </div>
-
-    <div class="navbar-actions navbar-auth">
-      <a href="login.html" class="btn btn-ghost">Connexion</a>
-      <a href="signup.html" class="btn btn-primary">Commencer</a>
-    </div>
-  </div>
-</div>
-
-
   </nav>
 
   <section class="hero">

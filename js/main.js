@@ -346,3 +346,34 @@ function initProfilePage() {
 
 // Run page initialization
 // document.addEventListener('DOMContentLoaded', initPage);
+
+/* ── Mobile hamburger toggle ── */
+(function() {
+  const btn  = document.getElementById("navHamburger");
+  const menu = document.getElementById("navMobileMenu");
+  if (!btn || !menu) return;
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = menu.classList.toggle("open");
+    btn.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", open);
+  });
+
+  // Close on outside click
+  document.addEventListener("click", (e) => {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove("open");
+      btn.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Close on link click
+  menu.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", () => {
+      menu.classList.remove("open");
+      btn.classList.remove("open");
+    });
+  });
+})();

@@ -2877,3 +2877,80 @@ body[data-page="dashboard"] .saved-item:hover {
   .db-last-result-actions { gap: 6px; }
   .db-booster-promo   { min-height: auto; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   FIX 1 — Tabs: vertical cards on mobile
+══════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .db-tabs {
+    flex-direction: column;
+    padding: 12px 14px 0;
+    gap: 8px;
+    border-bottom: none;
+    background: transparent;
+  }
+
+  .db-tab {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 13px 16px;
+    border: 1.5px solid var(--db-border2);
+    border-radius: 12px;
+    border-bottom: 1.5px solid var(--db-border2) !important;
+    margin-bottom: 0;
+    background: var(--db-surface);
+    font-size: 14px;
+    gap: 10px;
+    top: 0;
+  }
+
+  .db-tab:hover {
+    background: var(--db-bg);
+    border-color: #4f46e5 !important;
+    color: #4f46e5;
+  }
+
+  .db-tab.active {
+    background: linear-gradient(135deg, rgba(37,99,235,.08), rgba(124,58,237,.08));
+    border-color: #4f46e5 !important;
+    color: #4f46e5;
+    font-weight: 700;
+  }
+
+  .db-tab svg { width: 18px; height: 18px; opacity: 1; }
+
+  .db-tab-finder { margin-bottom: 14px; }
+  .db-tab-badge { margin-left: auto; }
+
+  /* Mode panels get a separator */
+  .db-mode-panel {
+    border-top: 1px solid var(--db-border);
+    padding: 18px 14px;
+  }
+
+  /* Dark mode tab cards */
+  [data-theme="dark"] .db-tab {
+    background: var(--dm-surface) !important;
+    border-color: var(--dm-border2) !important;
+    color: var(--dm-text2) !important;
+  }
+
+  [data-theme="dark"] .db-tab.active {
+    background: rgba(79,70,229,.15) !important;
+    border-color: #4f46e5 !important;
+    color: #93c5fd !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 3 — Header: compact mobile topbar
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .db-topbar {
+    height: 52px !important;
+    padding: 0 12px !important;
+  }
+
+  .db-topbar-logo { width: 26px !important; height: 26px !important; }
+  .db-topbar-brand { font-size: 15px !important; gap: 7px !important; }
+}

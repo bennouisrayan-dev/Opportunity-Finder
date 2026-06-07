@@ -3165,3 +3165,139 @@ p {
     z-index: 9999 !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════
+   NAVBAR — Mobile hamburger menu
+══════════════════════════════════════════════════════════ */
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.navbar-hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--gray-700);
+  border-radius: 2px;
+  transition: all 0.22s ease;
+  transform-origin: center;
+}
+
+.navbar-hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.navbar-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.navbar-hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+.navbar-mobile-menu {
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 0 16px;
+  border-top: 1px solid var(--gray-100);
+}
+
+.navbar-mobile-menu.open { display: flex; }
+
+.navbar-mobile-link {
+  display: block;
+  padding: 12px 4px;
+  color: var(--gray-700);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: color 0.15s;
+}
+
+.navbar-mobile-link:hover { color: var(--primary-600); }
+.navbar-mobile-link--auth { font-weight: 700; color: var(--primary-600); }
+
+.navbar-mobile-divider {
+  height: 1px;
+  background: var(--gray-100);
+  margin: 8px 0;
+}
+
+.navbar-mobile-cta {
+  margin-top: 8px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Ensure login btn always visible on desktop */
+.navbar-login-btn { display: inline-flex !important; }
+
+@media (max-width: 768px) {
+  .navbar-hamburger { display: flex !important; }
+  .navbar-nav       { display: none !important; }
+
+  /* Auth buttons: only show on mobile if NOT replaced by auth.js user menu */
+  .navbar-auth:not(:has(.user-menu)) .navbar-login-btn,
+  .navbar-auth:not(:has(.user-menu)) > .btn-primary {
+    display: none !important;
+  }
+  /* Always show hamburger sibling */
+}
+
+/* Dark mode hamburger */
+[data-theme="dark"] .navbar-hamburger span { background: var(--dm-text2); }
+[data-theme="dark"] .navbar-mobile-menu { border-top-color: var(--dm-border); }
+[data-theme="dark"] .navbar-mobile-link { color: var(--dm-text2); }
+[data-theme="dark"] .navbar-mobile-divider { background: var(--dm-border); }
+
+/* ══════════════════════════════════════════════════════════
+   FIX 8+9 — Global mobile overflow prevention
+══════════════════════════════════════════════════════════ */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+@media (max-width: 768px) {
+  /* Prevent ANY element from causing horizontal scroll */
+  * { max-width: 100%; box-sizing: border-box; }
+
+  /* Cards */
+  .card, .feature-card, .pricing-card, .testimonial-card { overflow: hidden; }
+
+  /* Pricing grid: single column */
+  .pricing-grid { grid-template-columns: 1fr !important; gap: 16px; }
+  .pricing-card-featured { transform: none !important; }
+
+  /* Steps */
+  .steps { grid-template-columns: 1fr !important; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr !important; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+
+  /* Features */
+  .features-grid { grid-template-columns: 1fr !important; }
+
+  /* Tables — scroll instead of overflow */
+  .comparison-table { overflow-x: auto; display: block; }
+
+  /* Buttons should never overflow */
+  .btn { max-width: 100%; }
+  .cta-actions { flex-direction: column; align-items: center; gap: 12px; }
+  .btn-lg { width: 100%; text-align: center; justify-content: center; }
+
+  /* Hero actions */
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions .btn { width: 100%; max-width: 320px; }
+
+  /* Testimonials */
+  .testimonials-grid { grid-template-columns: 1fr !important; }
+
+  /* Navbar: prevent overflow */
+  .navbar-inner { gap: 8px; }
+  .navbar-logo span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
+}

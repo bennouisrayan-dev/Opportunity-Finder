@@ -1215,10 +1215,13 @@ function renderHistoryList() {
 
   historyContainer.innerHTML = `
     ${visibleHistory.map(item => {
+      // Fix: Business Finder should show recommendedBusiness, not the raw prompt/input
       const title =
         item.analysisType === "generate"
           ? (item.result?.idea || item.result?.name || "Idée générée")
-          : (item.input || item.result?.userIdea || "Idée évaluée");
+          : item.analysisType === "finder"
+          ? (item.result?.recommendedBusiness || item.result?.businessType || "Business recommandé")
+          : (item.result?.userIdea || item.input?.slice(0, 60) || "Idée évaluée");
 
       const score = item.result?.scores?.opportunity ?? null;
       const scoreColor = score >= 70 ? "#10b981" : score >= 45 ? "#f59e0b" : "#ef4444";
@@ -1320,7 +1323,9 @@ function renderSavedAnalyses(items) {
     const title =
       item.analysisType === "generate"
         ? (result.idea || item.category || "Idée générée")
-        : (item.input || result.userIdea || "Idée évaluée");
+        : item.analysisType === "finder"
+          ? (result?.recommendedBusiness || result?.businessType || "Business recommandé")
+          : (result?.userIdea || item.input?.slice(0, 80) || "Idée évaluée");
 
     const score = result?.scores?.opportunity ?? "-";
     const date = new Date(item.createdAt).toLocaleDateString("fr-FR");
@@ -1744,7 +1749,11 @@ function renderLastResult() {
   const last = history[0];
   const result = last.result || {};
   const score = result.scores?.opportunity ?? result.compatibilityScore ?? null;
-  const summary = result.idea || result.userIdea || result.recommendedBusiness || "Analyse récente";
+  const summary = last.analysisType === "finder"
+    ? (result.recommendedBusiness || result.businessType || "Business recommandé")
+    : last.analysisType === "generate"
+    ? (result.idea || result.name || "Idée générée")
+    : (result.userIdea || (last.input || "").slice(0, 80) || "Analyse récente");
   const typeLabel = last.analysisType === "generate" ? "Idée Générée" : "Idée Évaluée";
   const typeCls   = last.analysisType === "generate" ? "generate" : "evaluate";
   const scoreColor = score >= 70 ? "#10b981" : score >= 45 ? "#f59e0b" : "#ef4444";

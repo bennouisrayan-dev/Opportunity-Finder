@@ -70,6 +70,9 @@ Règles :
 - personalizedAdvice : conseil personnalisé en 2-3 phrases
 - Réponse en français
 - Sois précis, honnête et bienveillant
+- IMPORTANT : Ne jamais recommander un budget supérieur au budget indiqué par l'utilisateur
+- Si le budget est 0€, recommande uniquement des actions gratuites ou quasi-gratuites
+- Le plan d'action doit être RÉALISTE selon l'âge, le budget et l'expérience réels
 `;
 
     const userPrompt = `
@@ -113,3 +116,95 @@ Analyse si cette opportunité correspond bien à ce profil et fournis des recomm
 });
 
 export default router;
+
+// POST /api/booster/business-finder
+// Dedicated route with proper prompt — Premium/Pro only
+// Does NOT consume analysis tokens
+router.post("/business-finder", requireAuth, async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: req.user.userId } });
+    if (!user) return res.status(404).json({ error: "Utilisateur introuvable" });
+    if (user.plan === "free") {
+      return res.status(403).json({ error: "Business Finder IA est réservé aux plans Premium et Pro." });
+    }
+
+    const { answers } = req.body;
+    if (!answers) return res.status(400).json({ error: "Profil requis." });
+
+    const interests = Array.isArray(answers.interests)
+      ? answers.interests.join(", ")
+      : (answers.interests || "Non précisé");
+
+    const systemPrompt = `
+Tu es un expert en entrepreneuriat et en création de business.
+Ta mission : analyser le profil d'un entrepreneur et recommander LE business le plus adapté.
+
+Réponds UNIQUEMENT en JSON valide. Aucun texte hors JSON.
+
+Structure exacte :
+{
+  "recommendedBusiness": "nom court et précis du business recommandé",
+  "businessType": "type (ex: E-commerce, SaaS, Agence, Contenu digital...)",
+  "compatibilityScore": 0,
+  "whyItFits": "explication courte pourquoi ce business correspond au profil",
+  "difficulty": "Facile / Intermédiaire / Avancé",
+  "estimatedBudget": "ex: 300€ à 800€",
+  "timeToFirstRevenue": "ex: 1 à 2 mois",
+  "revenuePotential": "ex: 500€ à 3 000€/mois",
+  "advantages": ["", "", ""],
+  "risks": ["", ""],
+  "roadmap30Days": ["", "", "", "", ""]
+}
+
+Règles :
+- Réponse en français
+- compatibilityScore entre 0 et 100
+- Sois précis et concret
+- Le business doit être réaliste et adapté au profil
+- IMPORTANT : Le estimatedBudget ne doit JAMAIS dépasser le budget indiqué par l'utilisateur
+- Pour un budget de 0€ : recommander uniquement des business sans investissement initial
+- Pour un étudiant avec peu de temps : recommander quelque chose de simple à lancer
+`;
+
+    const userPrompt = `
+Profil entrepreneur :
+- Âge : ${answers.age || "Non précisé"}
+- Statut : ${answers.status || "Non précisé"}
+- Heures disponibles/semaine : ${answers.weeklyHours || "Non précisé"}
+- Budget de départ : ${answers.budget || "Non précisé"}
+- Niveau business : ${answers.businessLevel || "Non précisé"}
+- Niveau technologique : ${answers.techLevel || "Non précisé"}
+- Domaines d'intérêt : ${interests}
+- Objectif : ${answers.goal || "Non précisé"}
+- Type de business préféré : ${answers.businessPreference || "Non précisé"}
+- Prêt à apprendre : ${answers.learning || "Oui"}
+- Délai souhaité : ${answers.timeGoal || "Non précisé"}
+- Tolérance au risque : ${answers.riskLevel || "Non précisé"}
+- Préférence de travail : ${answers.workStyle || "Non précisé"}
+- Localisation : ${answers.location || "France"}
+- Expérience entrepreneuriale : ${answers.experience || "Non précisé"}
+
+Recommande le business le plus adapté à ce profil.
+`;
+
+    const aiResponse = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      response_format: { type: "json_object" },
+      temperature: 0.75,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user",   content: userPrompt   }
+      ]
+    });
+
+    const content = aiResponse.choices[0]?.message?.content || "{}";
+    const result  = safeJsonParse(content);
+
+    // Ne pas incrémenter analysesUsed
+    return res.json({ message: "Business Finder IA généré avec succès", result });
+
+  } catch (error) {
+    console.error("Erreur /api/booster/business-finder :", error);
+    return res.status(500).json({ error: "Erreur lors de l'analyse." });
+  }
+});

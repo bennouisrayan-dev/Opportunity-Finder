@@ -4,6 +4,7 @@
  */
 
 const API_BASE = "https://opportunity-finder-api.onrender.com";
+const BF_API  = "https://opportunity-finder-api.onrender.com/api/booster/business-finder";
 
 /* ── Questions ─────────────────────────────────────────── */
 const QUESTIONS = [
@@ -260,20 +261,14 @@ async function submitQuestionnaire() {
     return;
   }
 
-  const prompt = buildPrompt();
-
   try {
-    const response = await fetch(`${API_BASE}/api/analyze/evaluate`, {
+    const response = await fetch(BF_API, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify({
-        idea: prompt,
-        mode: "business-finder",
-        rawAnswers: answers
-      })
+      body: JSON.stringify({ answers })
     });
 
     const data = await response.json();
@@ -282,64 +277,9 @@ async function submitQuestionnaire() {
       throw new Error(data.error || data.message || "Erreur lors de l'analyse");
     }
 
-    // API returns data.analysis.result (same structure as /evaluate)
-    // The result may be a nested object or a JSON string
-    let raw = data?.analysis?.result ?? data?.result ?? data;
-
-    // If the AI returned a string (sometimes happens), parse it
-    if (typeof raw === "string") {
-      try {
-        raw = JSON.parse(raw.replace(/```json|```/g, "").trim());
-      } catch(e) {
-        console.warn("Could not parse raw string result:", e);
-      }
-    }
-
-    // Map /evaluate API fields → business-finder display fields
-    // API returns: userIdea, businessType, scores{demand,competition,opportunity},
-    // difficulty{level,time,reason}, swot{strengths,weaknesses,improvements},
-    // targetUsers[], marketingAngle, launchPlan[], recommendation
-    let result = raw;
-
-    // Always remap — the evaluate endpoint never returns recommendedBusiness
-    if (result && (result.userIdea || result.businessType || result.scores)) {
-      const rawIdea = result.userIdea || "";
-      // First sentence as business name, capped at 80 chars
-      const businessName = rawIdea.split(/[.\n!]/)[0]?.trim().slice(0, 80)
-        || result.businessType || "Business recommandé";
-
-      const advantages = Array.isArray(result.swot?.strengths) && result.swot.strengths.length
-        ? result.swot.strengths
-        : (Array.isArray(result.swot?.improvements) ? result.swot.improvements : []);
-
-      const risks = Array.isArray(result.swot?.weaknesses) && result.swot.weaknesses.length
-        ? result.swot.weaknesses : [];
-
-      const roadmap = Array.isArray(result.launchPlan) && result.launchPlan.length
-        ? result.launchPlan
-        : (Array.isArray(result.roadmap30Days) ? result.roadmap30Days : []);
-
-      const budget = result.scores?.marketSize?.value
-        || (result.difficulty?.time ? `Lancement en ${result.difficulty.time}` : null)
-        || "À définir selon le profil";
-
-      result = {
-        recommendedBusiness: businessName,
-        compatibilityScore:  result.scores?.opportunity ?? 70,
-        whyItFits:           result.recommendation || result.marketingAngle || rawIdea.slice(0, 200),
-        difficulty:          result.difficulty?.level || "Intermédiaire",
-        estimatedBudget:     budget,
-        timeToFirstRevenue:  result.difficulty?.time || "—",
-        revenuePotential:    result.scores?.marketSize?.description || "—",
-        advantages,
-        risks,
-        roadmap30Days: roadmap,
-      };
-    }
-
+    // Dedicated route returns the exact fields needed — no remapping required
+    const result = data.result;
     currentResult = result;
-    // Store the analysis ID for saving
-    currentResult._analysisId = data?.analysis?.id || null;
     await new Promise(r => setTimeout(r, 1800));
     showResults(result);
 
@@ -413,6 +353,7 @@ function showResults(r) {
 
   const roadmapHtml = buildRoadmapHtml(r.roadmap30Days || []);
 
+  // Show Pro lock for both free AND premium users (premium can't see Pro features)
   const proLockedHtml = !isPro ? `
     <div class="bf-pro-locked">
       <div class="bf-pro-locked-header">
@@ -432,6 +373,8 @@ function showResults(r) {
       <a href="pricing.html" class="bf-btn-primary" style="text-decoration:none;display:inline-flex;">Débloquer Pro →</a>
     </div>` : "";
 
+  // Premium sees: recommendedBusiness, compatibilityScore, whyItFits, difficulty, estimatedBudget
+  // Pro also sees: timeToFirstRevenue, revenuePotential, advantages, risks, roadmap
   const proContent = isPro ? `
     <div class="bf-result-section">
       <div class="bf-result-section-title">⏱ Délai & potentiel</div>
