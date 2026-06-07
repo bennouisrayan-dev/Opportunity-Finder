@@ -295,24 +295,45 @@ async function submitQuestionnaire() {
       }
     }
 
-    // Map standard evaluate fields to business-finder fields if needed
-    // (fallback: the API may return a standard analysis object)
+    // Map /evaluate API fields → business-finder display fields
+    // API returns: userIdea, businessType, scores{demand,competition,opportunity},
+    // difficulty{level,time,reason}, swot{strengths,weaknesses,improvements},
+    // targetUsers[], marketingAngle, launchPlan[], recommendation
     let result = raw;
 
-    // If the API returned a standard analysis (idea/problem/scores),
-    // build a business-finder compatible object from it
-    if (!result.recommendedBusiness && (result.idea || result.scores)) {
+    // Always remap — the evaluate endpoint never returns recommendedBusiness
+    if (result && (result.userIdea || result.businessType || result.scores)) {
+      const rawIdea = result.userIdea || "";
+      // First sentence as business name, capped at 80 chars
+      const businessName = rawIdea.split(/[.\n!]/)[0]?.trim().slice(0, 80)
+        || result.businessType || "Business recommandé";
+
+      const advantages = Array.isArray(result.swot?.strengths) && result.swot.strengths.length
+        ? result.swot.strengths
+        : (Array.isArray(result.swot?.improvements) ? result.swot.improvements : []);
+
+      const risks = Array.isArray(result.swot?.weaknesses) && result.swot.weaknesses.length
+        ? result.swot.weaknesses : [];
+
+      const roadmap = Array.isArray(result.launchPlan) && result.launchPlan.length
+        ? result.launchPlan
+        : (Array.isArray(result.roadmap30Days) ? result.roadmap30Days : []);
+
+      const budget = result.scores?.marketSize?.value
+        || (result.difficulty?.time ? `Lancement en ${result.difficulty.time}` : null)
+        || "À définir selon le profil";
+
       result = {
-        recommendedBusiness: result.idea || result.name || "Business Opportunity",
-        compatibilityScore:  result.scores?.opportunity ?? result.scores?.overall ?? 0,
-        whyItFits:           result.problem || result.whyNow || "",
+        recommendedBusiness: businessName,
+        compatibilityScore:  result.scores?.opportunity ?? 70,
+        whyItFits:           result.recommendation || result.marketingAngle || rawIdea.slice(0, 200),
         difficulty:          result.difficulty?.level || "Intermédiaire",
-        estimatedBudget:     result.pricing || result.estimatedBudget || "—",
-        timeToFirstRevenue:  result.timeToFirstRevenue || "—",
-        revenuePotential:    result.revenuePotential || "—",
-        advantages:          result.features || result.advantages || [],
-        risks:               result.risks || [],
-        roadmap30Days:       result.roadmap30Days || result.roadmap || [],
+        estimatedBudget:     budget,
+        timeToFirstRevenue:  result.difficulty?.time || "—",
+        revenuePotential:    result.scores?.marketSize?.description || "—",
+        advantages,
+        risks,
+        roadmap30Days: roadmap,
       };
     }
 
