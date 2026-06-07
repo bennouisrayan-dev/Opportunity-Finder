@@ -87,10 +87,10 @@
   color: var(--dm-text);
 }
 
-[data-theme="dark"] body,
-[data-theme="dark"] .container {
+[data-theme="dark"] body {
   background-color: var(--dm-bg);
 }
+/* .container has NO background — it inherits from its parent (section/body) */
 
 /* ══════════════════════════════════════════════════════════
    NAVBAR
@@ -1038,8 +1038,14 @@
 
 /* CTA keeps its gradient but remove inner dark card clash */
 [data-theme="dark"] .cta {
-  /* Keep gradient background — it looks good in dark too */
   background: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%) !important;
+}
+
+/* Force CTA container to be transparent so gradient shows through */
+[data-theme="dark"] .cta .container,
+[data-theme="dark"] .cta > * {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* Fix btn-white to be readable on gradient */
@@ -1127,6 +1133,15 @@
   background-color: var(--dm-bg) !important;
 }
 
+/* Ensure gradient sections are NEVER overridden */
+[data-theme="dark"] .cta,
+[data-theme="dark"] .hero,
+[data-theme="dark"] .rv-hero,
+[data-theme="dark"] .bf-result-hero,
+[data-theme="dark"] .ob-result-header {
+  background: revert !important;
+}
+
 /* ── Profile page — dashboard wrapper ── */
 [data-theme="dark"] .dashboard,
 [data-theme="dark"] [class*="page-wrapper"],
@@ -1176,8 +1191,9 @@
 }
 
 /* ── All generic cards ── */
-[data-theme="dark"] .card,
-[data-theme="dark"] [class$="-card"]:not([class*="gradient"]):not([class*="hero"]):not(.bf-welcome-card) {
+/* Generic card dark — excludes gradient/hero cards AND cta sections */
+[data-theme="dark"] .card:not(.cta *),
+[data-theme="dark"] [class$="-card"]:not([class*="gradient"]):not([class*="hero"]):not(.bf-welcome-card):not(.cta *) {
   background: var(--dm-surface) !important;
   border-color: var(--dm-border) !important;
 }
@@ -1275,4 +1291,24 @@
 [data-theme="dark"] [style*="background: #fff"],
 [data-theme="dark"] [style*="background:#fff"] {
   background: var(--dm-surface) !important;
+}
+
+/* ── User menu toggle — dark mode ── */
+[data-theme="dark"] .user-menu-toggle {
+  background: var(--dm-surface) !important;
+  border-color: var(--dm-border2) !important;
+  color: var(--dm-text) !important;
+}
+
+[data-theme="dark"] .user-menu-toggle:hover {
+  background: var(--dm-surface2) !important;
+  border-color: rgba(148,163,184,.4) !important;
+}
+
+[data-theme="dark"] .user-name {
+  color: var(--dm-text) !important;
+}
+
+[data-theme="dark"] .user-arrow {
+  color: var(--dm-text3) !important;
 }
