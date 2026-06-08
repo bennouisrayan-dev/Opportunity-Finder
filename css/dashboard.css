@@ -2988,3 +2988,70 @@ body[data-page="dashboard"] .saved-item:hover {
 @media (min-width: 769px) {
   .db-topbar-right-mobile { display: none; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE BUG FIXES
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* FIX: prevent double theme toggle — desktop header hidden on mobile already */
+  .db-header-desktop-only .theme-toggle-btn { display: none !important; }
+
+  /* FIX: user name truncation in topbar */
+  .db-topbar-right .user-name,
+  .db-topbar-auth .user-name {
+    max-width: 80px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    display: inline-block;
+  }
+
+  /* FIX: topbar user-menu-toggle compact */
+  .db-topbar-right .user-menu-toggle,
+  .db-topbar-auth .user-menu-toggle {
+    max-width: 130px !important;
+    padding: 6px 10px !important;
+    gap: 7px !important;
+  }
+
+  /* FIX: bottom nav height + safe area */
+  .db-bottom-nav {
+    height: calc(64px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+
+  /* FIX: all pages need padding-bottom to clear bottom nav */
+  .db-main {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* FIX: dashboard cards above bottom nav */
+  .db-section-card:last-child,
+  .db-bottom-grid { margin-bottom: 12px; }
+
+  /* FIX: overflow horizontal prevention */
+  .db-generator-card,
+  .db-section-card,
+  .db-hero-card,
+  .db-booster-promo { overflow: hidden; max-width: 100%; }
+
+  /* FIX: auth buttons in topbar — show only what's needed */
+  .db-topbar-auth .btn-primary { display: none; }  /* hide signup on tiny topbar */
+
+  /* FIX: topbar right-mobile spacing */
+  .db-topbar-right-mobile {
+    gap: 6px !important;
+    max-width: calc(100% - 140px);
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Topbar absolute min */
+  .db-topbar { height: 52px !important; }
+  .db-topbar-brand span { font-size: 14px !important; }
+
+  /* Bottom nav items: smaller text */
+  .db-bottom-item span { font-size: 9px; }
+  .db-bottom-item svg  { width: 18px; height: 18px; }
+}
