@@ -1,4 +1,434 @@
 /* ============================================================
+   BUSINESS FINDER IA — Premium Experience v4
+   Mascotte · Profile preview · Card options
+   ============================================================ */
+
+/* ── Mascotte ── */
+.bfm-wrap {
+  position: relative;
+  width: 90px;
+  height: 105px;
+  flex-shrink: 0;
+}
+
+.bfm-wrap.bfm-small  { width: 58px;  height: 68px; }
+.bfm-wrap.bfm-large  { width: 110px; height: 128px; margin: 0 auto 16px; }
+
+.bfm-svg { width: 100%; height: 100%; }
+
+/* Float animation */
+.bfm-float { animation: bfmFloat 3s ease-in-out infinite; }
+@keyframes bfmFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+
+/* Eye blink */
+.bfm-eye { animation: bfmBlink 4s ease-in-out infinite; }
+@keyframes bfmBlink {
+  0%,90%,100% { transform: scaleY(1); }
+  95%          { transform: scaleY(.08); }
+}
+
+/* Antenna pulse */
+.bfm-antenna { animation: bfmAntenna 1.8s ease-in-out infinite; }
+@keyframes bfmAntenna {
+  0%,100% { opacity: 1; r: 4; }
+  50%     { opacity: .4; r: 5.5; }
+}
+
+/* Loading mascot spin */
+.bfm-spin-float {
+  animation: bfmFloat 3s ease-in-out infinite, bfmSpinSlow 12s linear infinite;
+}
+@keyframes bfmSpinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* React animation on option select */
+.bfm-react { animation: bfmReact .4s cubic-bezier(.16,1,.3,1) !important; }
+@keyframes bfmReact {
+  0%   { transform: scale(1) rotate(0deg); }
+  30%  { transform: scale(1.2) rotate(-8deg); }
+  60%  { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* Speech bubble */
+.bfm-speech-bubble {
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  color: white;
+  border-radius: 18px 18px 18px 4px;
+  padding: 13px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0 0 20px;
+  position: relative;
+  max-width: 360px;
+  text-align: left;
+}
+
+.bfm-speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -8px; left: 16px;
+  border: 8px solid transparent;
+  border-top-color: #2563eb;
+  border-bottom: none;
+}
+
+/* Hint bubble (in quiz) */
+.bfx-mascot-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.bfm-hint-bubble {
+  background: rgba(79,70,229,.08);
+  border: 1px solid rgba(79,70,229,.18);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4f46e5;
+  flex: 1;
+  line-height: 1.45;
+}
+
+/* Result mascot row */
+.bfr-mascot-result-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.bfr-mascot-bubble {
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  color: white;
+  border-radius: 14px 14px 14px 4px;
+  padding: 11px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  max-width: 340px;
+}
+
+/* ── Intro card ── */
+.bfx-intro-card {
+  background: white;
+  border-radius: 24px;
+  border: 1px solid rgba(0,0,0,.07);
+  box-shadow: 0 8px 40px rgba(0,0,0,.1);
+  padding: 36px 32px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.bfx-intro-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed, #2563eb);
+  background-size: 200% 100%;
+  animation: bfxShimmer 3s linear infinite;
+}
+@keyframes bfxShimmer { from{background-position:200% 0} to{background-position:-200% 0} }
+
+.bfx-intro-title {
+  font-size: 1.5rem; font-weight: 900;
+  color: #0f172a; letter-spacing: -.035em;
+  margin: 0 0 10px; line-height: 1.2;
+}
+
+.bfx-intro-desc {
+  font-size: 14.5px; color: #475569; line-height: 1.65; margin: 0 0 22px;
+}
+
+.bfx-intro-benefits {
+  display: flex; flex-direction: column; gap: 9px;
+  margin: 0 0 24px; text-align: left; width: 100%;
+}
+
+.bfx-intro-benefit {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13.5px; font-weight: 600; color: #334155;
+  padding: 10px 14px;
+  background: #f8fafc; border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+.bfx-intro-benefit span { flex-shrink: 0; font-size: 13px; }
+
+.bfx-start-btn {
+  width: 100%; padding: 15px 24px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: white; border: none; border-radius: 14px;
+  font-size: 16px; font-weight: 800; cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 6px 20px rgba(79,70,229,.35);
+  transition: all .15s;
+}
+.bfx-start-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(79,70,229,.45); }
+
+/* ── Quiz wrap ── */
+.bfx-quiz-wrap { width: 100%; max-width: 540px; margin: 0 auto; }
+
+.bfx-quiz-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; padding: 0 2px;
+}
+
+.bfx-quit-btn {
+  width: 32px; height: 32px; border: none;
+  background: rgba(0,0,0,.06); border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: #64748b; transition: all .15s; flex-shrink: 0;
+}
+.bfx-quit-btn:hover { background: rgba(0,0,0,.1); color: #0f172a; }
+
+.bfx-step-label { font-size: 13px; font-weight: 700; color: #64748b; }
+.bfx-step-pct   { font-size: 13px; font-weight: 800; color: #4f46e5; }
+
+.bfx-progress-track {
+  height: 6px; background: #e2e8f0;
+  border-radius: 99px; overflow: hidden; margin-bottom: 14px;
+}
+.bfx-progress-fill {
+  height: 100%; background: linear-gradient(90deg,#2563eb,#7c3aed);
+  border-radius: 99px; transition: width .5s cubic-bezier(.16,1,.3,1);
+}
+
+/* ── Profile preview ── */
+.bfx-profile-preview {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 14px; padding: 12px 14px;
+  background: rgba(79,70,229,.04);
+  border: 1px solid rgba(79,70,229,.12);
+  border-radius: 14px;
+}
+
+.bfx-profile-field {
+  display: flex; align-items: center; gap: 7px;
+  min-width: 0; flex: 1; min-width: 90px;
+}
+
+.bfx-profile-icon { font-size: 1rem; flex-shrink: 0; }
+.bfx-profile-label { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .04em; }
+.bfx-profile-val   { font-size: 12.5px; font-weight: 700; color: #94a3b8; transition: color .3s; }
+.bfx-profile-field.filled .bfx-profile-val { color: #4f46e5; }
+
+/* ── Question card ── */
+.bfx-question-card {
+  background: white; border-radius: 20px;
+  border: 1px solid rgba(0,0,0,.07);
+  box-shadow: 0 4px 24px rgba(0,0,0,.07);
+  padding: 24px 22px 20px; min-height: 320px;
+  display: flex; flex-direction: column;
+  margin-bottom: 14px;
+}
+
+.bfx-question-text {
+  font-size: 1.15rem; font-weight: 800;
+  color: #0f172a; letter-spacing: -.025em;
+  line-height: 1.35; margin-bottom: 20px;
+}
+
+/* ── Card options (premium style) ── */
+.bfx-options-cards {
+  display: flex; flex-direction: column; gap: 9px; flex: 1;
+}
+
+.bfx-card-option {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 16px 13px 14px;
+  border: 2px solid #e2e8f0; border-radius: 14px;
+  background: white; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: #334155;
+  transition: all .15s ease; text-align: left;
+  width: 100%; font-family: inherit;
+  position: relative;
+}
+
+.bfx-card-option:hover {
+  border-color: #4f46e5; color: #3730a3;
+  background: #f5f3ff; transform: translateX(3px);
+}
+
+.bfx-card-option.selected {
+  border-color: #4f46e5;
+  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+  color: #3730a3;
+}
+
+.bfx-card-option-icon {
+  font-size: 1.3rem; flex-shrink: 0; width: 28px; text-align: center;
+}
+
+.bfx-card-option-text { flex: 1; }
+
+.bfx-card-option-check {
+  font-size: 12px; font-weight: 900; color: #4f46e5;
+  opacity: 0; transition: opacity .15s;
+  flex-shrink: 0;
+}
+
+.bfx-card-option.selected .bfx-card-option-check { opacity: 1; }
+
+/* Multi chips */
+.bfx-options-multi {
+  display: flex; flex-wrap: wrap; gap: 9px; flex: 1; align-content: flex-start;
+}
+
+.bfx-chip-option {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 16px;
+  border: 2px solid #e2e8f0; border-radius: 99px;
+  background: white; cursor: pointer;
+  font-size: 13px; font-weight: 600; color: #475569;
+  transition: all .15s; font-family: inherit;
+}
+.bfx-chip-option:hover { border-color: #4f46e5; color: #3730a3; background: #f5f3ff; }
+.bfx-chip-option.selected {
+  background: linear-gradient(135deg,#2563eb,#7c3aed);
+  color: white; border-color: transparent;
+  box-shadow: 0 3px 10px rgba(79,70,229,.3);
+}
+
+.bfx-multi-hint {
+  font-size: 12px; color: #94a3b8; margin: 12px 0 0; text-align: center; font-style: italic;
+}
+
+/* Text input */
+.bfx-text-input {
+  width: 100%; padding: 14px 16px;
+  font-size: 15px; font-family: inherit;
+  border: 2px solid #e2e8f0; border-radius: 14px;
+  background: #f8fafc; color: #0f172a;
+  transition: all .15s; box-sizing: border-box;
+}
+.bfx-text-input:focus {
+  outline: none; border-color: #4f46e5;
+  background: white; box-shadow: 0 0 0 3px rgba(79,70,229,.1);
+}
+
+/* Nav buttons */
+.bfx-quiz-nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+
+.bfx-btn-back {
+  display: flex; align-items: center; gap: 6px;
+  padding: 12px 18px; border: 2px solid #e2e8f0; border-radius: 12px;
+  background: white; color: #64748b;
+  font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;
+  transition: all .15s;
+}
+.bfx-btn-back:hover:not(:disabled) { border-color: #94a3b8; color: #334155; }
+.bfx-btn-back:disabled { opacity: .35; cursor: not-allowed; }
+
+.bfx-btn-next {
+  display: flex; align-items: center; gap: 7px;
+  padding: 12px 26px;
+  background: linear-gradient(135deg,#2563eb,#7c3aed);
+  color: white; border: none; border-radius: 12px;
+  font-size: 15px; font-weight: 800; cursor: pointer; font-family: inherit;
+  box-shadow: 0 4px 14px rgba(79,70,229,.28); transition: all .15s;
+}
+.bfx-btn-next:hover { transform: translateY(-2px); box-shadow: 0 7px 22px rgba(79,70,229,.4); }
+.bfx-btn-next:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* ── Loading screen ── */
+.bfx-loading-card {
+  background: white; border-radius: 24px;
+  border: 1px solid rgba(0,0,0,.07);
+  box-shadow: 0 8px 40px rgba(0,0,0,.1);
+  padding: 36px 32px 32px; text-align: center;
+  max-width: 440px; margin: 0 auto;
+}
+
+.bfx-loading-title {
+  font-size: 1.3rem; font-weight: 900;
+  color: #0f172a; letter-spacing: -.03em; margin: 0 0 8px;
+}
+.bfx-loading-sub { font-size: 13.5px; color: #64748b; margin: 0 0 20px; line-height: 1.5; }
+
+.bfx-loading-bar-track {
+  height: 7px; background: #e2e8f0;
+  border-radius: 99px; overflow: hidden; margin-bottom: 22px;
+}
+.bfx-loading-bar-fill {
+  height: 100%; width: 5%;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  border-radius: 99px; transition: width .3s ease;
+}
+
+.bfx-loading-steps { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+
+.bfx-loading-step {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 12px;
+  background: #f8fafc; border: 1px solid #e2e8f0;
+  font-size: 14px; font-weight: 600; color: #94a3b8;
+  transition: all .4s ease;
+}
+.bfx-loading-step.active {
+  background: linear-gradient(135deg,#eef2ff,#f5f3ff);
+  border-color: rgba(79,70,229,.25); color: #3730a3;
+}
+.bfx-loading-step.done {
+  background: #ecfdf5; border-color: rgba(16,185,129,.2); color: #059669;
+}
+.bfx-step-icon { font-size: 1.1rem; flex-shrink: 0; }
+.bfx-step-txt  { flex: 1; }
+.bfx-step-check { font-size: 13px; font-weight: 900; color: #10b981; }
+
+/* ── Dark mode: new components ── */
+[data-theme="dark"] .bfx-intro-card,
+[data-theme="dark"] .bfx-question-card,
+[data-theme="dark"] .bfx-loading-card { background: #1e293b !important; border-color: rgba(148,163,184,.18) !important; }
+[data-theme="dark"] .bfx-intro-title,
+[data-theme="dark"] .bfx-question-text,
+[data-theme="dark"] .bfx-loading-title { color: #f8fafc !important; }
+[data-theme="dark"] .bfx-intro-desc,
+[data-theme="dark"] .bfx-loading-sub   { color: #94a3b8 !important; }
+[data-theme="dark"] .bfx-intro-benefit { background: #263449 !important; border-color: rgba(148,163,184,.15) !important; color: #cbd5e1 !important; }
+[data-theme="dark"] .bfm-hint-bubble   { background: rgba(79,70,229,.15) !important; border-color: rgba(79,70,229,.25) !important; color: #93c5fd !important; }
+[data-theme="dark"] .bfx-profile-preview { background: rgba(79,70,229,.1) !important; border-color: rgba(79,70,229,.2) !important; }
+[data-theme="dark"] .bfx-card-option   { background: #1e293b !important; border-color: rgba(148,163,184,.2) !important; color: #cbd5e1 !important; }
+[data-theme="dark"] .bfx-card-option:hover { background: rgba(79,70,229,.12) !important; border-color: #4f46e5 !important; color: #93c5fd !important; }
+[data-theme="dark"] .bfx-card-option.selected { background: rgba(79,70,229,.18) !important; border-color: #4f46e5 !important; color: #93c5fd !important; }
+[data-theme="dark"] .bfx-chip-option   { background: #1e293b !important; border-color: rgba(148,163,184,.2) !important; color: #cbd5e1 !important; }
+[data-theme="dark"] .bfx-chip-option.selected { background: linear-gradient(135deg,#2563eb,#7c3aed) !important; color: white !important; border-color: transparent !important; }
+[data-theme="dark"] .bfx-text-input    { background: #263449 !important; border-color: rgba(148,163,184,.25) !important; color: #f8fafc !important; }
+[data-theme="dark"] .bfx-btn-back      { background: #1e293b !important; border-color: rgba(148,163,184,.2) !important; color: #94a3b8 !important; }
+[data-theme="dark"] .bfx-loading-step  { background: #263449 !important; border-color: rgba(148,163,184,.12) !important; color: #64748b !important; }
+[data-theme="dark"] .bfx-loading-step.active { background: rgba(79,70,229,.15) !important; border-color: rgba(79,70,229,.3) !important; color: #93c5fd !important; }
+[data-theme="dark"] .bfx-progress-track,
+[data-theme="dark"] .bfx-loading-bar-track { background: rgba(148,163,184,.2) !important; }
+[data-theme="dark"] .bfx-quit-btn      { background: rgba(255,255,255,.08) !important; color: #94a3b8 !important; }
+[data-theme="dark"] .bfr-mascot-bubble { background: linear-gradient(135deg,#3730a3,#1e3a8a) !important; }
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .bfx-intro-card    { padding: 28px 18px 24px; }
+  .bfx-question-card { padding: 20px 16px 16px; min-height: 280px; }
+  .bfx-loading-card  { padding: 28px 18px 24px; }
+  .bfx-intro-title   { font-size: 1.25rem; }
+  .bfx-question-text { font-size: 1.05rem; }
+  .bfx-card-option   { padding: 11px 12px; font-size: 13px; }
+  .bfx-mascot-row    { gap: 7px; }
+  .bfm-wrap.bfm-small{ width: 46px; height: 54px; }
+  .bfr-mascot-result-wrap { flex-wrap: wrap; }
+  .bfr-mascot-bubble { font-size: 12.5px; }
+}
+
+/* ============================================================
    BUSINESS FINDER IA — Premium Quiz Experience v2
    Inspired by MyIQ · BetterMe · Duolingo onboarding
    ============================================================ */

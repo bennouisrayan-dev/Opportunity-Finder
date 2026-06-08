@@ -16,15 +16,11 @@
 </head>
 <body data-page="dashboard" class="bf-page">
 
-<!-- ── SIDEBAR (desktop) ── -->
 <aside class="db-sidebar" id="dbSidebar">
   <div class="db-sidebar-inner">
     <a href="index.html" class="db-brand">
       <img src="logo.png" alt="Opportunity Finder" class="db-brand-logo">
-      <div class="db-brand-text">
-        <span class="db-brand-name">Opportunity</span>
-        <span class="db-brand-sub">Finder</span>
-      </div>
+      <div class="db-brand-text"><span class="db-brand-name">Opportunity</span><span class="db-brand-sub">Finder</span></div>
     </a>
     <div class="db-user-card">
       <div class="db-user-avatar" id="sidebarAvatar">U</div>
@@ -53,19 +49,14 @@
     </nav>
     <a href="pricing.html" class="db-upgrade-cta">
       <span class="db-upgrade-icon">⭐</span>
-      <div>
-        <div class="db-upgrade-title">Passer Premium</div>
-        <div class="db-upgrade-sub">Analyses illimitées & GPT-4o</div>
-      </div>
+      <div><div class="db-upgrade-title">Passer Premium</div><div class="db-upgrade-sub">Analyses illimitées & GPT-4o</div></div>
     </a>
   </div>
 </aside>
 
-<!-- ── MOBILE TOPBAR ── -->
 <header class="db-topbar" id="dbTopbar">
   <a href="index.html" class="db-topbar-brand">
-    <img src="logo.png" alt="" class="db-topbar-logo">
-    <span>Opportunity</span>
+    <img src="logo.png" alt="" class="db-topbar-logo"><span>Opportunity</span>
   </a>
   <div class="db-topbar-right-mobile">
     <button class="theme-toggle-btn theme-toggle-sm" data-theme-toggle aria-label="Basculer le thème"><span class="theme-icon">🌙</span></button>
@@ -75,21 +66,31 @@
   </div>
 </header>
 
-<!-- ── MAIN ── -->
 <main class="db-main bf-main" id="bfMain">
 
-  <!-- ══ SCREEN 1: Intro ══ -->
+  <!-- ══ SCREEN 1: Intro avec mascotte ══ -->
   <div id="bfIntro" class="bfx-screen">
     <div class="bfx-intro-card">
-      <div class="bfx-intro-emoji">🎯</div>
-      <h1 class="bfx-intro-title">Trouvons votre business idéal</h1>
-      <p class="bfx-intro-desc">Répondez à quelques questions rapides et notre IA trouvera l'opportunité la plus adaptée à votre profil.</p>
-      <div class="bfx-intro-benefits">
-        <div class="bfx-intro-benefit"><span>✓</span> Analyse personnalisée en 2 minutes</div>
-        <div class="bfx-intro-benefit"><span>✓</span> Score de compatibilité IA</div>
-        <div class="bfx-intro-benefit"><span>✓</span> Plan d'action adapté à votre budget</div>
+      <!-- Mascotte intro -->
+      <div class="bfm-wrap bfm-float" id="bfMascotIntro"></div>
+      <div class="bfm-speech-bubble">
+        👋 Salut ! Je vais analyser ton profil et trouver le business le plus adapté à ta situation.
       </div>
-      <button class="bfx-start-btn" id="bfStartBtn">Commencer →</button>
+
+      <h1 class="bfx-intro-title">Trouvons ton business idéal</h1>
+      <p class="bfx-intro-desc">Réponds à quelques questions rapides et notre IA trouvera l'opportunité la plus adaptée à ton profil.</p>
+
+      <div class="bfx-intro-benefits">
+        <div class="bfx-intro-benefit"><span>✅</span> Analyse personnalisée</div>
+        <div class="bfx-intro-benefit"><span>✅</span> Score de compatibilité IA</div>
+        <div class="bfx-intro-benefit"><span>✅</span> Recommandation adaptée à ton budget</div>
+        <div class="bfx-intro-benefit"><span>✅</span> Résultat en moins de 2 minutes</div>
+      </div>
+
+      <button class="bfx-start-btn" id="bfStartBtn">
+        Commencer
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
   </div>
 
@@ -97,7 +98,7 @@
   <div id="bfQuiz" class="bfx-screen bfx-hidden">
     <div class="bfx-quiz-wrap">
 
-      <!-- Top bar: step count + quit -->
+      <!-- Topbar: quit + step -->
       <div class="bfx-quiz-topbar">
         <button class="bfx-quit-btn" id="bfQuitBtn" aria-label="Quitter">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -106,15 +107,31 @@
         <div class="bfx-step-pct" id="bfStepPct">7%</div>
       </div>
 
-      <!-- Progress bar -->
+      <!-- Progress -->
       <div class="bfx-progress-track">
         <div class="bfx-progress-fill" id="bfProgressFill" style="width:7%"></div>
       </div>
 
+      <!-- Mascotte + hint -->
+      <div class="bfx-mascot-row">
+        <div class="bfm-wrap bfm-small bfm-float" id="bfMascotQuiz"></div>
+        <div class="bfm-hint-bubble" id="bfMascotHintWrap">
+          <span id="bfMascotHint">🤖 Je construis ton profil en temps réel.</span>
+        </div>
+      </div>
+
+      <!-- Profile preview -->
+      <div class="bfx-profile-preview" id="bfProfilePreview">
+        <div class="bfx-profile-field"><span class="bfx-profile-icon">👤</span><div><div class="bfx-profile-label">Âge</div><div class="bfx-profile-val">—</div></div></div>
+        <div class="bfx-profile-field"><span class="bfx-profile-icon">💰</span><div><div class="bfx-profile-label">Budget</div><div class="bfx-profile-val">—</div></div></div>
+        <div class="bfx-profile-field"><span class="bfx-profile-icon">⏰</span><div><div class="bfx-profile-label">Temps</div><div class="bfx-profile-val">—</div></div></div>
+        <div class="bfx-profile-field"><span class="bfx-profile-icon">🎯</span><div><div class="bfx-profile-label">Objectif</div><div class="bfx-profile-val">—</div></div></div>
+      </div>
+
       <!-- Question card -->
-      <div class="bfx-question-card" id="bfQuestionCard">
+      <div class="bfx-question-card">
         <div class="bfx-question-text" id="bfQuestionText">Chargement…</div>
-        <div class="bfx-options" id="bfOptionsArea"></div>
+        <div id="bfOptionsArea"></div>
       </div>
 
       <!-- Nav -->
@@ -135,31 +152,17 @@
   <!-- ══ SCREEN 3: Loading ══ -->
   <div id="bfLoading" class="bfx-screen bfx-hidden">
     <div class="bfx-loading-card">
-      <div class="bfx-loading-ring-wrap">
-        <div class="bfx-loading-ring"></div>
-        <div class="bfx-loading-emoji" id="bfLoadingEmoji">🔍</div>
+      <div class="bfm-wrap bfm-large bfm-spin-float" id="bfMascotLoad"></div>
+      <h2 class="bfx-loading-title">L'IA analyse votre profil</h2>
+      <p class="bfx-loading-sub">Nous recherchons les meilleures opportunités adaptées à votre situation.</p>
+      <div class="bfx-loading-bar-track">
+        <div class="bfx-loading-bar-fill" id="bfLoadingBar"></div>
       </div>
       <div class="bfx-loading-steps">
-        <div class="bfx-loading-step" id="bfLStep1">
-          <span class="bfx-step-icon">🔍</span>
-          <span class="bfx-step-txt">Analyse de votre profil</span>
-          <span class="bfx-step-check" id="bfLCheck1"></span>
-        </div>
-        <div class="bfx-loading-step" id="bfLStep2">
-          <span class="bfx-step-icon">📊</span>
-          <span class="bfx-step-txt">Recherche d'opportunités</span>
-          <span class="bfx-step-check" id="bfLCheck2"></span>
-        </div>
-        <div class="bfx-loading-step" id="bfLStep3">
-          <span class="bfx-step-icon">🤖</span>
-          <span class="bfx-step-txt">Construction du business idéal</span>
-          <span class="bfx-step-check" id="bfLCheck3"></span>
-        </div>
-        <div class="bfx-loading-step" id="bfLStep4">
-          <span class="bfx-step-icon">🚀</span>
-          <span class="bfx-step-txt">Génération du plan personnalisé</span>
-          <span class="bfx-step-check" id="bfLCheck4"></span>
-        </div>
+        <div class="bfx-loading-step" id="bfLStep1"><span class="bfx-step-icon">🔍</span><span class="bfx-step-txt">Analyse de vos réponses</span><span class="bfx-step-check" id="bfLCheck1"></span></div>
+        <div class="bfx-loading-step" id="bfLStep2"><span class="bfx-step-icon">📊</span><span class="bfx-step-txt">Recherche d'opportunités</span><span class="bfx-step-check" id="bfLCheck2"></span></div>
+        <div class="bfx-loading-step" id="bfLStep3"><span class="bfx-step-icon">⚡</span><span class="bfx-step-txt">Évaluation du potentiel</span><span class="bfx-step-check" id="bfLCheck3"></span></div>
+        <div class="bfx-loading-step" id="bfLStep4"><span class="bfx-step-icon">🚀</span><span class="bfx-step-txt">Génération du plan personnalisé</span><span class="bfx-step-check" id="bfLCheck4"></span></div>
       </div>
     </div>
   </div>
@@ -169,7 +172,6 @@
 
 </main>
 
-<!-- Mobile bottom nav -->
 <nav class="db-bottom-nav">
   <a href="dashboard.html" class="db-bottom-item">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -186,7 +188,6 @@
 </nav>
 
 <div class="toast-container"></div>
-
 <script src="js/utils.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/business-finder.js"></script>
