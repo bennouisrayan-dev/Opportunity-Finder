@@ -7,79 +7,140 @@
 const API_BASE = "https://opportunity-finder-api.onrender.com";
 const BF_API   = `${API_BASE}/api/booster/business-finder`;
 
-/* ── Mascotte SVG ─────────────────────────────────────── */
-const MASCOT_SVG = `<svg class="bfm-svg" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Body -->
-  <rect x="22" y="55" width="76" height="65" rx="18" fill="url(#bodyGrad)"/>
-  <!-- Head -->
-  <rect x="18" y="14" width="84" height="52" rx="20" fill="url(#headGrad)"/>
-  <!-- Eyes glow -->
-  <ellipse cx="42" cy="37" rx="12" ry="12" fill="#1a1a2e"/>
-  <ellipse cx="78" cy="37" rx="12" ry="12" fill="#1a1a2e"/>
-  <ellipse cx="42" cy="37" rx="7" ry="7" fill="url(#eyeGrad)" class="bfm-eye"/>
-  <ellipse cx="78" cy="37" rx="7" ry="7" fill="url(#eyeGrad)" class="bfm-eye"/>
-  <circle cx="44" cy="35" r="2" fill="white" opacity=".7"/>
-  <circle cx="80" cy="35" r="2" fill="white" opacity=".7"/>
-  <!-- Antenna -->
-  <line x1="60" y1="14" x2="60" y2="2" stroke="#7c3aed" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="60" cy="1" r="4" fill="#2563eb" class="bfm-antenna"/>
-  <!-- Smile -->
-  <path d="M46 52 Q60 62 74 52" stroke="url(#smileGrad)" stroke-width="3" stroke-linecap="round" fill="none"/>
-  <!-- Cheeks -->
-  <ellipse cx="30" cy="48" rx="7" ry="5" fill="#ec4899" opacity=".35"/>
-  <ellipse cx="90" cy="48" rx="7" ry="5" fill="#ec4899" opacity=".35"/>
-  <!-- Chest panel -->
-  <rect x="36" y="70" width="48" height="32" rx="10" fill="#0f172a" opacity=".4"/>
-  <rect x="42" y="77" width="12" height="12" rx="4" fill="url(#panelGrad)" class="bfm-panel1"/>
-  <rect x="58" y="77" width="12" height="12" rx="4" fill="url(#panelGrad2)" class="bfm-panel2"/>
-  <rect x="74" y="77" width="4" height="12" rx="2" fill="#10b981" opacity=".7"/>
-  <rect x="42" y="93" width="36" height="3" rx="2" fill="url(#loadBar)"/>
-  <!-- Arms -->
-  <rect x="2" y="62" width="20" height="10" rx="5" fill="url(#armGrad)"/>
-  <rect x="98" y="62" width="20" height="10" rx="5" fill="url(#armGrad)"/>
-  <!-- Feet -->
-  <rect x="32" y="112" width="20" height="12" rx="6" fill="url(#footGrad)"/>
-  <rect x="68" y="112" width="20" height="12" rx="6" fill="url(#footGrad)"/>
-  <!-- Gradients -->
+/* ── Nova — Mascotte premium Opportunity Finder ─────────── */
+/* Inspirée de Duolingo · Linear · Arc Browser               */
+/* Style: orbe IA futuriste avec loupe d'opportunités        */
+const MASCOT_SVG = `<svg class="bfm-svg nova-svg" viewBox="0 0 140 160" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#3730a3"/>
-      <stop offset="100%" stop-color="#1e40af"/>
-    </linearGradient>
-    <linearGradient id="headGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#4f46e5"/>
-      <stop offset="100%" stop-color="#2563eb"/>
-    </linearGradient>
-    <radialGradient id="eyeGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#a5f3fc"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
-    </radialGradient>
-    <linearGradient id="smileGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#a5b4fc"/>
-      <stop offset="100%" stop-color="#67e8f9"/>
-    </linearGradient>
-    <linearGradient id="panelGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#7c3aed"/>
-      <stop offset="100%" stop-color="#4f46e5"/>
-    </linearGradient>
-    <linearGradient id="panelGrad2" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#2563eb"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
-    </linearGradient>
-    <linearGradient id="loadBar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#a5b4fc"/>
-      <stop offset="70%" stop-color="#4f46e5"/>
-      <stop offset="100%" stop-color="#1e40af"/>
-    </linearGradient>
-    <linearGradient id="armGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#4f46e5"/>
-      <stop offset="100%" stop-color="#2563eb"/>
-    </linearGradient>
-    <linearGradient id="footGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3730a3"/>
+    <!-- Body gradient: deep violet to blue -->
+    <radialGradient id="nBodyG" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="60%" stop-color="#3b4fd8"/>
       <stop offset="100%" stop-color="#1e3a8a"/>
+    </radialGradient>
+    <!-- Head glow -->
+    <radialGradient id="nHeadG" cx="38%" cy="28%" r="65%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="55%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </radialGradient>
+    <!-- Eye left: magnifier/opportunity lens -->
+    <radialGradient id="nEyeL" cx="45%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="40%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </radialGradient>
+    <!-- Eye right: data eye -->
+    <radialGradient id="nEyeR" cx="45%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#d8b4fe"/>
+      <stop offset="40%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </radialGradient>
+    <!-- Chest glow -->
+    <radialGradient id="nChestG" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#0e7490" stop-opacity=".2"/>
+    </radialGradient>
+    <!-- Halo -->
+    <radialGradient id="nHaloG" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#818cf8" stop-opacity=".18"/>
+      <stop offset="100%" stop-color="#4f46e5" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Arm gradient -->
+    <linearGradient id="nArmG" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
     </linearGradient>
+    <filter id="nGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="nSoftGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
   </defs>
+
+  <!-- ── Halo ambiant ── -->
+  <ellipse cx="70" cy="90" rx="56" ry="44" fill="url(#nHaloG)"/>
+
+  <!-- ── Orbite décorative ── -->
+  <ellipse cx="70" cy="80" rx="62" ry="22" stroke="#818cf8" stroke-width="1" stroke-dasharray="3 4" opacity=".35" class="nova-orbit"/>
+
+  <!-- ── Corps principal ── -->
+  <rect x="26" y="72" width="88" height="70" rx="24" fill="url(#nBodyG)" filter="url(#nSoftGlow)"/>
+  <!-- Reflet supérieur sur le corps -->
+  <ellipse cx="70" cy="76" rx="32" ry="7" fill="white" opacity=".07"/>
+
+  <!-- ── Tête ── -->
+  <rect x="20" y="18" width="100" height="62" rx="26" fill="url(#nHeadG)" filter="url(#nSoftGlow)"/>
+  <!-- Reflet tête -->
+  <ellipse cx="58" cy="26" rx="24" ry="7" fill="white" opacity=".14" transform="rotate(-8 58 26)"/>
+
+  <!-- ── Antenne ── -->
+  <line x1="70" y1="18" x2="70" y2="5" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Antenne orbe animé -->
+  <circle cx="70" cy="4" r="5" fill="#4f46e5" class="nova-antenna-orb"/>
+  <circle cx="70" cy="4" r="8" fill="#4f46e5" opacity=".2" class="nova-antenna-pulse"/>
+
+  <!-- ── ŒIL GAUCHE: loupe opportunity ── -->
+  <circle cx="45" cy="45" r="16" fill="#0f172a"/>
+  <circle cx="45" cy="45" r="13" fill="url(#nEyeL)" class="nova-eye-l"/>
+  <!-- Loupe superposée -->
+  <circle cx="43" cy="43" r="7" fill="none" stroke="white" stroke-width="2" opacity=".9"/>
+  <line x1="48" y1="48" x2="53" y2="53" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity=".9"/>
+  <!-- Highlight -->
+  <circle cx="40" cy="40" r="2.5" fill="white" opacity=".85"/>
+
+  <!-- ── ŒIL DROIT: data / analyse ── -->
+  <circle cx="95" cy="45" r="16" fill="#0f172a"/>
+  <circle cx="95" cy="45" r="13" fill="url(#nEyeR)" class="nova-eye-r"/>
+  <!-- Lignes données -->
+  <line x1="88" y1="43" x2="102" y2="43" stroke="white" stroke-width="1.5" opacity=".7"/>
+  <line x1="90" y1="47" x2="100" y2="47" stroke="white" stroke-width="1.2" opacity=".5"/>
+  <line x1="92" y1="51" x2="98" y2="51" stroke="white" stroke-width="1" opacity=".35"/>
+  <!-- Highlight -->
+  <circle cx="91" cy="40" r="2.5" fill="white" opacity=".85"/>
+
+  <!-- ── Sourire premium ── -->
+  <path d="M52 66 Q70 78 88 66" stroke="url(#nArmG)" stroke-width="3" stroke-linecap="round" fill="none" opacity=".9"/>
+
+  <!-- ── Joues ── -->
+  <ellipse cx="30" cy="58" rx="8" ry="5" fill="#ec4899" opacity=".25"/>
+  <ellipse cx="110" cy="58" rx="8" ry="5" fill="#ec4899" opacity=".25"/>
+
+  <!-- ── Panneau de contrôle (hologramme) ── -->
+  <rect x="40" y="86" width="60" height="36" rx="12" fill="#0c1445" opacity=".6"/>
+  <!-- Mini graphique ascendant -->
+  <polyline points="47,112 53,107 60,110 67,100 74,103 81,93 88,96" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="nova-chart"/>
+  <!-- Indicateur circulaire -->
+  <circle cx="92" cy="104" r="5" fill="none" stroke="#a78bfa" stroke-width="1.5" opacity=".8"/>
+  <circle cx="92" cy="104" r="2.5" fill="#a78bfa" opacity=".9" class="nova-dot"/>
+
+  <!-- ── Bras ── -->
+  <rect x="2" y="80" width="24" height="11" rx="5.5" fill="url(#nArmG)" opacity=".85"/>
+  <rect x="114" y="80" width="24" height="11" rx="5.5" fill="url(#nArmG)" opacity=".85"/>
+  <!-- Mains -->
+  <circle cx="3" cy="85" r="5" fill="#4f46e5" opacity=".7"/>
+  <circle cx="137" cy="85" r="5" fill="#06b6d4" opacity=".7"/>
+
+  <!-- ── Pieds arrondis ── -->
+  <rect x="34" y="133" width="26" height="14" rx="7" fill="#1e3a8a" opacity=".9"/>
+  <rect x="80" y="133" width="26" height="14" rx="7" fill="#312e81" opacity=".9"/>
+
+  <!-- ── Particules holographiques ── -->
+  <circle cx="15" cy="38" r="3" fill="#06b6d4" opacity=".5" class="nova-particle p1"/>
+  <circle cx="125" cy="55" r="2.5" fill="#a78bfa" opacity=".6" class="nova-particle p2"/>
+  <circle cx="18" cy="110" r="2" fill="#38bdf8" opacity=".5" class="nova-particle p3"/>
+  <circle cx="122" cy="115" r="3" fill="#818cf8" opacity=".55" class="nova-particle p4"/>
+
+  <!-- Mini graph flottant gauche -->
+  <rect x="4" y="58" width="16" height="12" rx="4" fill="#0f172a" opacity=".8" class="nova-float-card"/>
+  <polyline points="7,67 10,63 13,65 16,60" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Mini % flottant droit -->
+  <rect x="120" y="60" width="16" height="12" rx="4" fill="#0f172a" opacity=".8" class="nova-float-card"/>
+  <text x="128" y="70" font-size="6" fill="#f59e0b" font-weight="900" text-anchor="middle" font-family="Inter,sans-serif">92%</text>
 </svg>`;
 
 /* ── Option icons per question ────────────────────────── */
