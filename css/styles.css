@@ -3400,3 +3400,64 @@ html, body {
   .navbar-logo-img  { width: 28px !important; height: 28px !important; }
   .navbar-inner     { padding: 0 10px !important; gap: 6px !important; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE: Remove all gaps above/below header
+   Applies to landing page, profile, pricing, all pages
+   ONLY @media (max-width: 768px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Body: no extra top padding */
+  html, body {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* Navbar: sits flush against top of screen */
+  .navbar {
+    top: 0 !important;
+    margin-top: 0 !important;
+    /* iOS safe area: push navbar DOWN past status bar */
+    padding-top: env(safe-area-inset-top) !important;
+    height: calc(58px + env(safe-area-inset-top)) !important;
+  }
+
+  .navbar-inner {
+    height: 58px !important;
+    margin-top: 0 !important;
+  }
+
+  /* Content below fixed navbar: account for safe area */
+  .hero {
+    padding-top: calc(58px + env(safe-area-inset-top) + 16px) !important;
+    margin-top: 0 !important;
+  }
+
+  [data-theme="dark"] .hero {
+    padding-top: calc(58px + env(safe-area-inset-top) + 16px) !important;
+  }
+
+  /* Dashboard .dashboard class (profile page) */
+  .dashboard {
+    padding-top: calc(58px + env(safe-area-inset-top)) !important;
+    margin-top: 0 !important;
+  }
+
+  /* Auth pages */
+  .auth-page {
+    padding-top: calc(58px + env(safe-area-inset-top)) !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 390px) {
+  /* iPhone SE: same safe-area handling */
+  .navbar {
+    height: calc(54px + env(safe-area-inset-top)) !important;
+  }
+  .navbar-inner { height: 54px !important; }
+  .hero {
+    padding-top: calc(54px + env(safe-area-inset-top) + 12px) !important;
+  }
+}

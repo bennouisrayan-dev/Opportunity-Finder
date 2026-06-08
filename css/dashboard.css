@@ -3183,3 +3183,38 @@ html, body {
   .db-topbar-brand span { max-width: 85px; font-size: 13px !important; }
   .db-topbar { padding: 0 10px !important; gap: 6px !important; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE: db-topbar safe-area + gap elimination
+   ONLY @media (max-width: 768px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* db-topbar: account for iPhone notch/island */
+  .db-topbar {
+    padding-top: env(safe-area-inset-top) !important;
+    height: calc(54px + env(safe-area-inset-top)) !important;
+    top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* db-main: offset by exact topbar height */
+  .db-main {
+    padding-top: calc(54px + env(safe-area-inset-top) + 12px) !important;
+  }
+
+  /* Prevent any pseudo-element gaps */
+  .db-topbar::before,
+  .db-topbar::after {
+    display: none !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .db-topbar {
+    height: calc(52px + env(safe-area-inset-top)) !important;
+  }
+  .db-main {
+    padding-top: calc(52px + env(safe-area-inset-top) + 10px) !important;
+  }
+}
