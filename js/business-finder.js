@@ -307,152 +307,267 @@ function animateLoadingSteps() {
   });
 }
 
-/* ── Results ────────────────────────────────────────────── */
+/* ── Results ─── Premium Dashboard Layout ──────────────── */
 function showResults(r) {
-  const user = Auth.getUser();
-  const isPro     = user?.plan === "pro";
-  const isPremium = isPro || user?.plan === "premium";
+  const user     = Auth.getUser();
+  const isPro    = user?.plan === "pro";
 
-  const score = r.compatibilityScore || 0;
+  const score       = r.compatibilityScore || 0;
   const scoreColor  = score >= 75 ? "#10b981" : score >= 50 ? "#f59e0b" : "#ef4444";
-  const scoreLabel  = score >= 75 ? "Excellente compatibilité" : score >= 50 ? "Bonne compatibilité" : "Compatibilité correcte";
-  const scoreBg     = score >= 75 ? "background:#ecfdf5;color:#059669" : score >= 50 ? "background:#fffbeb;color:#d97706" : "background:#fef2f2;color:#dc2626";
+  const scoreLabel  = score >= 75 ? "Excellente compatibilité ✨" : score >= 50 ? "Bonne compatibilité" : "Compatibilité correcte";
+  const scoreLabelBg= score >= 75 ? "rgba(16,185,129,.15)" : score >= 50 ? "rgba(245,158,11,.15)" : "rgba(239,68,68,.15)";
+  const scoreLabelClr= score >= 75 ? "#10b981" : score >= 50 ? "#f59e0b" : "#ef4444";
 
-  const circ  = 2 * Math.PI * 50;
+  const circ   = 2 * Math.PI * 52;
   const offset = circ - (score / 100) * circ;
 
-  // Pro content sections
-  const proContent = isPro ? `
-    <div class="bfx-result-card">
-      <div class="bfx-card-label">⏱ Délai & Potentiel</div>
-      <div class="bfx-meta-row">
-        <div class="bfx-meta-item">
-          <div class="bfx-meta-icon">⏱</div>
-          <div class="bfx-meta-label">1er revenu</div>
-          <div class="bfx-meta-val">${escapeHtml(r.timeToFirstRevenue || "—")}</div>
+  const diffScore  = r.difficultyScore || 5;
+  const diffWidth  = (diffScore / 10) * 100;
+  const diffColor  = diffScore <= 3 ? "#10b981" : diffScore <= 6 ? "#f59e0b" : "#ef4444";
+
+  // Tags
+  const tags = Array.isArray(r.tags) && r.tags.length
+    ? r.tags.slice(0,3).map(t => `<span class="bfr-tag">${escapeHtml(t)}</span>`).join("")
+    : `<span class="bfr-tag">${escapeHtml(r.businessType||"Business")}</span>`;
+
+  // Advantages — support both object {title,description} and string
+  const advHtml = Array.isArray(r.advantages) && r.advantages.length
+    ? r.advantages.slice(0,4).map(a => {
+        const title = typeof a === "object" ? (a.title||"") : a;
+        const desc  = typeof a === "object" ? (a.description||"") : "";
+        const icons = ["💰","⏱","📈","🎓","🌍","⚡","🎯","🔄"];
+        const icon  = icons[Math.floor(Math.random()*icons.length)];
+        return `<div class="bfr-adv-card">
+          <div class="bfr-adv-icon">${icon}</div>
+          <div class="bfr-adv-title">${escapeHtml(title)}</div>
+          ${desc ? `<div class="bfr-adv-desc">${escapeHtml(desc)}</div>` : ""}
+        </div>`;
+      }).join("")
+    : "";
+
+  // Risks
+  const risksHtml = Array.isArray(r.risks) && r.risks.length
+    ? r.risks.map(risk => `<div class="bfr-risk-item">
+        <span class="bfr-risk-arrow">→</span>
+        <span>${escapeHtml(typeof risk === "object" ? risk.title||risk : risk)}</span>
+      </div>`).join("")
+    : "";
+
+  // Roadmap — support both {title,days,emoji} and string
+  const roadmapHtml = Array.isArray(r.roadmap30Days) && r.roadmap30Days.length
+    ? r.roadmap30Days.map((step, i) => {
+        const title = typeof step === "object" ? step.title||step : step;
+        const days  = typeof step === "object" ? step.days||`Jours ${i*5+1}-${(i+1)*5}` : `Étape ${i+1}`;
+        const emoji = typeof step === "object" ? step.emoji||"🎯" : "🎯";
+        const colors= ["#2563eb","#7c3aed","#06b6d4","#10b981","#f59e0b","#ef4444"];
+        const color = colors[i % colors.length];
+        const isLast= i === r.roadmap30Days.length - 1;
+        return `<div class="bfr-timeline-item">
+          <div class="bfr-timeline-left">
+            <div class="bfr-timeline-dot" style="background:${color};box-shadow:0 0 0 4px ${color}22">${i+1}</div>
+            ${!isLast ? '<div class="bfr-timeline-line"></div>' : ""}
+          </div>
+          <div class="bfr-timeline-content">
+            <div class="bfr-timeline-days">${escapeHtml(days)}</div>
+            <div class="bfr-timeline-title">${escapeHtml(title)}</div>
+          </div>
+          <div class="bfr-timeline-emoji">${emoji}</div>
+        </div>`;
+      }).join("")
+    : "";
+
+  // Pro sections
+  const proSection = isPro ? `
+    <!-- Row: Delay + Potential + Advantages + Risks -->
+    <div class="bfr-row-3">
+      <div class="bfr-card bfr-card--delay">
+        <div class="bfr-card-label">⏱ DÉLAI & POTENTIEL</div>
+        <div class="bfr-delay-grid">
+          <div class="bfr-delay-item">
+            <div class="bfr-delay-icon">⏱</div>
+            <div class="bfr-delay-lbl">1ER REVENU</div>
+            <div class="bfr-delay-val">${escapeHtml(r.timeToFirstRevenue||"—")}</div>
+            <div class="bfr-delay-sub">Délai estimé</div>
+          </div>
+          <div class="bfr-delay-sep"></div>
+          <div class="bfr-delay-item">
+            <div class="bfr-delay-icon">💸</div>
+            <div class="bfr-delay-lbl">POTENTIEL</div>
+            <div class="bfr-delay-val bfr-delay-val--green">${escapeHtml(r.revenuePotential||"—")}</div>
+            <div class="bfr-delay-sub">Revenu potentiel</div>
+          </div>
         </div>
-        <div class="bfx-meta-item">
-          <div class="bfx-meta-icon">💸</div>
-          <div class="bfx-meta-label">Potentiel</div>
-          <div class="bfx-meta-val">${escapeHtml(r.revenuePotential || "—")}</div>
+      </div>
+
+      <div class="bfr-card">
+        <div class="bfr-card-label">✅ POINTS FORTS</div>
+        <div class="bfr-strengths">
+          ${Array.isArray(r.advantages) ? r.advantages.map(a => `
+            <div class="bfr-strength-item">
+              <span class="bfr-strength-check">✓</span>
+              <span>${escapeHtml(typeof a === "object" ? a.title||(a.description||"") : a)}</span>
+            </div>`).join("") : ""}
+        </div>
+      </div>
+
+      <div class="bfr-card">
+        <div class="bfr-card-label">⚠️ RISQUES À ANTICIPER</div>
+        <div class="bfr-risks">
+          ${risksHtml}
         </div>
       </div>
     </div>
-    ${r.advantages?.length ? `
-    <div class="bfx-result-card">
-      <div class="bfx-card-label">✅ Points forts</div>
-      ${r.advantages.map(a => `<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:8px;font-size:14px;color:#334155"><span style="color:#10b981;font-weight:800;flex-shrink:0">✓</span>${escapeHtml(a)}</div>`).join("")}
-    </div>` : ""}
-    ${r.risks?.length ? `
-    <div class="bfx-result-card">
-      <div class="bfx-card-label">⚠️ Risques à anticiper</div>
-      ${r.risks.map(risk => `<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:8px;font-size:14px;color:#334155"><span style="color:#f59e0b;font-weight:800;flex-shrink:0">→</span>${escapeHtml(risk)}</div>`).join("")}
-    </div>` : ""}
-    ${r.roadmap30Days?.length ? `
-    <div class="bfx-result-card">
-      <div class="bfx-card-label">🗓 Roadmap 30 jours</div>
-      ${r.roadmap30Days.map((step, i) => `
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #f1f5f9">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i+1}</div>
-          <div style="font-size:13.5px;color:#334155;line-height:1.5">${escapeHtml(step)}</div>
-        </div>`).join("")}
-    </div>` : ""}
-  ` : "";
 
-  const proLock = !isPro ? `
-    <div class="bfx-pro-lock">
-      <span class="bfx-pro-lock-icon">🔒</span>
-      <div class="bfx-pro-lock-title">Débloquez le plan Pro</div>
-      <div class="bfx-pro-lock-desc">Accédez à l'analyse complète avec revenus, avantages, risques et roadmap détaillée.</div>
-      <div class="bfx-pro-lock-items">
-        <div class="bfx-lock-item"><span>🔒</span> 1er revenu estimé</div>
-        <div class="bfx-lock-item"><span>🔒</span> Potentiel de revenus</div>
-        <div class="bfx-lock-item"><span>🔒</span> Avantages clés</div>
-        <div class="bfx-lock-item"><span>🔒</span> Risques identifiés</div>
-        <div class="bfx-lock-item"><span>🔒</span> Roadmap 30 jours</div>
+    <!-- Roadmap 30 jours -->
+    <div class="bfr-card bfr-card--roadmap">
+      <div class="bfr-roadmap-header">
+        <div class="bfr-card-label" style="margin:0">🗓 ROADMAP 30 JOURS</div>
+        <div class="bfr-roadmap-badge">Plan personnalisé</div>
       </div>
-      <a href="pricing.html" class="bfx-pro-cta">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <div class="bfr-timeline">
+        ${roadmapHtml}
+      </div>
+    </div>
+  ` : `
+    <!-- Pro lock -->
+    <div class="bfr-pro-lock">
+      <div class="bfr-pro-lock-inner">
+        <div class="bfr-pro-lock-icon">🔒</div>
+        <div class="bfr-pro-lock-text">
+          <div class="bfr-pro-lock-title">Débloquez le plan Pro</div>
+          <div class="bfr-pro-lock-desc">Revenus estimés, points forts, risques et roadmap 30 jours complète.</div>
+        </div>
+      </div>
+      <div class="bfr-pro-lock-items">
+        <div class="bfr-lock-item"><span>🔒</span> 1er revenu estimé</div>
+        <div class="bfr-lock-item"><span>🔒</span> Potentiel mensuel</div>
+        <div class="bfr-lock-item"><span>🔒</span> Points forts</div>
+        <div class="bfr-lock-item"><span>🔒</span> Risques identifiés</div>
+        <div class="bfr-lock-item bfr-lock-item--wide"><span>🔒</span> Roadmap 30 jours</div>
+      </div>
+      <a href="pricing.html" class="bfr-pro-cta">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         Passer au plan Pro
       </a>
-    </div>` : "";
+    </div>`;
 
   const container = $("bfResults");
   if (!container) return;
 
+  container.style.cssText = "width:100%;max-width:960px;margin:0 auto";
+
   container.innerHTML = `
-    <div class="bfx-results-wrap">
+    <div class="bfr-dashboard">
 
-      <!-- Card 1: Business recommandé -->
-      <div class="bfx-result-card bfx-result-card--hero">
-        <div class="bfx-hero-badge">🎯 Business recommandé</div>
-        <div class="bfx-hero-name">${escapeHtml(r.recommendedBusiness || "Business Opportunity")}</div>
-        <div class="bfx-hero-desc">${escapeHtml(r.whyItFits?.slice(0, 120) || "")}</div>
+      <!-- Page title -->
+      <div class="bfr-page-header">
+        <div>
+          <h1 class="bfr-page-title">Résultat de votre analyse 🎉</h1>
+          <p class="bfr-page-sub">Voici le business le plus adapté à votre profil</p>
+        </div>
+        <a href="dashboard.html" class="bfr-back-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Retour au tableau de bord
+        </a>
       </div>
 
-      <!-- Card 2: Score cercle centré -->
-      <div class="bfx-result-card bfx-result-card--score">
-        <div class="bfx-card-label">Compatibilité</div>
-        <div class="bfx-score-ring-wrap">
-          <svg viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="10"/>
-            <circle cx="60" cy="60" r="50" fill="none"
-              stroke="${scoreColor}" stroke-width="10"
-              stroke-linecap="round"
-              stroke-dasharray="${circ}"
-              stroke-dashoffset="${offset}"
-              transform="rotate(-90 60 60)"
-              style="transition:stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1)"/>
-          </svg>
-          <div class="bfx-score-inner">
-            <span class="bfx-score-num">${score}</span>
-            <span class="bfx-score-sub">/100</span>
+      <!-- Row 1: Business hero + Score -->
+      <div class="bfr-row-hero">
+
+        <!-- Business card (large left) -->
+        <div class="bfr-card bfr-card--business">
+          <div class="bfr-business-content">
+            <div class="bfr-business-badge">
+              <span class="bfr-badge-dot"></span> BUSINESS RECOMMANDÉ
+            </div>
+            <h2 class="bfr-business-name">${escapeHtml(r.recommendedBusiness||"Business Opportunity")} <span class="bfr-name-dot">●</span></h2>
+            <p class="bfr-business-desc">${escapeHtml(r.businessDescription || r.whyItFits?.slice(0,150) || "")}</p>
+            <div class="bfr-tags">${tags}</div>
+          </div>
+          <div class="bfr-business-illustration" aria-hidden="true">
+            <div class="bfr-illustration-inner">
+              <div class="bfr-ill-chart">
+                <div class="bfr-ill-bar" style="height:40%;background:#3b82f6;animation-delay:0s"></div>
+                <div class="bfr-ill-bar" style="height:65%;background:#7c3aed;animation-delay:.1s"></div>
+                <div class="bfr-ill-bar" style="height:85%;background:#2563eb;animation-delay:.2s"></div>
+                <div class="bfr-ill-bar" style="height:55%;background:#818cf8;animation-delay:.3s"></div>
+                <div class="bfr-ill-bar" style="height:95%;background:#7c3aed;animation-delay:.4s"></div>
+              </div>
+              <div class="bfr-ill-coins">💰</div>
+            </div>
           </div>
         </div>
-        <div class="bfx-score-label" style="${scoreBg}">${escapeHtml(scoreLabel)}</div>
-      </div>
 
-      <!-- Card 3: Pourquoi -->
-      <div class="bfx-result-card">
-        <div class="bfx-card-label">💬 Pourquoi cette opportunité ?</div>
-        <p class="bfx-why-text">${escapeHtml(r.whyItFits || "")}</p>
-      </div>
-
-      <!-- Card 4+5: Difficulté + Budget -->
-      <div class="bfx-result-card">
-        <div class="bfx-meta-row">
-          <div class="bfx-meta-item">
-            <div class="bfx-meta-icon">⚡</div>
-            <div class="bfx-meta-label">Difficulté</div>
-            <div class="bfx-meta-val">${escapeHtml(r.difficulty || "—")}</div>
+        <!-- Score card (right) -->
+        <div class="bfr-card bfr-card--score">
+          <div class="bfr-card-label">COMPATIBILITÉ</div>
+          <div class="bfr-score-ring-wrap">
+            <svg viewBox="0 0 130 130" style="width:130px;height:130px">
+              <circle cx="65" cy="65" r="52" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="11"/>
+              <circle cx="65" cy="65" r="52" fill="none"
+                stroke="${scoreColor}" stroke-width="11"
+                stroke-linecap="round"
+                stroke-dasharray="${circ}"
+                stroke-dashoffset="${offset}"
+                transform="rotate(-90 65 65)"
+                style="transition:stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1)"/>
+            </svg>
+            <div class="bfr-score-inner">
+              <span class="bfr-score-num">${score}</span>
+              <span class="bfr-score-den">/100</span>
+            </div>
           </div>
-          <div class="bfx-meta-item">
-            <div class="bfx-meta-icon">💰</div>
-            <div class="bfx-meta-label">Budget estimé</div>
-            <div class="bfx-meta-val">${escapeHtml(r.estimatedBudget || "—")}</div>
+          <div class="bfr-score-label" style="background:${scoreLabelBg};color:${scoreLabelClr}">${scoreLabel}</div>
+          <p class="bfr-score-text">Ce business correspond parfaitement à votre profil et à vos objectifs.</p>
+        </div>
+
+      </div>
+
+      <!-- Row 2: Why + Difficulty + Budget -->
+      <div class="bfr-row-2">
+
+        <!-- Why card (left large) -->
+        <div class="bfr-card bfr-card--why">
+          <div class="bfr-card-label">💡 POURQUOI CETTE OPPORTUNITÉ ?</div>
+          <p class="bfr-why-text">${escapeHtml(r.whyItFits||"")}</p>
+          ${advHtml ? `<div class="bfr-adv-grid">${advHtml}</div>` : ""}
+        </div>
+
+        <!-- Right column: Difficulty + Budget -->
+        <div class="bfr-right-col">
+          <div class="bfr-card bfr-card--diff">
+            <div class="bfr-card-label">⚡ DIFFICULTÉ</div>
+            <div class="bfr-diff-val">${escapeHtml(r.difficulty||"Intermédiaire")}</div>
+            <div class="bfr-gauge-track">
+              <div class="bfr-gauge-fill" style="width:${diffWidth}%;background:${diffColor}"></div>
+            </div>
+            <div class="bfr-diff-score">${diffScore}/10</div>
+          </div>
+          <div class="bfr-card bfr-card--budget">
+            <div class="bfr-card-label">💰 BUDGET ESTIMÉ</div>
+            <div class="bfr-budget-val">${escapeHtml(r.estimatedBudget||"À définir")}</div>
+            <div class="bfr-budget-sub">Budget de démarrage recommandé.</div>
           </div>
         </div>
+
       </div>
 
-      ${proContent}
-      ${proLock}
+      ${proSection}
 
       <!-- Actions -->
-      <div class="bfx-result-card" style="padding:18px">
-        <div class="bfx-result-actions">
-          <button class="bfx-action-primary" id="bfSaveBtn" onclick="saveBfResult()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
-            Sauvegarder
-          </button>
-          <button class="bfx-action-ghost" onclick="restartFinder()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.09-5.18"/></svg>
-            Recommencer
-          </button>
-          <a href="dashboard.html" class="bfx-action-ghost" style="text-decoration:none">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            Dashboard
-          </a>
-        </div>
+      <div class="bfr-actions">
+        <button class="bfr-btn-ghost" id="bfSaveBtn" onclick="saveBfResult()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+          Sauvegarder cette analyse
+        </button>
+        <a href="dashboard.html" class="bfr-btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Voir mes analyses
+        </a>
+        <button class="bfr-btn-ghost" onclick="restartFinder()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.09-5.18"/></svg>
+          Nouvelle analyse
+        </button>
       </div>
 
     </div>`;

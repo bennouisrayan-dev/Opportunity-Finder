@@ -145,15 +145,18 @@ Structure exacte :
 {
   "recommendedBusiness": "nom court et précis du business recommandé",
   "businessType": "type (ex: E-commerce, SaaS, Agence, Contenu digital...)",
+  "businessDescription": "description courte et claire du business en 1-2 phrases",
+  "tags": ["tag1", "tag2", "tag3"],
   "compatibilityScore": 0,
-  "whyItFits": "explication courte pourquoi ce business correspond au profil",
+  "whyItFits": "explication détaillée pourquoi ce business correspond au profil (3-4 phrases)",
   "difficulty": "Facile / Intermédiaire / Avancé",
+  "difficultyScore": 5,
   "estimatedBudget": "ex: 300€ à 800€",
   "timeToFirstRevenue": "ex: 1 à 2 mois",
   "revenuePotential": "ex: 500€ à 3 000€/mois",
-  "advantages": ["", "", ""],
+  "advantages": [{"title":"","description":""}, {"title":"","description":""}, {"title":"","description":""}],
   "risks": ["", ""],
-  "roadmap30Days": ["", "", "", "", ""]
+  "roadmap30Days": [{"title":"","days":"","emoji":""}, {"title":"","days":"","emoji":""}, {"title":"","days":"","emoji":""}, {"title":"","days":"","emoji":""}, {"title":"","days":"","emoji":""}]
 }
 
 Règles :
@@ -161,6 +164,12 @@ Règles :
 - compatibilityScore entre 0 et 100
 - Sois précis et concret
 - Le business doit être réaliste et adapté au profil
+- tags : 2 à 3 tags courts décrivant le business (ex: "SaaS", "IA", "Contenu", "Faible coût", "Revenu récurrent")
+- businessDescription : description claire et vendeuse du business en 1-2 phrases
+- difficultyScore : note entre 1 et 10 correspondant à la difficulté
+- advantages : tableau d'objets avec title (court) et description (1 phrase)
+- roadmap30Days : tableau d'objets avec title (action concrète), days (ex: "Jours 1-5"), emoji
+- whyItFits : explication personnalisée et détaillée en 3-4 phrases
 - IMPORTANT : Le estimatedBudget ne doit JAMAIS dépasser le budget indiqué par l'utilisateur
 - Pour un budget de 0€ : recommander uniquement des business sans investissement initial
 - Pour un étudiant avec peu de temps : recommander quelque chose de simple à lancer
