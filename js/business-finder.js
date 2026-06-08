@@ -1,236 +1,238 @@
 /**
- * Business Finder IA — business-finder.js
- * Opportunity Finder
+ * Business Finder IA — business-finder.js v3
+ * Premium one-question-at-a-time experience
+ * Inspired by MyIQ / BetterMe / Duolingo onboarding
  */
 
 const API_BASE = "https://opportunity-finder-api.onrender.com";
-const BF_API  = "https://opportunity-finder-api.onrender.com/api/booster/business-finder";
+const BF_API   = `${API_BASE}/api/booster/business-finder`;
 
-/* ── Questions ─────────────────────────────────────────── */
+/* ── Questions ────────────────────────────────────────── */
 const QUESTIONS = [
-  { id: "age", type: "single", title: "Quel âge as-tu ?",
-    options: ["Moins de 18 ans", "18 à 25 ans", "25 à 40 ans", "40 ans et plus"] },
-
-  { id: "status", type: "single", title: "Quel est ton statut actuel ?",
-    options: ["Étudiant", "Salarié", "Entrepreneur", "Freelance", "Sans emploi"] },
-
-  { id: "weeklyHours", type: "single", title: "Combien d'heures peux-tu consacrer à un projet chaque semaine ?",
-    options: ["1 à 5 heures", "5 à 10 heures", "10 à 20 heures", "Plus de 20 heures"] },
-
-  { id: "budget", type: "single", title: "Quel budget peux-tu investir pour démarrer ?",
-    options: ["0€", "100€", "500€", "1 000€", "Plus de 5 000€"] },
-
-  { id: "businessLevel", type: "single", title: "Quel est ton niveau en business ?",
-    options: ["Débutant", "Intermédiaire", "Avancé"] },
-
-  { id: "techLevel", type: "single", title: "Quel est ton niveau en technologie ?",
-    options: ["Débutant", "Intermédiaire", "Avancé"] },
-
-  { id: "interests", type: "multi", title: "Quels domaines t'intéressent le plus ? (Choix multiples)",
-    options: ["Intelligence artificielle", "SaaS", "E-commerce", "Création de contenu", "Marketing", "Services", "Business local", "Éducation", "Finance"] },
-
-  { id: "goal", type: "single", title: "Quel est ton objectif principal ?",
-    options: ["Générer un revenu complémentaire", "Remplacer mon salaire", "Créer une startup", "Atteindre la liberté financière", "Construire une entreprise revendable"] },
-
-  { id: "businessPreference", type: "single", title: "Quel type de business préfères-tu ?",
-    options: ["100% en ligne", "Local / physique", "Hybride", "Peu importe"] },
-
-  { id: "learning", type: "single", title: "Es-tu prêt à apprendre de nouvelles compétences ?",
-    options: ["Oui", "Non"] },
-
-  { id: "timeGoal", type: "single", title: "Dans combien de temps souhaites-tu obtenir tes premiers résultats ?",
-    options: ["Le plus rapidement possible", "1 à 3 mois", "3 à 6 mois", "Plus de 6 mois"] },
-
-  { id: "riskLevel", type: "single", title: "Quel niveau de risque es-tu prêt à accepter ?",
-    options: ["Faible", "Moyen", "Élevé"] },
-
-  { id: "workStyle", type: "single", title: "Préfères-tu travailler seul ou avec une équipe ?",
-    options: ["Seul", "Petite équipe", "Peu importe"] },
-
-  { id: "location", type: "text", title: "Quel est ton pays ou ta région ?",
-    placeholder: "Ex : France, Paris, Québec..." },
-
-  { id: "experience", type: "single", title: "As-tu déjà lancé un business auparavant ?",
-    options: ["Oui", "Non"] },
+  { id:"age",               type:"single", title:"Quel âge as-tu ?",
+    options:["Moins de 18 ans","18 à 25 ans","25 à 40 ans","40 ans et plus"] },
+  { id:"status",            type:"single", title:"Quel est ton statut actuel ?",
+    options:["Étudiant","Salarié","Entrepreneur","Freelance","Sans emploi"] },
+  { id:"weeklyHours",       type:"single", title:"Combien d'heures peux-tu consacrer à un projet chaque semaine ?",
+    options:["1 à 5 heures","5 à 10 heures","10 à 20 heures","Plus de 20 heures"] },
+  { id:"budget",            type:"single", title:"Quel budget peux-tu investir pour démarrer ?",
+    options:["0€","100€","500€","1 000€","Plus de 5 000€"] },
+  { id:"businessLevel",     type:"single", title:"Quel est ton niveau en business ?",
+    options:["Débutant","Intermédiaire","Avancé"] },
+  { id:"techLevel",         type:"single", title:"Quel est ton niveau en technologie ?",
+    options:["Débutant","Intermédiaire","Avancé"] },
+  { id:"interests",         type:"multi",  title:"Quels domaines t'intéressent le plus ? (Plusieurs choix possibles)",
+    options:["Intelligence artificielle","SaaS","E-commerce","Création de contenu","Marketing","Services","Business local","Éducation","Finance"] },
+  { id:"goal",              type:"single", title:"Quel est ton objectif principal ?",
+    options:["Générer un revenu complémentaire","Remplacer mon salaire","Créer une startup","Atteindre la liberté financière","Construire une entreprise revendable"] },
+  { id:"businessPreference",type:"single", title:"Quel type de business préfères-tu ?",
+    options:["100% en ligne","Local / physique","Hybride","Peu importe"] },
+  { id:"learning",          type:"single", title:"Es-tu prêt à apprendre de nouvelles compétences ?",
+    options:["Oui, volontiers","Non, je préfère mes compétences actuelles"] },
+  { id:"timeGoal",          type:"single", title:"Dans combien de temps souhaites-tu obtenir tes premiers résultats ?",
+    options:["Le plus rapidement possible","1 à 3 mois","3 à 6 mois","Plus de 6 mois"] },
+  { id:"riskLevel",         type:"single", title:"Quel niveau de risque es-tu prêt à accepter ?",
+    options:["Faible — je veux quelque chose de sûr","Moyen — je peux prendre quelques risques","Élevé — je joue le tout pour le tout"] },
+  { id:"workStyle",         type:"single", title:"Comment préfères-tu travailler ?",
+    options:["Seul","Petite équipe","Peu importe"] },
+  { id:"location",          type:"text",   title:"Dans quel pays ou quelle ville te trouves-tu ?",
+    placeholder:"Ex : France, Paris, Montréal…" },
+  { id:"experience",        type:"single", title:"As-tu déjà lancé un business auparavant ?",
+    options:["Oui, avec succès","Oui, sans succès","Non, jamais"] },
 ];
 
 /* ── State ─────────────────────────────────────────────── */
 let currentQ = 0;
-let answers = {};
+let answers  = {};
 let currentResult = null;
 
-/* ── DOM helpers ───────────────────────────────────────── */
+/* ── DOM helpers ────────────────────────────────────────── */
 const $ = id => document.getElementById(id);
-const show = id => $( id )?.classList.remove("hidden");
-const hide = id => $( id )?.classList.add("hidden");
+const bfxHide = id => { const el=$(id); if(el) el.classList.add("bfx-hidden"); };
+const bfxShow = id => { const el=$(id); if(el) el.classList.remove("bfx-hidden"); };
 
 function showScreen(id) {
-  ["bfWelcome","bfQuestionnaire","bfLoading","bfResults"].forEach(s => hide(s));
-  show(id);
+  ["bfIntro","bfQuiz","bfLoading","bfResults"].forEach(bfxHide);
+  bfxShow(id);
 }
 
 /* ── Init ───────────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", async () => {
   await Auth.init();
 
-  // Update sidebar avatar/name
   const user = Auth.getUser();
   if (user) {
     const av = $("sidebarAvatar");
     if (av) av.textContent = user.name?.charAt(0)?.toUpperCase() || "U";
     document.querySelectorAll(".sidebar-user-name").forEach(el => el.textContent = user.name || "");
     document.querySelectorAll(".sidebar-user-plan").forEach(el => {
-      const dot = el.querySelector(".db-plan-dot");
-      const txt = el.querySelector("span:last-child") || el;
-      if (txt !== dot) txt.textContent = user.plan === "pro" ? "Forfait Pro" : user.plan === "premium" ? "Forfait Premium" : "Forfait Gratuit";
+      el.textContent = user.plan === "pro" ? "Forfait Pro"
+        : user.plan === "premium" ? "Forfait Premium" : "Forfait Gratuit";
     });
   }
 
-  // Check premium access
   if (!user || user.plan === "free") {
     showFreeGate();
     return;
   }
 
-  // Welcome screen
-  showScreen("bfWelcome");
+  showScreen("bfIntro");
   $("bfStartBtn")?.addEventListener("click", startQuestionnaire);
-  $("bfPrevBtn")?.addEventListener("click", prevQuestion);
-  $("bfNextBtn")?.addEventListener("click", nextQuestion);
+  $("bfQuitBtn")?.addEventListener("click",  () => { window.location.href = "dashboard.html"; });
+  $("bfBackBtn")?.addEventListener("click",  goBack);
+  $("bfNextBtn")?.addEventListener("click",  goNext);
 });
 
 /* ── Free gate ─────────────────────────────────────────── */
 function showFreeGate() {
-  const main = document.getElementById("bfMain");
+  const main = $("bfMain");
   if (!main) return;
   main.innerHTML = `
-    <div class="bf-screen">
-      <div class="bf-welcome-card db-card" style="max-width:540px;margin:0 auto;">
-        <div class="bf-welcome-hero">
-          <div class="bf-welcome-icon">🔒</div>
-          <h2 class="bf-welcome-title">Débloquez Business Finder IA</h2>
-          <p class="bf-welcome-desc">Découvrez le business le plus adapté à votre profil grâce à une analyse IA avancée.</p>
-          <div class="bf-welcome-features">
-            <div class="bf-welcome-feat"><span>✅</span> Recommandation personnalisée</div>
-            <div class="bf-welcome-feat"><span>✅</span> Score de compatibilité</div>
-            <div class="bf-welcome-feat"><span>✅</span> Analyse du profil</div>
-            <div class="bf-welcome-feat"><span>✅</span> Difficulté estimée</div>
-            <div class="bf-welcome-feat"><span>✅</span> Budget recommandé</div>
-          </div>
-          <a href="pricing.html" class="bf-start-btn db-cta-btn" style="text-decoration:none;">
-            ⭐ Passer Premium
-          </a>
+    <div class="bfx-screen">
+      <div class="bfx-intro-card" style="text-align:center">
+        <div class="bfx-intro-emoji">🔒</div>
+        <h1 class="bfx-intro-title">Débloquez Business Finder IA</h1>
+        <p class="bfx-intro-desc">Découvrez le business le plus adapté à votre profil grâce à une analyse IA avancée.</p>
+        <div class="bfx-intro-benefits">
+          <div class="bfx-intro-benefit"><span>✅</span> Recommandation personnalisée</div>
+          <div class="bfx-intro-benefit"><span>✅</span> Score de compatibilité</div>
+          <div class="bfx-intro-benefit"><span>✅</span> Difficulté & budget estimés</div>
+          <div class="bfx-intro-benefit"><span>✅</span> Plan d'action sur mesure</div>
         </div>
+        <a href="pricing.html" class="bfx-start-btn" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;">
+          ⭐ Passer Premium
+        </a>
       </div>
     </div>`;
 }
 
-/* ── Questionnaire ─────────────────────────────────────── */
+/* ── Quiz ───────────────────────────────────────────────── */
 function startQuestionnaire() {
   currentQ = 0;
-  answers = {};
-  showScreen("bfQuestionnaire");
+  answers  = {};
+  showScreen("bfQuiz");
   renderQuestion();
 }
 
 function renderQuestion() {
-  const q = QUESTIONS[currentQ];
+  const q     = QUESTIONS[currentQ];
   const total = QUESTIONS.length;
-  const pct = Math.round((currentQ / total) * 100);
+  const pct   = Math.round(((currentQ) / total) * 100);
 
   // Progress
-  const fill = document.getElementById("bfProgressFill");
-  if (fill) fill.style.width = pct + "%";
-  const txt = $("bfProgressText");
-  if (txt) txt.textContent = `Question ${currentQ + 1} sur ${total}`;
-  const pctEl = $("bfProgressPct");
-  if (pctEl) pctEl.textContent = pct + "%";
+  const fill = $("bfProgressFill");
+  if (fill) fill.style.width = Math.max(pct, 4) + "%";
 
-  // Prev/Next buttons
-  const prev = $("bfPrevBtn");
-  if (prev) prev.disabled = currentQ === 0;
-  const next = $("bfNextBtn");
-  if (next) {
-    next.innerHTML = currentQ === total - 1
-      ? `Analyser mon profil <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`
-      : `Suivant <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>`;
+  const lbl = $("bfStepLabel");
+  if (lbl) lbl.textContent = `Question ${currentQ + 1} sur ${total}`;
+
+  const pctEl = $("bfStepPct");
+  if (pctEl) pctEl.textContent = Math.max(pct, 4) + "%";
+
+  // Back / Next buttons
+  const backBtn = $("bfBackBtn");
+  const nextBtn = $("bfNextBtn");
+  if (backBtn) backBtn.disabled = currentQ === 0;
+  if (nextBtn) {
+    const isLast = currentQ === total - 1;
+    nextBtn.innerHTML = isLast
+      ? `Analyser <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`
+      : `Continuer <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>`;
   }
 
-  // Render question
-  const area = $("bfQuestionArea");
+  // Question text
+  const qText = $("bfQuestionText");
+  if (qText) qText.textContent = q.title;
+
+  // Options area — animate out/in
+  const area = $("bfOptionsArea");
   if (!area) return;
 
+  area.style.opacity = "0";
+  area.style.transform = "translateX(12px)";
+
   const saved = answers[q.id];
-  let html = `<h3 class="bf-question-title">${escapeHtml(q.title)}</h3>`;
+  let html = "";
 
   if (q.type === "single") {
-    html += `<div class="bf-options">`;
-    q.options.forEach(opt => {
-      const sel = saved === opt ? "selected" : "";
-      html += `<button type="button" class="bf-option ${sel}" data-value="${escapeHtml(opt)}">
-        <span class="bf-option-dot"></span>${escapeHtml(opt)}
-      </button>`;
-    });
-    html += `</div>`;
+    html = `<div class="bfx-options">` +
+      q.options.map(opt => {
+        const sel = saved === opt ? " selected" : "";
+        return `<button type="button" class="bfx-option${sel}" data-value="${escapeHtml(opt)}">
+          <span class="bfx-option-radio"></span>${escapeHtml(opt)}
+        </button>`;
+      }).join("") + `</div>`;
   } else if (q.type === "multi") {
     const savedArr = Array.isArray(saved) ? saved : [];
-    html += `<div class="bf-options-multi">`;
-    q.options.forEach(opt => {
-      const sel = savedArr.includes(opt) ? "selected" : "";
-      html += `<button type="button" class="bf-option-chip ${sel}" data-value="${escapeHtml(opt)}">${escapeHtml(opt)}</button>`;
-    });
-    html += `</div>`;
+    html = `<div class="bfx-options-multi">` +
+      q.options.map(opt => {
+        const sel = savedArr.includes(opt) ? " selected" : "";
+        return `<button type="button" class="bfx-option-chip${sel}" data-value="${escapeHtml(opt)}">${escapeHtml(opt)}</button>`;
+      }).join("") + `</div>`;
   } else if (q.type === "text") {
-    html += `<input type="text" class="bf-text-input" id="bfTextInput" placeholder="${escapeHtml(q.placeholder || "")}" value="${escapeHtml(saved || "")}">`;
+    html = `<div class="bfx-options">
+      <input type="text" class="bfx-text-input" id="bfTextInput"
+        placeholder="${escapeHtml(q.placeholder || "")}"
+        value="${escapeHtml(saved || "")}">
+    </div>`;
   }
 
   area.innerHTML = html;
-  area.style.opacity = "0";
-  area.style.transform = "translateY(8px)";
+
   requestAnimationFrame(() => {
-    area.style.transition = "opacity .2s ease, transform .2s ease";
+    area.style.transition = "opacity .22s ease, transform .22s ease";
     area.style.opacity = "1";
-    area.style.transform = "translateY(0)";
+    area.style.transform = "translateX(0)";
   });
 
-  // Bind option clicks
-  area.querySelectorAll(".bf-option").forEach(btn => {
+  // Bind option clicks — single-select
+  area.querySelectorAll(".bfx-option").forEach(btn => {
     btn.addEventListener("click", () => {
-      area.querySelectorAll(".bf-option").forEach(b => b.classList.remove("selected"));
+      area.querySelectorAll(".bfx-option").forEach(b => b.classList.remove("selected"));
       btn.classList.add("selected");
       answers[q.id] = btn.dataset.value;
+      // Auto-advance after short delay for single-select
+      setTimeout(() => goNext(), 280);
     });
   });
 
-  area.querySelectorAll(".bf-option-chip").forEach(btn => {
+  // Multi-select chips
+  area.querySelectorAll(".bfx-option-chip").forEach(btn => {
     btn.addEventListener("click", () => {
       btn.classList.toggle("selected");
-      const selected = [...area.querySelectorAll(".bf-option-chip.selected")].map(b => b.dataset.value);
+      const selected = [...area.querySelectorAll(".bfx-option-chip.selected")].map(b => b.dataset.value);
       answers[q.id] = selected;
     });
   });
 }
 
-function prevQuestion() {
-  if (currentQ > 0) {
-    saveCurrentAnswer();
-    currentQ--;
-    renderQuestion();
+function saveCurrentAnswer() {
+  const q = QUESTIONS[currentQ];
+  if (q.type === "text") {
+    const inp = $("bfTextInput");
+    if (inp) answers[q.id] = inp.value.trim();
   }
 }
 
-function nextQuestion() {
+function goBack() {
+  if (currentQ <= 0) return;
+  saveCurrentAnswer();
+  currentQ--;
+  renderQuestion();
+}
+
+function goNext() {
   saveCurrentAnswer();
   const q = QUESTIONS[currentQ];
 
-  // Validate required
-  if (q.type !== "text" && !answers[q.id] || (Array.isArray(answers[q.id]) && answers[q.id].length === 0)) {
-    if (q.type !== "text") {
-      if (!answers[q.id]) {
-        Toast.warning("Veuillez sélectionner une réponse");
-        return;
-      }
-    }
+  // Validate
+  if (q.type === "single" && !answers[q.id]) {
+    Toast.warning("Sélectionne une réponse pour continuer.");
+    return;
+  }
+  if (q.type === "multi" && (!Array.isArray(answers[q.id]) || !answers[q.id].length)) {
+    Toast.warning("Sélectionne au moins une option.");
+    return;
   }
 
   if (currentQ < QUESTIONS.length - 1) {
@@ -241,15 +243,7 @@ function nextQuestion() {
   }
 }
 
-function saveCurrentAnswer() {
-  const q = QUESTIONS[currentQ];
-  if (q.type === "text") {
-    const input = $("bfTextInput");
-    if (input) answers[q.id] = input.value.trim();
-  }
-}
-
-/* ── Submission & API ──────────────────────────────────── */
+/* ── Submit & API ───────────────────────────────────────── */
 async function submitQuestionnaire() {
   showScreen("bfLoading");
   animateLoadingSteps();
@@ -257,269 +251,226 @@ async function submitQuestionnaire() {
   const token = Auth.getToken();
   if (!token) {
     Toast.error("Veuillez vous reconnecter");
-    showScreen("bfQuestionnaire");
+    showScreen("bfQuiz");
     return;
   }
 
   try {
     const response = await fetch(BF_API, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
       body: JSON.stringify({ answers })
     });
 
     const data = await response.json();
+    if (!response.ok) throw new Error(data.error || data.message || "Erreur lors de l'analyse");
 
-    if (!response.ok) {
-      throw new Error(data.error || data.message || "Erreur lors de l'analyse");
-    }
-
-    // Dedicated route returns the exact fields needed — no remapping required
     const result = data.result;
     currentResult = result;
+    currentResult._analysisId = data?.analysis?.id || null;
+
     await new Promise(r => setTimeout(r, 1800));
     showResults(result);
 
   } catch (err) {
     console.error("BF error:", err);
     Toast.error(err.message || "Erreur lors de l'analyse");
-    showScreen("bfQuestionnaire");
+    showScreen("bfQuiz");
   }
 }
 
-function buildPrompt() {
-  const interests = Array.isArray(answers.interests)
-    ? answers.interests.join(", ")
-    : (answers.interests || "Non précisé");
-
-  // Send as a structured user profile description that the evaluate endpoint
-  // can analyze and return as a business recommendation
-  return `Business Finder IA — Profil utilisateur :
-Âge : ${answers.age || "Non précisé"}
-Statut : ${answers.status || "Non précisé"}
-Heures disponibles par semaine : ${answers.weeklyHours || "Non précisé"}
-Budget de départ : ${answers.budget || "Non précisé"}
-Niveau business : ${answers.businessLevel || "Non précisé"}
-Niveau technologique : ${answers.techLevel || "Non précisé"}
-Domaines d'intérêt : ${interests}
-Objectif : ${answers.goal || "Non précisé"}
-Type de business préféré : ${answers.businessPreference || "Non précisé"}
-Prêt à apprendre : ${answers.learning || "Non précisé"}
-Délai pour premiers résultats : ${answers.timeGoal || "Non précisé"}
-Tolérance au risque : ${answers.riskLevel || "Non précisé"}
-Préférence travail : ${answers.workStyle || "Non précisé"}
-Localisation : ${answers.location || "Non précisé"}
-Expérience entrepreneuriale : ${answers.experience || "Non précisé"}
-
-En te basant sur ce profil, recommande LE business le plus adapté avec le meilleur potentiel de réussite pour cette personne. Analyse la demande du marché, la concurrence et l'opportunité.`;
-}
-
+/* ── Loading animation ──────────────────────────────────── */
 function animateLoadingSteps() {
   const steps = [
-    { id: "bfStep1", emoji: "🔍", title: "Analyse de votre profil", delay: 0 },
-    { id: "bfStep2", emoji: "📊", title: "Recherche des meilleures opportunités", delay: 1200 },
-    { id: "bfStep3", emoji: "🤖", title: "Génération de recommandations personnalisées", delay: 2400 },
+    { id:"bfLStep1", check:"bfLCheck1", delay:0 },
+    { id:"bfLStep2", check:"bfLCheck2", delay:900 },
+    { id:"bfLStep3", check:"bfLCheck3", delay:1800 },
+    { id:"bfLStep4", check:"bfLCheck4", delay:2700 },
   ];
 
-  steps.forEach(({ id, emoji, title, delay }) => {
+  const emojis = ["🔍","📊","🤖","🚀"];
+
+  steps.forEach(({ id, check, delay }, i) => {
     setTimeout(() => {
       // Mark previous as done
-      const prev = document.querySelector(".bf-loading-step.active");
-      if (prev) { prev.classList.remove("active"); prev.classList.add("done"); }
-
+      if (i > 0) {
+        const prev = $(steps[i-1].id);
+        if (prev) { prev.classList.remove("active"); prev.classList.add("done"); }
+        const prevCheck = $(steps[i-1].check);
+        if (prevCheck) prevCheck.textContent = "✓";
+      }
       const el = $(id);
       if (el) el.classList.add("active");
       const emojiEl = $("bfLoadingEmoji");
-      if (emojiEl) emojiEl.textContent = emoji;
-      const titleEl = $("bfLoadingTitle");
-      if (titleEl) titleEl.textContent = title;
+      if (emojiEl) emojiEl.textContent = emojis[i];
     }, delay);
   });
 }
 
-/* ── Render Results ────────────────────────────────────── */
+/* ── Results ────────────────────────────────────────────── */
 function showResults(r) {
   const user = Auth.getUser();
-  const isPro = user?.plan === "pro";
+  const isPro     = user?.plan === "pro";
   const isPremium = isPro || user?.plan === "premium";
 
   const score = r.compatibilityScore || 0;
-  const scoreColor = score >= 70 ? "#10b981" : score >= 45 ? "#f59e0b" : "#ef4444";
-  const circ = 2 * Math.PI * 45;
+  const scoreColor  = score >= 75 ? "#10b981" : score >= 50 ? "#f59e0b" : "#ef4444";
+  const scoreLabel  = score >= 75 ? "Excellente compatibilité" : score >= 50 ? "Bonne compatibilité" : "Compatibilité correcte";
+  const scoreBg     = score >= 75 ? "background:#ecfdf5;color:#059669" : score >= 50 ? "background:#fffbeb;color:#d97706" : "background:#fef2f2;color:#dc2626";
+
+  const circ  = 2 * Math.PI * 50;
   const offset = circ - (score / 100) * circ;
 
-  const roadmapHtml = buildRoadmapHtml(r.roadmap30Days || []);
-
-  // Show Pro lock for both free AND premium users (premium can't see Pro features)
-  const proLockedHtml = !isPro ? `
-    <div class="bf-pro-locked">
-      <div class="bf-pro-locked-header">
-        <span style="font-size:1.3rem">🔒</span>
-        <div>
-          <div class="bf-pro-locked-title">Analyse complète — Plan Pro</div>
-          <div class="bf-pro-locked-sub">Débloquez revenus, avantages, risques et roadmap détaillée</div>
-        </div>
-      </div>
-      <div class="bf-pro-locked-items">
-        <div class="bf-pro-item"><span>🔒</span> Temps avant 1er revenu</div>
-        <div class="bf-pro-item"><span>🔒</span> Potentiel de revenus</div>
-        <div class="bf-pro-item"><span>🔒</span> Avantages détaillés</div>
-        <div class="bf-pro-item"><span>🔒</span> Risques identifiés</div>
-        <div class="bf-pro-item"><span>🔒</span> Roadmap 30 jours</div>
-      </div>
-      <a href="pricing.html" class="bf-btn-primary" style="text-decoration:none;display:inline-flex;">Débloquer Pro →</a>
-    </div>` : "";
-
-  // Premium sees: recommendedBusiness, compatibilityScore, whyItFits, difficulty, estimatedBudget
-  // Pro also sees: timeToFirstRevenue, revenuePotential, advantages, risks, roadmap
+  // Pro content sections
   const proContent = isPro ? `
-    <div class="bf-result-section">
-      <div class="bf-result-section-title">⏱ Délai & potentiel</div>
-      <div class="bf-result-meta" style="background:transparent;border:none;padding:0;grid-template-columns:1fr 1fr;gap:10px;">
-        <div class="bf-meta-card">
-          <span class="bf-meta-icon">⏱</span>
-          <div>
-            <div class="bf-meta-label">1er revenu</div>
-            <div class="bf-meta-value">${escapeHtml(r.timeToFirstRevenue || "—")}</div>
-          </div>
+    <div class="bfx-result-card">
+      <div class="bfx-card-label">⏱ Délai & Potentiel</div>
+      <div class="bfx-meta-row">
+        <div class="bfx-meta-item">
+          <div class="bfx-meta-icon">⏱</div>
+          <div class="bfx-meta-label">1er revenu</div>
+          <div class="bfx-meta-val">${escapeHtml(r.timeToFirstRevenue || "—")}</div>
         </div>
-        <div class="bf-meta-card">
-          <span class="bf-meta-icon">💸</span>
-          <div>
-            <div class="bf-meta-label">Potentiel</div>
-            <div class="bf-meta-value">${escapeHtml(r.revenuePotential || "—")}</div>
-          </div>
+        <div class="bfx-meta-item">
+          <div class="bfx-meta-icon">💸</div>
+          <div class="bfx-meta-label">Potentiel</div>
+          <div class="bfx-meta-val">${escapeHtml(r.revenuePotential || "—")}</div>
         </div>
       </div>
     </div>
     ${r.advantages?.length ? `
-    <div class="bf-result-section">
-      <div class="bf-result-section-title">✅ Avantages</div>
-      <div class="bf-result-list">
-        ${r.advantages.map(a => `<div class="bf-result-list-item"><span class="bf-result-list-check">✓</span>${escapeHtml(a)}</div>`).join("")}
-      </div>
+    <div class="bfx-result-card">
+      <div class="bfx-card-label">✅ Points forts</div>
+      ${r.advantages.map(a => `<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:8px;font-size:14px;color:#334155"><span style="color:#10b981;font-weight:800;flex-shrink:0">✓</span>${escapeHtml(a)}</div>`).join("")}
     </div>` : ""}
     ${r.risks?.length ? `
-    <div class="bf-result-section">
-      <div class="bf-result-section-title">⚠️ Risques</div>
-      <div class="bf-result-list">
-        ${r.risks.map(risk => `<div class="bf-result-list-item"><span class="bf-result-list-x">→</span>${escapeHtml(risk)}</div>`).join("")}
-      </div>
+    <div class="bfx-result-card">
+      <div class="bfx-card-label">⚠️ Risques à anticiper</div>
+      ${r.risks.map(risk => `<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:8px;font-size:14px;color:#334155"><span style="color:#f59e0b;font-weight:800;flex-shrink:0">→</span>${escapeHtml(risk)}</div>`).join("")}
     </div>` : ""}
     ${r.roadmap30Days?.length ? `
-    <div class="bf-result-section">
-      <div class="bf-result-section-title">🚀 Roadmap 30 jours</div>
-      ${roadmapHtml}
+    <div class="bfx-result-card">
+      <div class="bfx-card-label">🗓 Roadmap 30 jours</div>
+      ${r.roadmap30Days.map((step, i) => `
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #f1f5f9">
+          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i+1}</div>
+          <div style="font-size:13.5px;color:#334155;line-height:1.5">${escapeHtml(step)}</div>
+        </div>`).join("")}
     </div>` : ""}
   ` : "";
 
-  const html = `
-    <div class="bf-result-card">
-      <div class="bf-result-hero">
-        <div class="bf-result-score-ring">
-          <svg viewBox="0 0 110 110">
-            <circle cx="55" cy="55" r="45" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="8"/>
-            <circle cx="55" cy="55" r="45" fill="none"
-              stroke="${scoreColor}" stroke-width="8"
+  const proLock = !isPro ? `
+    <div class="bfx-pro-lock">
+      <span class="bfx-pro-lock-icon">🔒</span>
+      <div class="bfx-pro-lock-title">Débloquez le plan Pro</div>
+      <div class="bfx-pro-lock-desc">Accédez à l'analyse complète avec revenus, avantages, risques et roadmap détaillée.</div>
+      <div class="bfx-pro-lock-items">
+        <div class="bfx-lock-item"><span>🔒</span> 1er revenu estimé</div>
+        <div class="bfx-lock-item"><span>🔒</span> Potentiel de revenus</div>
+        <div class="bfx-lock-item"><span>🔒</span> Avantages clés</div>
+        <div class="bfx-lock-item"><span>🔒</span> Risques identifiés</div>
+        <div class="bfx-lock-item"><span>🔒</span> Roadmap 30 jours</div>
+      </div>
+      <a href="pricing.html" class="bfx-pro-cta">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Passer au plan Pro
+      </a>
+    </div>` : "";
+
+  const container = $("bfResults");
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="bfx-results-wrap">
+
+      <!-- Card 1: Business recommandé -->
+      <div class="bfx-result-card bfx-result-card--hero">
+        <div class="bfx-hero-badge">🎯 Business recommandé</div>
+        <div class="bfx-hero-name">${escapeHtml(r.recommendedBusiness || "Business Opportunity")}</div>
+        <div class="bfx-hero-desc">${escapeHtml(r.whyItFits?.slice(0, 120) || "")}</div>
+      </div>
+
+      <!-- Card 2: Score cercle centré -->
+      <div class="bfx-result-card bfx-result-card--score">
+        <div class="bfx-card-label">Compatibilité</div>
+        <div class="bfx-score-ring-wrap">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="10"/>
+            <circle cx="60" cy="60" r="50" fill="none"
+              stroke="${scoreColor}" stroke-width="10"
               stroke-linecap="round"
               stroke-dasharray="${circ}"
               stroke-dashoffset="${offset}"
-              transform="rotate(-90 55 55)"
-              style="transition:stroke-dashoffset 1.2s cubic-bezier(.16,1,.3,1)"/>
+              transform="rotate(-90 60 60)"
+              style="transition:stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1)"/>
           </svg>
-          <div class="bf-result-score-inner">
-            <span class="bf-result-score-num">${score}</span>
-            <span class="bf-result-score-sub">/100</span>
-            <span class="bf-result-score-lbl">Compatibilité</span>
+          <div class="bfx-score-inner">
+            <span class="bfx-score-num">${score}</span>
+            <span class="bfx-score-sub">/100</span>
           </div>
         </div>
-        <div class="bf-result-hero-info">
-          <div class="bf-result-hero-label">🎯 Business recommandé</div>
-          <div class="bf-result-hero-name">${escapeHtml(r.recommendedBusiness || "Business Opportunity")}</div>
-          <div class="bf-result-hero-why">${escapeHtml(r.whyItFits || "")}</div>
-        </div>
+        <div class="bfx-score-label" style="${scoreBg}">${escapeHtml(scoreLabel)}</div>
       </div>
 
-      <div class="bf-result-meta">
-        <div class="bf-meta-card">
-          <span class="bf-meta-icon">⚡</span>
-          <div>
-            <div class="bf-meta-label">Difficulté</div>
-            <div class="bf-meta-value">${escapeHtml(r.difficulty || "—")}</div>
+      <!-- Card 3: Pourquoi -->
+      <div class="bfx-result-card">
+        <div class="bfx-card-label">💬 Pourquoi cette opportunité ?</div>
+        <p class="bfx-why-text">${escapeHtml(r.whyItFits || "")}</p>
+      </div>
+
+      <!-- Card 4+5: Difficulté + Budget -->
+      <div class="bfx-result-card">
+        <div class="bfx-meta-row">
+          <div class="bfx-meta-item">
+            <div class="bfx-meta-icon">⚡</div>
+            <div class="bfx-meta-label">Difficulté</div>
+            <div class="bfx-meta-val">${escapeHtml(r.difficulty || "—")}</div>
           </div>
-        </div>
-        <div class="bf-meta-card">
-          <span class="bf-meta-icon">💰</span>
-          <div>
-            <div class="bf-meta-label">Budget estimé</div>
-            <div class="bf-meta-value">${escapeHtml(r.estimatedBudget || "—")}</div>
+          <div class="bfx-meta-item">
+            <div class="bfx-meta-icon">💰</div>
+            <div class="bfx-meta-label">Budget estimé</div>
+            <div class="bfx-meta-val">${escapeHtml(r.estimatedBudget || "—")}</div>
           </div>
         </div>
       </div>
 
       ${proContent}
-      ${proLockedHtml}
+      ${proLock}
 
-      <div class="bf-result-actions">
-        <button class="bf-btn-primary" id="bfSaveBtn" onclick="saveBfResult()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-          Sauvegarder
-        </button>
-        <button class="bf-btn-secondary" onclick="restartFinder()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.09-5.18"/></svg>
-          Recommencer
-        </button>
-        <a href="dashboard.html" class="bf-btn-secondary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          Tableau de bord
-        </a>
+      <!-- Actions -->
+      <div class="bfx-result-card" style="padding:18px">
+        <div class="bfx-result-actions">
+          <button class="bfx-action-primary" id="bfSaveBtn" onclick="saveBfResult()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+            Sauvegarder
+          </button>
+          <button class="bfx-action-ghost" onclick="restartFinder()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.09-5.18"/></svg>
+            Recommencer
+          </button>
+          <a href="dashboard.html" class="bfx-action-ghost" style="text-decoration:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Dashboard
+          </a>
+        </div>
       </div>
+
     </div>`;
 
-  const container = $("bfResults");
-  if (container) container.innerHTML = html;
   showScreen("bfResults");
 }
 
-function buildRoadmapHtml(items) {
-  if (!items?.length) return "";
-  const WEEK_SIZE = 2;
-  const colors = ["#2563eb","#4f46e5","#7c3aed","#6d28d9","#0891b2","#059669"];
-  const labels = ["Semaine 1","Semaine 2","Semaine 3","Semaine 4","Semaine 5","Semaine 6"];
-  const weeks = [];
-  for (let i = 0; i < items.length; i += WEEK_SIZE) weeks.push(items.slice(i, i + WEEK_SIZE));
-
-  return `<div class="bf-roadmap">${weeks.map((grp, wi) => `
-    <div class="bf-roadmap-week">
-      <div class="bf-roadmap-week-label" style="color:${colors[wi]||"#7c3aed"}">
-        <span class="bf-roadmap-dot" style="background:${colors[wi]||"#7c3aed"}"></span>
-        ${labels[wi] || `Semaine ${wi+1}`}
-      </div>
-      ${grp.map(task => `
-        <div class="bf-roadmap-task">
-          <span class="bf-roadmap-task-check">✓</span>
-          <span>${escapeHtml(task)}</span>
-        </div>`).join("")}
-    </div>`).join("")}</div>`;
-}
-
+/* ── Restart ────────────────────────────────────────────── */
 function restartFinder() {
   currentQ = 0;
-  answers = {};
-  showScreen("bfQuestionnaire");
-  renderQuestion();
+  answers  = {};
+  showScreen("bfIntro");
 }
 
+/* ── Save ───────────────────────────────────────────────── */
 async function saveBfResult() {
   const user = Auth.getUser();
-  if (!user) {
-    Toast.error("Veuillez vous connecter");
-    return;
-  }
-
+  if (!user) { Toast.error("Veuillez vous connecter"); return; }
   if (user.plan === "free") {
     Toast.warning("La sauvegarde est réservée aux plans Premium et Pro");
     setTimeout(() => { window.location.href = "pricing.html"; }, 1200);
@@ -527,53 +478,31 @@ async function saveBfResult() {
   }
 
   const id = currentResult?._analysisId;
-  if (!id) {
-    Toast.error("Aucune analyse à sauvegarder");
-    return;
-  }
+  if (!id) { Toast.error("Aucune analyse à sauvegarder"); return; }
 
-  const btn = document.getElementById("bfSaveBtn");
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg> Sauvegarde…`;
-  }
+  const btn = $("bfSaveBtn");
+  if (btn) { btn.disabled = true; btn.innerHTML = `⏳ Sauvegarde…`; }
 
   try {
     const token = Auth.getToken();
-    const response = await fetch(
-      `https://opportunity-finder-api.onrender.com/api/analyze/save/${id}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        }
-      }
-    );
-
+    const response = await fetch(`${API_BASE}/api/analyze/save/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }
+    });
     const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || data.message || "Erreur lors de la sauvegarde");
-    }
-
-    Toast.success("Analyse sauvegardée ! Retrouvez-la dans le tableau de bord.");
-
+    if (!response.ok) throw new Error(data.error || "Erreur lors de la sauvegarde");
+    Toast.success("Analyse sauvegardée !");
     if (btn) {
-      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Sauvegardée`;
+      btn.innerHTML = `✓ Sauvegardée`;
       btn.style.background = "linear-gradient(135deg,#059669,#10b981)";
     }
-
   } catch (err) {
-    console.error("Save error:", err);
     Toast.error(err.message || "Impossible de sauvegarder");
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Sauvegarder`;
-    }
+    if (btn) { btn.disabled = false; btn.innerHTML = `Sauvegarder`; }
   }
 }
 
+/* ── Utility ────────────────────────────────────────────── */
 function escapeHtml(str) {
   if (typeof str !== "string") return String(str || "");
   return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");

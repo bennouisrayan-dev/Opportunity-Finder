@@ -3301,3 +3301,21 @@ html, body {
   .navbar-inner { gap: 8px; }
   .navbar-logo span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   FIX P2 — Profile page: remove double spacing
+   .dashboard already has padding-top:72px for fixed navbar
+   .dashboard-main adds another 32px — reduce it
+══════════════════════════════════════════════════════════ */
+.dashboard-main {
+  padding-top: var(--space-4) !important; /* was space-8 = 32px → now 16px */
+}
+
+.dashboard-header {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .dashboard { padding-top: 60px !important; }
+  .dashboard-main { padding-top: var(--space-3) !important; }
+}

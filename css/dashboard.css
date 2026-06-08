@@ -2954,3 +2954,43 @@ body[data-page="dashboard"] .saved-item:hover {
   .db-topbar-logo { width: 26px !important; height: 26px !important; }
   .db-topbar-brand { font-size: 15px !important; gap: 7px !important; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   FIX P1 + P3 — Header mobile: clean, compact, no clutter
+══════════════════════════════════════════════════════════ */
+.db-topbar-right-mobile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.theme-toggle-sm {
+  width: 32px !important;
+  height: 32px !important;
+  font-size: .85rem !important;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  flex-shrink: 0;
+}
+
+/* Hide Desktop-only actions on mobile */
+@media (max-width: 768px) {
+  .db-header-desktop-only { display: none !important; }
+
+  .db-page-header {
+    padding-bottom: 10px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .db-page-title { font-size: 17px !important; }
+  .db-page-sub   { font-size: 12px !important; }
+
+  .db-topbar { height: 54px !important; }
+}
+
+/* Show desktop header actions on desktop, hide topbar mobile actions */
+@media (min-width: 769px) {
+  .db-topbar-right-mobile { display: none; }
+}

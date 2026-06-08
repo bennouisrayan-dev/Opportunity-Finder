@@ -101,22 +101,25 @@
     <img src="logo.png" alt="" class="db-topbar-logo">
     <span>Opportunity</span>
   </a>
-  <div class="db-topbar-right navbar-auth">
-    <a href="login.html" class="btn btn-ghost btn-sm">Connexion</a>
-    <a href="signup.html" class="btn btn-primary btn-sm">Commencer</a>
+  <div class="db-topbar-right-mobile">
+    <button class="theme-toggle-btn theme-toggle-sm" data-theme-toggle aria-label="Basculer le thème"><span class="theme-icon">🌙</span></button>
+    <div class="navbar-auth db-topbar-auth">
+      <a href="login.html" class="btn btn-ghost btn-sm">Connexion</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Commencer</a>
+    </div>
   </div>
 </header>
 
 <!-- ══ MAIN ══ -->
 <main class="db-main" id="dbMain">
 
-  <!-- Page header -->
+  <!-- Page header — desktop only actions -->
   <div class="db-page-header">
     <div class="db-page-header-left">
       <h1 class="db-page-title">Tableau de bord</h1>
       <p class="db-page-sub">Générez des idées ou évaluez votre concept de startup</p>
     </div>
-    <div class="db-page-header-right">
+    <div class="db-page-header-right db-header-desktop-only">
       <button class="theme-toggle-btn" data-theme-toggle aria-label="Basculer le thème"><span class="theme-icon">🌙</span></button>
       <a href="pricing.html" class="db-upgrade-pill">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
