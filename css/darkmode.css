@@ -1135,7 +1135,7 @@
 
 /* Ensure gradient sections are NEVER overridden */
 [data-theme="dark"] .cta,
-[data-theme="dark"] .hero,
+/* .hero background:revert removed — it was cancelling mobile padding fix */
 [data-theme="dark"] .rv-hero,
 [data-theme="dark"] .bf-result-hero,
 [data-theme="dark"] .ob-result-header {
