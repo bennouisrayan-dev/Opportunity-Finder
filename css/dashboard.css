@@ -2477,13 +2477,7 @@ body[data-page="dashboard"] .saved-item:hover {
 }
 
 .db-hero-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #2563eb, #7c3aed, #2563eb);
-  background-size: 200% 100%;
-  animation: heroShimmer 4s linear infinite;
+  display: none;
 }
 
 @keyframes heroShimmer {
