@@ -1790,3 +1790,164 @@
   border-color: #4f46e5 !important;
   color: #93c5fd !important;
 }
+
+/* ══════════════════════════════════════════════════════════
+   BUSINESS FINDER MOBILE FIX v2
+   - Options compact
+   - Mascot smaller
+   - Bubble compact
+   - Buttons always above bottom nav
+   - No double toggle (handled in HTML)
+══════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+
+  /* ─── Mascot: significantly smaller ─────────────────── */
+  .bfm-wrap          { width: 72px !important;  height: 84px !important;  }
+  .bfm-wrap.bfm-small{ width: 52px !important;  height: 61px !important;  }
+  .bfm-wrap.bfm-large{ width: 110px !important; height: 129px !important; }
+
+  /* ─── Mascot row: tighter ────────────────────────────── */
+  .bfx-mascot-row {
+    margin-bottom: 8px !important;
+    gap: 8px !important;
+  }
+
+  /* ─── Speech bubble: compact ─────────────────────────── */
+  .bfm-speech-bubble {
+    padding: 9px 13px !important;
+    font-size: 12.5px !important;
+    margin-bottom: 12px !important;
+    max-width: 100%;
+  }
+
+  .bfm-hint-bubble {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+  }
+
+  /* ─── Question text: readable but smaller ───────────── */
+  .bfx-question-text {
+    font-size: 1.15rem !important;
+    margin-bottom: 14px !important;
+  }
+
+  /* ─── Intro title ────────────────────────────────────── */
+  .bfx-intro-title { font-size: 1.5rem !important; }
+
+  /* ─── Option cards: compact — show 3+ at once ───────── */
+  .bfx-card-option {
+    padding: 11px 14px !important;
+    min-height: 48px !important;
+    font-size: 13.5px !important;
+    border-radius: 12px !important;
+  }
+
+  .bfx-card-option-icon {
+    font-size: 1.25rem !important;
+    width: 26px !important;
+  }
+
+  .bfx-options-cards { gap: 7px !important; }
+
+  /* ─── Question card: less padding ───────────────────── */
+  .bfx-question-card {
+    padding: 18px 16px 14px !important;
+    min-height: auto !important;
+    border-radius: 16px !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* ─── Profile preview: compact 2-col ────────────────── */
+  .bfx-profile-preview {
+    padding: 9px 12px !important;
+    gap: 6px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .bfx-profile-field {
+    min-width: 70px !important;
+    gap: 5px !important;
+  }
+
+  .bfx-profile-icon   { font-size: .85rem !important; }
+  .bfx-profile-label  { font-size: 9px !important; }
+  .bfx-profile-val    { font-size: 11.5px !important; }
+
+  /* ─── Quiz nav: STICKY above bottom nav ──────────────── */
+  .bfx-quiz-nav {
+    position: sticky !important;
+    bottom: calc(64px + env(safe-area-inset-bottom)) !important;
+    background: var(--db-bg, #f8fafc) !important;
+    padding: 10px 0 6px !important;
+    z-index: 200 !important;
+    margin-top: 8px !important;
+    border-top: 1px solid rgba(0,0,0,.06);
+  }
+
+  [data-theme="dark"] .bfx-quiz-nav {
+    background: #0f172a !important;
+    border-top-color: rgba(255,255,255,.06) !important;
+  }
+
+  .bfx-btn-next { padding: 12px 20px !important; font-size: 14px !important; }
+  .bfx-btn-back { padding: 12px 16px !important; font-size: 13.5px !important; }
+
+  /* ─── bf-main: proper scroll space ──────────────────── */
+  .bf-main {
+    padding-top: 14px !important;
+    padding-bottom: calc(140px + env(safe-area-inset-bottom)) !important;
+    justify-content: flex-start !important;
+    gap: 8px;
+  }
+
+  /* ─── Quiz wrap: full width ──────────────────────────── */
+  .bfx-quiz-wrap { max-width: 100% !important; }
+
+  /* ─── Intro card: no extra margin ───────────────────── */
+  .bfx-intro-card {
+    padding: 24px 18px 20px !important;
+    margin-bottom: 0 !important;
+    max-width: 100%;
+  }
+
+  /* ─── Start btn: full width ──────────────────────────── */
+  .bfx-start-btn {
+    padding: 14px 20px !important;
+    font-size: 15px !important;
+  }
+
+  /* ─── Loading card ───────────────────────────────────── */
+  .bfx-loading-card { padding: 24px 16px 20px !important; }
+  .bfx-loading-title{ font-size: 1.1rem !important; }
+
+  /* ─── Back button: compact on mobile ────────────────── */
+  .bf-back-btn {
+    top: 10px !important;
+    right: 10px !important;
+    padding: 7px 11px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+  }
+
+  /* ─── Topbar on BF page: normal height ──────────────── */
+  .bf-page .db-topbar { height: 54px !important; }
+
+  /* ─── Quiz topbar: fits below main topbar ────────────── */
+  .bfx-quiz-topbar {
+    padding: 0 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .bfx-progress-track { margin-bottom: 10px !important; }
+}
+
+/* ─── iPhone SE (375px) ───────────────────────────────── */
+@media (max-width: 390px) {
+  .bfm-wrap          { width: 60px !important; height: 70px !important; }
+  .bfm-wrap.bfm-large{ width: 90px !important; height: 105px !important; }
+  .bfx-card-option   { padding: 9px 12px !important; font-size: 13px !important; min-height: 44px !important; }
+  .bfx-question-text { font-size: 1.05rem !important; }
+  .bfx-intro-title   { font-size: 1.3rem !important; }
+  .bfm-speech-bubble { font-size: 12px !important; padding: 8px 11px !important; }
+}

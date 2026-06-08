@@ -3055,3 +3055,131 @@ body[data-page="dashboard"] .saved-item:hover {
   .db-bottom-item span { font-size: 9px; }
   .db-bottom-item svg  { width: 18px; height: 18px; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE COMPREHENSIVE FIX v2
+   Root causes fixed:
+   1. Double toggle: removed hardcoded one from HTML
+   2. User name overflow: avatar-only on narrow topbar
+   3. Options too tall: reduced min-height mobile
+   4. Safe-area: proper inset handling
+══════════════════════════════════════════════════════════ */
+
+/* ─── Universal: no horizontal scroll ─────────────────── */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+}
+
+* { box-sizing: border-box; }
+
+/* ─── Theme toggle: single instance enforcement ────────── */
+/* Only the toggle inside .db-topbar-right-mobile matters on mobile */
+/* Hide any stray toggle that auth.js might inject at wrong level */
+@media (max-width: 768px) {
+  /* Allow only ONE theme toggle per topbar */
+  .db-topbar .theme-toggle-btn ~ .theme-toggle-btn { display: none !important; }
+
+  /* ─── Topbar: tight 1-line layout ─────────────────── */
+  .db-topbar {
+    height: 54px !important;
+    padding: 0 12px !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    overflow: visible;
+  }
+
+  .db-topbar-brand {
+    flex-shrink: 0;
+    font-size: 15px !important;
+    gap: 7px !important;
+    min-width: 0;
+    max-width: 130px;
+    overflow: hidden;
+  }
+
+  .db-topbar-brand span {
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+    /* Show "Opportunity" not "Opportu..." */
+    max-width: 100px;
+    font-size: 14px !important;
+  }
+
+  .db-topbar-right-mobile {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  /* ─── User menu: avatar ONLY on mobile ─────────────── */
+  .db-topbar-auth .user-name-full,
+  .db-topbar-auth .user-name,
+  .db-topbar-right-mobile .user-name-full,
+  .db-topbar-right-mobile .user-name {
+    display: none !important;    /* hide full name — dropdown has it */
+  }
+
+  .db-topbar-auth .user-arrow,
+  .db-topbar-right-mobile .user-arrow {
+    margin-left: 0 !important;
+    font-size: 10px !important;
+  }
+
+  .db-topbar-auth .user-menu-toggle,
+  .db-topbar-right-mobile .user-menu-toggle {
+    padding: 5px 8px !important;
+    gap: 4px !important;
+    background: var(--db-surface) !important;
+    border-radius: 10px !important;
+    max-width: none !important;
+  }
+
+  .db-topbar-auth .user-avatar,
+  .db-topbar-right-mobile .user-avatar {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 13px !important;
+    flex-shrink: 0;
+  }
+
+  /* ─── Theme toggle: compact ────────────────────────── */
+  .db-topbar .theme-toggle-btn {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: .85rem !important;
+    flex-shrink: 0;
+  }
+
+  /* ─── Bottom nav: safe area ────────────────────────── */
+  .db-bottom-nav {
+    height: calc(60px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    z-index: 500;
+  }
+
+  /* ─── All main content: clear bottom nav ───────────── */
+  .db-main {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* ─── User dropdown: proper positioning ────────────── */
+  .db-topbar-auth .user-menu-dropdown,
+  .db-topbar-right-mobile .user-menu-dropdown {
+    right: 0 !important;
+    left: auto !important;
+    min-width: 200px !important;
+    top: calc(100% + 8px) !important;
+  }
+}
+
+/* ─── iPhone SE specific (375px and below) ────────────── */
+@media (max-width: 390px) {
+  .db-topbar-brand span { max-width: 85px; font-size: 13px !important; }
+  .db-topbar { padding: 0 10px !important; gap: 6px !important; }
+}
