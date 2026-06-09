@@ -3318,7 +3318,7 @@ html, body {
 }
 
 @media (max-width: 768px) {
-  .dashboard { padding-top: 60px !important; }
+  .dashboard { padding-top: 0 !important; } /* navbar is sticky on mobile */
   .dashboard-main { padding-top: var(--space-3) !important; }
 }
 
@@ -3408,19 +3408,18 @@ html, body {
 ══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
-  /* Body: no extra top padding */
+  /* Body: no extra padding */
   html, body {
     padding-top: 0 !important;
     margin-top: 0 !important;
   }
 
-  /* Navbar: sits flush against top of screen */
+  /* Navbar: sticky on mobile — NO safe-area padding needed (iOS handles status bar) */
   .navbar {
     top: 0 !important;
     margin-top: 0 !important;
-    /* iOS safe area: push navbar DOWN past status bar */
-    padding-top: env(safe-area-inset-top) !important;
-    height: calc(58px + env(safe-area-inset-top)) !important;
+    padding-top: 0 !important;
+    height: 58px !important;
   }
 
   .navbar-inner {
@@ -3428,36 +3427,31 @@ html, body {
     margin-top: 0 !important;
   }
 
-  /* Content below fixed navbar: account for safe area */
+  /* Hero: navbar is sticky → content flows below it naturally, just 16px breathing room */
   .hero {
-    padding-top: calc(58px + env(safe-area-inset-top) + 16px) !important;
+    padding-top: 16px !important;
     margin-top: 0 !important;
   }
 
   [data-theme="dark"] .hero {
-    padding-top: calc(58px + env(safe-area-inset-top) + 16px) !important;
+    padding-top: 16px !important;
   }
 
-  /* Dashboard .dashboard class (profile page) */
+  /* Dashboard/profile: also sticky navbar → minimal top padding */
   .dashboard {
-    padding-top: calc(58px + env(safe-area-inset-top)) !important;
+    padding-top: 0 !important;
     margin-top: 0 !important;
   }
 
   /* Auth pages */
   .auth-page {
-    padding-top: calc(58px + env(safe-area-inset-top)) !important;
+    padding-top: 16px !important;
     margin-top: 0 !important;
   }
 }
 
 @media (max-width: 390px) {
-  /* iPhone SE: same safe-area handling */
-  .navbar {
-    height: calc(54px + env(safe-area-inset-top)) !important;
-  }
+  .navbar { height: 54px !important; }
   .navbar-inner { height: 54px !important; }
-  .hero {
-    padding-top: calc(54px + env(safe-area-inset-top) + 12px) !important;
-  }
+  .hero { padding-top: 12px !important; }
 }

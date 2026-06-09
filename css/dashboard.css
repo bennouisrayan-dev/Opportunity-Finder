@@ -3190,17 +3190,17 @@ html, body {
 ══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
-  /* db-topbar: account for iPhone notch/island */
+  /* db-topbar: sticky — sits flush, no safe-area padding needed (iOS handles it) */
   .db-topbar {
-    padding-top: env(safe-area-inset-top) !important;
-    height: calc(54px + env(safe-area-inset-top)) !important;
+    height: 54px !important;
+    padding-top: 0 !important;
     top: 0 !important;
     margin-top: 0 !important;
   }
 
-  /* db-main: offset by exact topbar height */
+  /* db-main: topbar is sticky — content flows below naturally, only need breathing room */
   .db-main {
-    padding-top: calc(54px + env(safe-area-inset-top) + 12px) !important;
+    padding-top: 14px !important;
   }
 
   /* Prevent any pseudo-element gaps */
@@ -3212,9 +3212,10 @@ html, body {
 
 @media (max-width: 390px) {
   .db-topbar {
-    height: calc(52px + env(safe-area-inset-top)) !important;
+    height: 52px !important;
+    padding-top: 0 !important;
   }
   .db-main {
-    padding-top: calc(52px + env(safe-area-inset-top) + 10px) !important;
+    padding-top: 12px !important;
   }
 }
