@@ -2493,9 +2493,8 @@ p {
     backdrop-filter: blur(12px);
     box-shadow: 0 1px 0 var(--gray-100);
     overflow: visible;
-    /* Extend background into safe-area so no gap appears above */
-    padding-top: env(safe-area-inset-top);
-    margin-top: calc(-1 * env(safe-area-inset-top));
+    /* Safe-area: just padding-top, no margin tricks */
+    padding-top: 0;
   }
 
   .navbar-inner {
@@ -3202,53 +3201,56 @@ p {
 
 .navbar-mobile-menu {
   display: none;
+}
+
+/* When open: full-screen overlay — outside the sticky navbar so position:fixed works on iOS */
+.navbar-mobile-menu.open {
+  display: flex;
   flex-direction: column;
-  /* Full-screen overlay — covers entire page */
+  /* Direct child of body → position:fixed WORKS on iOS Safari */
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
   width: 100%;
   height: 100%;
-  z-index: 99999;
-  background: rgba(15, 23, 42, 0.97);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: calc(env(safe-area-inset-top) + 80px) 24px 32px;
-  gap: 4px;
+  height: 100dvh;
+  z-index: 999999;
+  /* Solid opaque background — no transparency, guaranteed to cover everything */
+  background: #0f172a;
+  padding-top: max(env(safe-area-inset-top), 16px);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: max(env(safe-area-inset-bottom), 24px);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  gap: 0;
+  animation: menuFadeIn 0.18s ease;
 }
 
-.navbar-mobile-menu.open {
-  display: flex;
-  animation: menuSlideDown 0.22s cubic-bezier(.16,1,.3,1);
-}
-
-@keyframes menuSlideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes menuFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .navbar-mobile-link {
-  display: block;
-  padding: 12px 4px;
-  color: var(--gray-700);
-  font-size: 15px;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  padding: 15px 18px;
+  color: #f1f5f9;
+  font-size: 17px;
+  font-weight: 600;
   text-decoration: none;
-  border-radius: 8px;
-  transition: color 0.15s;
+  border-radius: 12px;
+  transition: all 0.15s;
 }
 
-.navbar-mobile-link:hover { color: var(--primary-600); }
-.navbar-mobile-link--auth { font-weight: 700; color: var(--primary-600); }
+.navbar-mobile-link:hover, .navbar-mobile-link:active { background: rgba(255,255,255,0.07); border-radius: 12px; color: white; }
+.navbar-mobile-link--auth { font-weight: 700; color: #93c5fd; }
 
 .navbar-mobile-divider {
   height: 1px;
-  background: var(--gray-100);
-  margin: 8px 0;
+  background: rgba(255,255,255,0.12);
+  margin: 12px 0;
 }
 
 .navbar-mobile-cta {
@@ -3547,4 +3549,122 @@ html, body {
   color: rgba(255,255,255,0.4);
   padding: 0 20px 8px;
   margin-bottom: 4px;
+}
+.navbar-mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding-top: 8px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   DEFINITIVE MOBILE FIX — Single authoritative block
+   Last rule wins — overrides all previous conflicts
+   Desktop: unchanged (min-width: 769px only)
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── Navbar: sticky, no safe-area tricks needed ──────── */
+  .navbar {
+    position: sticky !important;
+    top: 0 !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    height: auto !important;
+    z-index: 9999 !important;
+    overflow: visible !important;
+  }
+
+  .navbar-inner {
+    height: 58px !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* ── Hero: NO padding to compensate for navbar (sticky = in flow) ── */
+  .hero {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* ── html/body: no artificial spacing ───────────────── */
+  html, body {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    overflow-x: hidden !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .navbar-inner { height: 54px !important; }
+}
+
+/* ── Mobile menu links: readable on dark #0f172a background ── */
+.navbar-mobile-menu .navbar-mobile-link {
+  display: flex !important;
+  align-items: center !important;
+  padding: 16px 12px !important;
+  color: #f1f5f9 !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border-radius: 12px !important;
+  transition: background 0.15s !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.navbar-mobile-menu .navbar-mobile-link:hover,
+.navbar-mobile-menu .navbar-mobile-link:active {
+  background: rgba(255,255,255,0.08) !important;
+  color: white !important;
+}
+
+.navbar-mobile-menu .navbar-mobile-link--auth {
+  color: #93c5fd !important;
+  border-bottom: none;
+}
+
+.navbar-mobile-menu .navbar-mobile-divider {
+  background: rgba(255,255,255,0.1) !important;
+  height: 1px;
+  margin: 8px 0;
+}
+
+.navbar-mobile-menu .navbar-mobile-cta {
+  margin-top: 16px !important;
+  width: 100% !important;
+  text-align: center !important;
+  padding: 16px !important;
+  font-size: 16px !important;
+  border-radius: 14px !important;
+  text-decoration: none !important;
+}
+
+.navbar-mobile-menu .navbar-mobile-close {
+  align-self: flex-end;
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: inherit;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.navbar-mobile-menu .navbar-mobile-close:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.navbar-mobile-menu .navbar-mobile-nav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }

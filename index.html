@@ -121,8 +121,8 @@
 
     @media (max-width: 768px) {
   .hero {
-    /* 72px = fixed navbar height, 20px = breathing room. No extra dead space. */
-    padding: calc(72px + 20px) 0 48px;
+    /* Navbar is sticky → in flow → hero needs NO offset, just breathing room */
+    padding: 12px 0 40px;
   }
 
   .hero-title {
@@ -178,25 +178,7 @@
         </button>
       </div>
 
-      <!-- Mobile menu — full screen overlay -->
-      <div class="navbar-mobile-menu" id="navMobileMenu">
-        <button class="navbar-mobile-close" id="navMobileClose" aria-label="Fermer">✕</button>
-        <div class="navbar-mobile-title">Menu</div>
-        <a href="#features" class="navbar-mobile-link" onclick="document.getElementById('navMobileMenu').classList.remove('open')">
-          <span style="margin-right:12px">✦</span> Fonctionnalités
-        </a>
-        <a href="#how-it-works" class="navbar-mobile-link" onclick="document.getElementById('navMobileMenu').classList.remove('open')">
-          <span style="margin-right:12px">▶</span> Comment ça marche
-        </a>
-        <a href="pricing.html" class="navbar-mobile-link">
-          <span style="margin-right:12px">⭐</span> Tarifs
-        </a>
-        <div class="navbar-mobile-divider"></div>
-        <a href="login.html" class="navbar-mobile-link navbar-mobile-link--auth">
-          <span style="margin-right:12px">→</span> Connexion
-        </a>
-        <a href="signup.html" class="btn btn-primary navbar-mobile-cta">🚀 Commencer gratuitement</a>
-      </div>
+
     </div>
   </nav>
 
@@ -618,6 +600,20 @@
   <script src="js/analyzer.js"></script>
 
   <script src="js/main.js"></script>
+
+
+  <!-- Mobile menu overlay — direct child of body for correct iOS position:fixed -->
+  <div class="navbar-mobile-menu" id="navMobileMenu" role="dialog" aria-modal="true" aria-label="Menu navigation">
+    <button class="navbar-mobile-close" id="navMobileClose" aria-label="Fermer le menu">✕</button>
+    <nav class="navbar-mobile-nav">
+      <a href="#features" class="navbar-mobile-link">Fonctionnalités</a>
+      <a href="#how-it-works" class="navbar-mobile-link">Comment ça marche</a>
+      <a href="pricing.html" class="navbar-mobile-link">Tarifs</a>
+      <div class="navbar-mobile-divider"></div>
+      <a href="login.html" class="navbar-mobile-link navbar-mobile-link--auth">Connexion</a>
+      <a href="signup.html" class="btn btn-primary navbar-mobile-cta">Commencer gratuitement</a>
+    </nav>
+  </div>
 
 </body>
 </html>

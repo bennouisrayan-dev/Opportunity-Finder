@@ -3190,11 +3190,11 @@ html, body {
 ══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
-  /* db-topbar: sticky with safe-area extension so no dark gap appears above on iPhone */
+  /* db-topbar: sticky at top — iOS handles safe-area natively with viewport-fit=cover */
   .db-topbar {
     height: 54px !important;
-    padding-top: env(safe-area-inset-top) !important;
-    margin-top: calc(-1 * env(safe-area-inset-top)) !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
     top: 0 !important;
   }
 
@@ -3218,4 +3218,41 @@ html, body {
   .db-main {
     padding-top: 12px !important;
   }
+}
+
+/* ══════════════════════════════════════════════════════════
+   DEFINITIVE MOBILE FIX — Dashboard/BF pages
+   db-topbar is sticky → no padding offset hacks needed
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  .db-topbar {
+    position: sticky !important;
+    top: 0 !important;
+    height: 54px !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    z-index: 9999 !important;
+    overflow: visible !important;
+  }
+
+  .db-main {
+    padding-top: 12px !important;
+    margin-top: 0 !important;
+  }
+
+  /* Profile page: .dashboard has padding-top:72px for fixed navbar — remove on mobile */
+  .dashboard {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  html, body {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .db-topbar { height: 52px !important; }
 }
