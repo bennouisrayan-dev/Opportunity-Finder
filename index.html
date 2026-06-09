@@ -121,8 +121,9 @@
 
     @media (max-width: 768px) {
   .hero {
-    /* Navbar is sticky → in flow → hero needs NO offset, just breathing room */
-    padding: 12px 0 40px;
+    /* Fixed navbar = 58px + safe-area. Hero padding clears it. */
+    padding-top: 0; /* body padding-top handles navbar offset */
+    padding-bottom: 40px;
   }
 
   .hero-title {

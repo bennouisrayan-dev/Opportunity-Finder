@@ -33,15 +33,48 @@ function initNavigation() {
 
 // Mobile menu toggle
 function initMobileMenu() {
-  const menuToggle = DOM.$('[data-action="toggle-menu"]');
-  const mobileMenu = DOM.$('.mobile-menu');
+  const btn   = document.getElementById('navHamburger');
+  const menu  = document.getElementById('navMobileMenu');
+  const close = document.getElementById('navMobileClose');
 
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
-      menuToggle.classList.toggle('active');
-    });
+  if (!btn || !menu) return;
+
+  function openMenu() {
+    menu.classList.add('open');
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
   }
+
+  function closeMenu() {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    menu.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  if (close) {
+    close.addEventListener('click', closeMenu);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && menu.classList.contains('open')) closeMenu();
+  });
+
+  // Close when clicking on the dark overlay (not links)
+  menu.addEventListener('click', function(e) {
+    if (e.target === menu) closeMenu();
+  });
+
+  // Close on any link click inside menu
+  menu.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', closeMenu);
+  });
 }
 
 // Scroll animations
@@ -347,47 +380,4 @@ function initProfilePage() {
 // Run page initialization
 // document.addEventListener('DOMContentLoaded', initPage);
 
-/* ── Mobile hamburger toggle ── */
-(function() {
-  const btn   = document.getElementById("navHamburger");
-  const menu  = document.getElementById("navMobileMenu");
-  const close = document.getElementById("navMobileClose");
-  if (!btn || !menu) return;
-
-  function openMenu() {
-    menu.classList.add("open");
-    btn.classList.add("open");
-    btn.setAttribute("aria-expanded", "true");
-    document.body.style.overflow = "hidden"; // prevent background scroll
-  }
-
-  function closeMenu() {
-    menu.classList.remove("open");
-    btn.classList.remove("open");
-    btn.setAttribute("aria-expanded", "false");
-    document.body.style.overflow = "";
-  }
-
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    menu.classList.contains("open") ? closeMenu() : openMenu();
-  });
-
-  // Close button inside overlay
-  if (close) close.addEventListener("click", closeMenu);
-
-  // Close on Escape key
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMenu();
-  });
-
-  // Close on overlay background click (not on links)
-  menu.addEventListener("click", (e) => {
-    if (e.target === menu) closeMenu();
-  });
-
-  // Close on link click
-  menu.querySelectorAll("a").forEach(a => {
-    a.addEventListener("click", closeMenu);
-  });
-})();
+/* Hamburger handled by initMobileMenu() above */
