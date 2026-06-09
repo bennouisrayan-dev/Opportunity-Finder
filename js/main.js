@@ -349,31 +349,45 @@ function initProfilePage() {
 
 /* ── Mobile hamburger toggle ── */
 (function() {
-  const btn  = document.getElementById("navHamburger");
-  const menu = document.getElementById("navMobileMenu");
+  const btn   = document.getElementById("navHamburger");
+  const menu  = document.getElementById("navMobileMenu");
+  const close = document.getElementById("navMobileClose");
   if (!btn || !menu) return;
+
+  function openMenu() {
+    menu.classList.add("open");
+    btn.classList.add("open");
+    btn.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden"; // prevent background scroll
+  }
+
+  function closeMenu() {
+    menu.classList.remove("open");
+    btn.classList.remove("open");
+    btn.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
 
   btn.addEventListener("click", (e) => {
     e.stopPropagation();
-    const open = menu.classList.toggle("open");
-    btn.classList.toggle("open", open);
-    btn.setAttribute("aria-expanded", open);
+    menu.classList.contains("open") ? closeMenu() : openMenu();
   });
 
-  // Close on outside click
-  document.addEventListener("click", (e) => {
-    if (!btn.contains(e.target) && !menu.contains(e.target)) {
-      menu.classList.remove("open");
-      btn.classList.remove("open");
-      btn.setAttribute("aria-expanded", "false");
-    }
+  // Close button inside overlay
+  if (close) close.addEventListener("click", closeMenu);
+
+  // Close on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+
+  // Close on overlay background click (not on links)
+  menu.addEventListener("click", (e) => {
+    if (e.target === menu) closeMenu();
   });
 
   // Close on link click
   menu.querySelectorAll("a").forEach(a => {
-    a.addEventListener("click", () => {
-      menu.classList.remove("open");
-      btn.classList.remove("open");
-    });
+    a.addEventListener("click", closeMenu);
   });
 })();

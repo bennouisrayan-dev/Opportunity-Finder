@@ -178,14 +178,24 @@
         </button>
       </div>
 
-      <!-- Mobile menu -->
+      <!-- Mobile menu — full screen overlay -->
       <div class="navbar-mobile-menu" id="navMobileMenu">
-        <a href="#features" class="navbar-mobile-link">Fonctionnalités</a>
-        <a href="#how-it-works" class="navbar-mobile-link">Comment ça marche</a>
-        <a href="pricing.html" class="navbar-mobile-link">Tarifs</a>
+        <button class="navbar-mobile-close" id="navMobileClose" aria-label="Fermer">✕</button>
+        <div class="navbar-mobile-title">Menu</div>
+        <a href="#features" class="navbar-mobile-link" onclick="document.getElementById('navMobileMenu').classList.remove('open')">
+          <span style="margin-right:12px">✦</span> Fonctionnalités
+        </a>
+        <a href="#how-it-works" class="navbar-mobile-link" onclick="document.getElementById('navMobileMenu').classList.remove('open')">
+          <span style="margin-right:12px">▶</span> Comment ça marche
+        </a>
+        <a href="pricing.html" class="navbar-mobile-link">
+          <span style="margin-right:12px">⭐</span> Tarifs
+        </a>
         <div class="navbar-mobile-divider"></div>
-        <a href="login.html" class="navbar-mobile-link navbar-mobile-link--auth">Connexion</a>
-        <a href="signup.html" class="btn btn-primary navbar-mobile-cta">Commencer gratuitement</a>
+        <a href="login.html" class="navbar-mobile-link navbar-mobile-link--auth">
+          <span style="margin-right:12px">→</span> Connexion
+        </a>
+        <a href="signup.html" class="btn btn-primary navbar-mobile-cta">🚀 Commencer gratuitement</a>
       </div>
     </div>
   </nav>

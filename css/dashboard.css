@@ -3190,12 +3190,12 @@ html, body {
 ══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
-  /* db-topbar: sticky — sits flush, no safe-area padding needed (iOS handles it) */
+  /* db-topbar: sticky with safe-area extension so no dark gap appears above on iPhone */
   .db-topbar {
     height: 54px !important;
-    padding-top: 0 !important;
+    padding-top: env(safe-area-inset-top) !important;
+    margin-top: calc(-1 * env(safe-area-inset-top)) !important;
     top: 0 !important;
-    margin-top: 0 !important;
   }
 
   /* db-main: topbar is sticky — content flows below naturally, only need breathing room */
