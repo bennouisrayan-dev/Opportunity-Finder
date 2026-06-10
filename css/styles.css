@@ -3703,10 +3703,10 @@ html, body {
     margin-top: 0 !important;
   }
 
-  /* Hero: no extra padding needed — body offset handles it */
+  /* Hero: pull up to eliminate safe-area gap visible between navbar and hero bg */
   .hero {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
+    padding-top: 16px !important;
+    margin-top: calc(-1 * env(safe-area-inset-top)) !important;
   }
 
   /* Profile/dashboard pages that use .dashboard padding */
@@ -3726,4 +3726,5 @@ html, body {
   }
   .navbar-inner { height: 54px !important; }
   body { padding-top: calc(54px + env(safe-area-inset-top)) !important; }
+  .hero { margin-top: calc(-1 * env(safe-area-inset-top)) !important; padding-top: 12px !important; }
 }

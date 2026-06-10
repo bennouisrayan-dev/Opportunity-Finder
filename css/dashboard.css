@@ -3277,9 +3277,10 @@ html, body {
     width: 100% !important;
   }
 
-  /* db-main: offset by topbar height */
+  /* db-main: topbar is fixed height = 54px + safe-area.
+     Content padding = just 12px breathing room after topbar clears. */
   .db-main {
-    padding-top: calc(54px + env(safe-area-inset-top) + 12px) !important;
+    padding-top: calc(54px + env(safe-area-inset-top) + 8px) !important;
     margin-top: 0 !important;
   }
 
@@ -3291,7 +3292,7 @@ html, body {
 
   /* bf-main */
   .bf-main {
-    padding-top: calc(54px + env(safe-area-inset-top) + 12px) !important;
+    padding-top: calc(54px + env(safe-area-inset-top) + 8px) !important;
   }
 }
 
