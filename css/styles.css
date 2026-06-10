@@ -3773,3 +3773,26 @@ html, body {
     padding-top: 20px !important;
   }
 }
+
+/* ══ SUPPRIME L'ESPACE NOIR — fix définitif ══
+   Hero dark bg commence à #111827 (dm-bg2)
+   Body doit avoir exactement cette couleur
+   pour qu'il n'y ait AUCUN espace visible
+   ════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Light mode: body bg = hero gradient light start */
+  body[data-page="landing"] {
+    background: #f4f7ff !important;
+  }
+
+  /* Dark mode: body bg = hero gradient dark start (#111827) */
+  [data-theme="dark"] body[data-page="landing"] {
+    background: #111827 !important;
+  }
+
+  /* Hero: zero space, fills seamlessly */
+  body[data-page="landing"] .hero {
+    margin-top: 0 !important;
+    padding-top: 20px !important;
+  }
+}
