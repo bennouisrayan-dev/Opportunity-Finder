@@ -3478,7 +3478,7 @@ html, body {
 @media (max-width: 390px) {
   .navbar { height: 54px !important; }
   .navbar-inner { height: 54px !important; }
-  .hero { padding-top: 12px !important; }
+  .hero { padding-top: 4px !important; }
 }
 
 /* Updated mobile menu link styles for dark overlay */
@@ -3726,5 +3726,5 @@ html, body {
   }
   .navbar-inner { height: 54px !important; }
   body { padding-top: calc(54px + env(safe-area-inset-top)) !important; }
-  .hero { margin-top: calc(-1 * env(safe-area-inset-top)) !important; padding-top: 12px !important; }
+  .hero { margin-top: calc(-1 * env(safe-area-inset-top)) !important; padding-top: 4px !important; }
 }
