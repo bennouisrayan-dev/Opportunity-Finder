@@ -3743,16 +3743,6 @@ html, body {
   }
 }
 
-/* ══ FINAL: Landing page gap elimination ══════════════════
-   Make body bg = hero bg so ZERO visible gap on mobile
-   ════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  /* Match body bg to hero dark gradient to eliminate visible gap */
-  body[data-page="landing"],
-  [data-theme="dark"] body[data-page="landing"] {
-    background: #0f172a !important;
-  }
-
   /* Hero: no top padding at all — content starts right after navbar */
   .hero {
     padding-top: 0 !important;
@@ -3774,23 +3764,29 @@ html, body {
   }
 }
 
-/* ══ SUPPRIME L'ESPACE NOIR — fix définitif ══
-   Hero dark bg commence à #111827 (dm-bg2)
-   Body doit avoir exactement cette couleur
-   pour qu'il n'y ait AUCUN espace visible
-   ════════════════════════════════════════ */
-@media (max-width: 768px) {
-  /* Light mode: body bg = hero gradient light start */
-  body[data-page="landing"] {
-    background: #f4f7ff !important;
-  }
-
   /* Dark mode: body bg = hero gradient dark start (#111827) */
   [data-theme="dark"] body[data-page="landing"] {
     background: #111827 !important;
   }
 
   /* Hero: zero space, fills seamlessly */
+  body[data-page="landing"] .hero {
+    margin-top: 0 !important;
+    padding-top: 20px !important;
+  }
+}
+
+/* ══ GAP FIX — FINAL ══ */
+@media (max-width: 768px) {
+  /* Dark mode: body bg = hero gradient top color (#111827) */
+  [data-theme="dark"] body[data-page="landing"] {
+    background: #111827 !important;
+  }
+  /* Light mode: body bg = hero gradient top color */
+  body[data-page="landing"] {
+    background: #f4f7ff !important;
+  }
+  /* Hero: zero gap */
   body[data-page="landing"] .hero {
     margin-top: 0 !important;
     padding-top: 20px !important;
