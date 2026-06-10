@@ -3478,7 +3478,7 @@ html, body {
 @media (max-width: 390px) {
   .navbar { height: 54px !important; }
   .navbar-inner { height: 54px !important; }
-  .hero { padding-top: 4px !important; }
+  .hero { padding-top: 0 !important; margin-top: 0 !important; }
 }
 
 /* Updated mobile menu link styles for dark overlay */
@@ -3726,5 +3726,50 @@ html, body {
   }
   .navbar-inner { height: 54px !important; }
   body { padding-top: calc(54px + env(safe-area-inset-top)) !important; }
-  .hero { margin-top: calc(-1 * env(safe-area-inset-top)) !important; padding-top: 4px !important; }
+  .hero { margin-top: calc(-1 * env(safe-area-inset-top)) !important; padding-top: 0 !important; }
+}
+
+/* ══ Landing page mobile: body bg matches hero so no gap visible ══ */
+@media (max-width: 768px) {
+  body[data-page="landing"] {
+    background: #0f172a !important;
+  }
+
+  /* Hero: zero gap, blends with body */
+  body[data-page="landing"] .hero {
+    padding-top: 16px !important;  /* breathing room for text, not visual gap */
+    margin-top: 0 !important;
+    border-radius: 0 !important;   /* remove card border-radius — seamless with body */
+  }
+}
+
+/* ══ FINAL: Landing page gap elimination ══════════════════
+   Make body bg = hero bg so ZERO visible gap on mobile
+   ════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Match body bg to hero dark gradient to eliminate visible gap */
+  body[data-page="landing"],
+  [data-theme="dark"] body[data-page="landing"] {
+    background: #0f172a !important;
+  }
+
+  /* Hero: no top padding at all — content starts right after navbar */
+  .hero {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* Remove rounded top corners that create "card on background" look */
+  .hero,
+  [data-theme="dark"] .hero {
+    border-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  /* Hero content: small breathing room between navbar and text */
+  .hero .hero-content,
+  .hero .container {
+    padding-top: 20px !important;
+  }
 }
