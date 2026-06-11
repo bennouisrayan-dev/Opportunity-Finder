@@ -3356,13 +3356,12 @@ html, body {
 
   /* ── 1. Hero: remove huge padding (was calc(72px + 80px) = 152px top) ── */
   .hero {
-    padding: 72px 0 32px !important;  /* 72px = navbar height only */
+    padding: 0 0 32px !important;
     min-height: unset !important;
   }
 
-  /* Dark mode: also fix — the background:revert was resetting our fix */
   [data-theme="dark"] .hero {
-    padding: 72px 0 32px !important;
+    padding: 0 0 32px !important;
     min-height: unset !important;
   }
 
@@ -3757,10 +3756,10 @@ html, body {
     border-top-right-radius: 0 !important;
   }
 
-  /* Hero content: small breathing room between navbar and text */
+  /* Hero content: breathing room after navbar */
   .hero .hero-content,
   .hero .container {
-    padding-top: 20px !important;
+    padding-top: 16px !important;
   }
 
 
