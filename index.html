@@ -184,17 +184,24 @@
         border-radius: 0 !important;
       }
 
-      /* 4. Make body background = hero gradient start → no color gap visible */
+      /* 4. Match body bg exactly to hero gradient start color (#f4f7ff) */
       body[data-page="landing"] {
-        background: #f4f7ff !important;
+        background-color: #f4f7ff !important;
       }
       [data-theme="dark"] body[data-page="landing"] {
-        background: #111827 !important;
+        background-color: #111827 !important;
       }
 
-      /* 5. Hero content: small breathing room for text */
+      /* 5. Hero starts flush — no gap, no radius */
+      .hero {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+        border-radius: 0 !important;
+      }
+
+      /* 6. Hero content: breathing room for text only */
       .hero .container {
-        padding-top: 20px !important;
+        padding-top: 16px !important;
       }
     }
   </style>

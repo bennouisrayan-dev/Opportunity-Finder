@@ -3356,12 +3356,13 @@ html, body {
 
   /* ── 1. Hero: remove huge padding (was calc(72px + 80px) = 152px top) ── */
   .hero {
-    padding: 0 0 32px !important;
+    padding: 72px 0 32px !important;  /* 72px = navbar height only */
     min-height: unset !important;
   }
 
+  /* Dark mode: also fix — the background:revert was resetting our fix */
   [data-theme="dark"] .hero {
-    padding: 0 0 32px !important;
+    padding: 72px 0 32px !important;
     min-height: unset !important;
   }
 
@@ -3458,7 +3459,7 @@ html, body {
   }
 
   [data-theme="dark"] .hero {
-    padding-top: 0 !important;
+    padding-top: 16px !important;
   }
 
   /* Dashboard/profile: also sticky navbar → minimal top padding */
@@ -3477,7 +3478,7 @@ html, body {
 @media (max-width: 390px) {
   .navbar { height: 54px !important; }
   .navbar-inner { height: 54px !important; }
-  .hero { padding-top: 0 !important; margin-top: 0 !important; }
+  .hero { padding-top: 12px !important; }
 }
 
 /* Updated mobile menu link styles for dark overlay */
@@ -3725,31 +3726,5 @@ html, body {
   }
   .navbar-inner { height: 54px !important; }
   body { padding-top: calc(54px + env(safe-area-inset-top)) !important; }
-  .hero { margin-top: 0 !important; padding-top: 0 !important; }
-}
-
-
-
-
-
-/* ══ HERO GAP — SINGLE SOURCE OF TRUTH ═══════════════════
-   All previous rules cleaned. Only this one controls it.
-   The body.padding-top = navbar height. Hero needs 0 gap.
-   body bg matches hero bg so no color difference visible.
-   ════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  .hero {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-  }
-
-  /* Light mode: body bg = hero light gradient color */
-  body[data-page="landing"] {
-    background: #f4f7ff !important;
-  }
-
-  /* Dark mode: body bg = hero dark gradient color (#111827) */
-  [data-theme="dark"] body[data-page="landing"] {
-    background: #111827 !important;
-  }
+  .hero { margin-top: calc(-1 * env(safe-area-inset-top)) !important; padding-top: 12px !important; }
 }
