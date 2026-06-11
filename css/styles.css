@@ -3458,7 +3458,7 @@ html, body {
   }
 
   [data-theme="dark"] .hero {
-    padding-top: 16px !important;
+    padding-top: 0 !important;
   }
 
   /* Dashboard/profile: also sticky navbar → minimal top padding */
@@ -3725,69 +3725,31 @@ html, body {
   }
   .navbar-inner { height: 54px !important; }
   body { padding-top: calc(54px + env(safe-area-inset-top)) !important; }
-  .hero { margin-top: calc(-1 * env(safe-area-inset-top)) !important; padding-top: 0 !important; }
+  .hero { margin-top: 0 !important; padding-top: 0 !important; }
 }
 
-/* ══ Landing page mobile: body bg matches hero so no gap visible ══ */
+
+
+
+
+/* ══ HERO GAP — SINGLE SOURCE OF TRUTH ═══════════════════
+   All previous rules cleaned. Only this one controls it.
+   The body.padding-top = navbar height. Hero needs 0 gap.
+   body bg matches hero bg so no color difference visible.
+   ════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  body[data-page="landing"] {
-    background: #0f172a !important;
-  }
-
-  /* Hero: zero gap, blends with body */
-  body[data-page="landing"] .hero {
-    padding-top: 16px !important;  /* breathing room for text, not visual gap */
-    margin-top: 0 !important;
-    border-radius: 0 !important;   /* remove card border-radius — seamless with body */
-  }
-}
-
-  /* Hero: no top padding at all — content starts right after navbar */
   .hero {
     padding-top: 0 !important;
     margin-top: 0 !important;
   }
 
-  /* Remove rounded top corners that create "card on background" look */
-  .hero,
-  [data-theme="dark"] .hero {
-    border-radius: 0 !important;
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-  }
-
-  /* Hero content: breathing room after navbar */
-  .hero .hero-content,
-  .hero .container {
-    padding-top: 16px !important;
-  }
-
-
-  /* Dark mode: body bg = hero gradient dark start (#111827) */
-  [data-theme="dark"] body[data-page="landing"] {
-    background: #111827 !important;
-  }
-
-  /* Hero: zero space, fills seamlessly */
-  body[data-page="landing"] .hero {
-    margin-top: 0 !important;
-    padding-top: 20px !important;
-  }
-
-
-/* ══ GAP FIX — FINAL ══ */
-@media (max-width: 768px) {
-  /* Dark mode: body bg = hero gradient top color (#111827) */
-  [data-theme="dark"] body[data-page="landing"] {
-    background: #111827 !important;
-  }
-  /* Light mode: body bg = hero gradient top color */
+  /* Light mode: body bg = hero light gradient color */
   body[data-page="landing"] {
     background: #f4f7ff !important;
   }
-  /* Hero: zero gap */
-  body[data-page="landing"] .hero {
-    margin-top: 0 !important;
-    padding-top: 20px !important;
+
+  /* Dark mode: body bg = hero dark gradient color (#111827) */
+  [data-theme="dark"] body[data-page="landing"] {
+    background: #111827 !important;
   }
 }
