@@ -3762,7 +3762,7 @@ html, body {
   .hero .container {
     padding-top: 20px !important;
   }
-}
+
 
   /* Dark mode: body bg = hero gradient dark start (#111827) */
   [data-theme="dark"] body[data-page="landing"] {
@@ -3774,7 +3774,7 @@ html, body {
     margin-top: 0 !important;
     padding-top: 20px !important;
   }
-}
+
 
 /* ══ GAP FIX — FINAL ══ */
 @media (max-width: 768px) {
