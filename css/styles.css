@@ -3688,3 +3688,34 @@ html, body {
   border-radius: 14px;
   text-decoration: none;
 }
+
+/* ══════════════════════════════════════════════════════════
+   HERO — visible color from the very top on mobile
+   The diagonal gradient + giant decorative circles made the
+   top of the hero look pale/empty before the violet appears.
+   Fix: stronger, more vertical gradient on mobile only.
+   ════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .hero {
+    background: linear-gradient(160deg, #dbe4ff 0%, #eef2ff 28%, #ede9fe 100%) !important;
+  }
+  [data-theme="dark"] .hero {
+    background: linear-gradient(160deg, #1e2542 0%, #1a2036 28%, #111827 100%) !important;
+  }
+
+  /* Shrink/reposition the decorative circles so they don't wash out the top */
+  .hero::before {
+    top: -10% !important;
+    right: -30% !important;
+    width: 420px !important;
+    height: 420px !important;
+    opacity: 0.35 !important;
+  }
+  .hero::after {
+    bottom: -10% !important;
+    left: -20% !important;
+    width: 360px !important;
+    height: 360px !important;
+    opacity: 0.3 !important;
+  }
+}
