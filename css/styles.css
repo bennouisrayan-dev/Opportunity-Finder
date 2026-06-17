@@ -3217,12 +3217,8 @@ p {
   z-index: 999999;
   /* Solid opaque background — no transparency, guaranteed to cover everything */
   background: #0f172a;
-  padding-top: max(env(safe-area-inset-top), 16px);
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: max(env(safe-area-inset-bottom), 24px);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  padding: 0;
+  overflow: hidden;
   gap: 0;
   animation: menuFadeIn 0.18s ease;
 }
@@ -3230,33 +3226,6 @@ p {
 @keyframes menuFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
-}
-
-.navbar-mobile-link {
-  display: flex;
-  align-items: center;
-  padding: 15px 18px;
-  color: #f1f5f9;
-  font-size: 17px;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 12px;
-  transition: all 0.15s;
-}
-
-.navbar-mobile-link:hover, .navbar-mobile-link:active { background: rgba(255,255,255,0.07); border-radius: 12px; color: white; }
-.navbar-mobile-link--auth { font-weight: 700; color: #93c5fd; }
-
-.navbar-mobile-divider {
-  height: 1px;
-  background: rgba(255,255,255,0.12);
-  margin: 12px 0;
-}
-
-.navbar-mobile-cta {
-  margin-top: 8px;
-  text-align: center;
-  text-decoration: none;
 }
 
 /* Ensure login btn always visible on desktop */
@@ -3277,9 +3246,6 @@ p {
 /* Dark mode hamburger */
 [data-theme="dark"] .navbar-hamburger span { background: var(--dm-text2); }
 [data-theme="dark"] .navbar-mobile-menu { border-top-color: var(--dm-border); }
-[data-theme="dark"] .navbar-mobile-link { color: var(--dm-text2); }
-[data-theme="dark"] .navbar-mobile-divider { background: var(--dm-border); }
-
 /* ══════════════════════════════════════════════════════════
    FIX 8+9 — Global mobile overflow prevention
 ══════════════════════════════════════════════════════════ */
@@ -3356,13 +3322,12 @@ html, body {
 
   /* ── 1. Hero: remove huge padding (was calc(72px + 80px) = 152px top) ── */
   .hero {
-    padding: 72px 0 32px !important;  /* 72px = navbar height only */
+    padding: 0 0 32px !important;
     min-height: unset !important;
   }
 
-  /* Dark mode: also fix — the background:revert was resetting our fix */
   [data-theme="dark"] .hero {
-    padding: 72px 0 32px !important;
+    padding: 0 0 32px !important;
     min-height: unset !important;
   }
 
@@ -3459,7 +3424,7 @@ html, body {
   }
 
   [data-theme="dark"] .hero {
-    padding-top: 16px !important;
+    padding-top: 0 !important;
   }
 
   /* Dashboard/profile: also sticky navbar → minimal top padding */
@@ -3478,84 +3443,7 @@ html, body {
 @media (max-width: 390px) {
   .navbar { height: 54px !important; }
   .navbar-inner { height: 54px !important; }
-  .hero { padding-top: 4px !important; }
-}
-
-/* Updated mobile menu link styles for dark overlay */
-.navbar-mobile-link {
-  display: flex;
-  align-items: center;
-  padding: 16px 20px;
-  color: #f8fafc;
-  font-size: 18px;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 14px;
-  transition: background 0.15s, color 0.15s;
-  border: 1px solid transparent;
-}
-.navbar-mobile-link:hover,
-.navbar-mobile-link:active {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.1);
-  color: white;
-}
-.navbar-mobile-link--auth {
-  font-weight: 700;
-  color: #93c5fd;
-}
-
-.navbar-mobile-divider {
-  height: 1px;
-  background: rgba(255,255,255,0.1);
-  margin: 12px 0;
-}
-
-.navbar-mobile-cta {
-  margin-top: 16px;
-  text-align: center;
-  text-decoration: none;
-  padding: 16px 20px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 14px;
-}
-
-/* Close button for menu overlay */
-.navbar-mobile-close {
-  position: absolute;
-  top: calc(env(safe-area-inset-top) + 16px);
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  border: 1.5px solid rgba(255,255,255,0.2);
-  border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  color: white;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 100000;
-}
-
-/* Menu title */
-.navbar-mobile-title {
-  font-size: 13px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: rgba(255,255,255,0.4);
-  padding: 0 20px 8px;
-  margin-bottom: 4px;
-}
-.navbar-mobile-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-  padding-top: 8px;
+  .hero { padding-top: 0 !important; margin-top: 0 !important; }
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -3598,75 +3486,6 @@ html, body {
 
 @media (max-width: 390px) {
   .navbar-inner { height: 54px !important; }
-}
-
-/* ── Mobile menu links: readable on dark #0f172a background ── */
-.navbar-mobile-menu .navbar-mobile-link {
-  display: flex !important;
-  align-items: center !important;
-  padding: 16px 12px !important;
-  color: #f1f5f9 !important;
-  font-size: 18px !important;
-  font-weight: 600 !important;
-  text-decoration: none !important;
-  border-radius: 12px !important;
-  transition: background 0.15s !important;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-
-.navbar-mobile-menu .navbar-mobile-link:hover,
-.navbar-mobile-menu .navbar-mobile-link:active {
-  background: rgba(255,255,255,0.08) !important;
-  color: white !important;
-}
-
-.navbar-mobile-menu .navbar-mobile-link--auth {
-  color: #93c5fd !important;
-  border-bottom: none;
-}
-
-.navbar-mobile-menu .navbar-mobile-divider {
-  background: rgba(255,255,255,0.1) !important;
-  height: 1px;
-  margin: 8px 0;
-}
-
-.navbar-mobile-menu .navbar-mobile-cta {
-  margin-top: 16px !important;
-  width: 100% !important;
-  text-align: center !important;
-  padding: 16px !important;
-  font-size: 16px !important;
-  border-radius: 14px !important;
-  text-decoration: none !important;
-}
-
-.navbar-mobile-menu .navbar-mobile-close {
-  align-self: flex-end;
-  width: 38px;
-  height: 38px;
-  border: 1.5px solid rgba(255,255,255,0.2);
-  border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  color: white;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-family: inherit;
-  margin-bottom: 16px;
-  flex-shrink: 0;
-}
-
-.navbar-mobile-menu .navbar-mobile-close:hover {
-  background: rgba(255,255,255,0.15);
-}
-
-.navbar-mobile-menu .navbar-mobile-nav {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -3726,5 +3545,153 @@ html, body {
   }
   .navbar-inner { height: 54px !important; }
   body { padding-top: calc(54px + env(safe-area-inset-top)) !important; }
-  .hero { margin-top: calc(-1 * env(safe-area-inset-top)) !important; padding-top: 4px !important; }
+  .hero { margin-top: 0 !important; padding-top: 0 !important; }
+}
+
+
+
+
+
+/* ══ HERO GAP — SINGLE SOURCE OF TRUTH ═══════════════════
+   All previous rules cleaned. Only this one controls it.
+   The body.padding-top = navbar height. Hero needs 0 gap.
+   body bg matches hero bg so no color difference visible.
+   ════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* Light mode: body bg = hero light gradient color */
+  body[data-page="landing"] {
+    background: #f4f7ff !important;
+  }
+
+  /* Dark mode: body bg = hero dark gradient color (#111827) */
+  [data-theme="dark"] body[data-page="landing"] {
+    background: #111827 !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE MENU — FINAL CLEAN VERSION
+   Structure: fixed header / scrollable nav / sticky CTA footer
+   ════════════════════════════════════════════════════════ */
+
+.navbar-mobile-menu.open {
+  /* override generic padding from the base .open rule — header/footer now handle their own spacing */
+  padding: 0 !important;
+}
+
+/* ── Header bar: title + close button ── */
+.navbar-mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: max(env(safe-area-inset-top), 16px) 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar-mobile-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #f8fafc;
+  letter-spacing: -.01em;
+}
+
+.navbar-mobile-close {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(255,255,255,0.16);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  color: #f1f5f9;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.navbar-mobile-close:hover { background: rgba(255,255,255,0.13); }
+
+/* ── Scrollable nav area ── */
+.navbar-mobile-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 14px 16px 24px;
+  gap: 2px;
+}
+
+.navbar-mobile-section-label {
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: rgba(255,255,255,0.38);
+  padding: 14px 12px 6px;
+}
+.navbar-mobile-section-label:first-child { padding-top: 4px; }
+
+.navbar-mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 12px;
+  color: #f1f5f9;
+  font-size: 16.5px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: background 0.15s ease;
+}
+
+.navbar-mobile-link:hover,
+.navbar-mobile-link:active {
+  background: rgba(255,255,255,0.07);
+  color: white;
+}
+
+.navbar-mobile-icon {
+  width: 22px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+.navbar-mobile-link--auth {
+  color: #93c5fd;
+}
+.navbar-mobile-link--auth .navbar-mobile-icon { color: #93c5fd; }
+
+.navbar-mobile-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 10px 0;
+}
+
+/* ── Sticky footer CTA ── */
+.navbar-mobile-footer {
+  flex-shrink: 0;
+  padding: 14px 20px max(env(safe-area-inset-bottom), 18px);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar-mobile-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 800;
+  border-radius: 14px;
+  text-decoration: none;
 }

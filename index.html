@@ -661,15 +661,38 @@
 
   <!-- Mobile menu overlay — direct child of body for correct iOS position:fixed -->
   <div class="navbar-mobile-menu" id="navMobileMenu" role="dialog" aria-modal="true" aria-label="Menu navigation">
-    <button class="navbar-mobile-close" id="navMobileClose" aria-label="Fermer le menu">✕</button>
+    <div class="navbar-mobile-header">
+      <span class="navbar-mobile-title">Menu</span>
+      <button class="navbar-mobile-close" id="navMobileClose" aria-label="Fermer le menu">✕</button>
+    </div>
+
     <nav class="navbar-mobile-nav">
-      <a href="#features" class="navbar-mobile-link">Fonctionnalités</a>
-      <a href="#how-it-works" class="navbar-mobile-link">Comment ça marche</a>
-      <a href="pricing.html" class="navbar-mobile-link">Tarifs</a>
+      <div class="navbar-mobile-section-label">Navigation</div>
+      <a href="#features" class="navbar-mobile-link">
+        <span class="navbar-mobile-icon">✦</span>
+        <span>Fonctionnalités</span>
+      </a>
+      <a href="#how-it-works" class="navbar-mobile-link">
+        <span class="navbar-mobile-icon">▶</span>
+        <span>Comment ça marche</span>
+      </a>
+      <a href="pricing.html" class="navbar-mobile-link">
+        <span class="navbar-mobile-icon">⭐</span>
+        <span>Tarifs</span>
+      </a>
+
       <div class="navbar-mobile-divider"></div>
-      <a href="login.html" class="navbar-mobile-link navbar-mobile-link--auth">Connexion</a>
-      <a href="signup.html" class="btn btn-primary navbar-mobile-cta">Commencer gratuitement</a>
+
+      <div class="navbar-mobile-section-label">Compte</div>
+      <a href="login.html" class="navbar-mobile-link navbar-mobile-link--auth">
+        <span class="navbar-mobile-icon">→</span>
+        <span>Connexion</span>
+      </a>
     </nav>
+
+    <div class="navbar-mobile-footer">
+      <a href="signup.html" class="btn btn-primary navbar-mobile-cta">🚀 Commencer gratuitement</a>
+    </div>
   </div>
 
 </body>
