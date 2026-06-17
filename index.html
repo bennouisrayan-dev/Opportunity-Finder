@@ -154,24 +154,24 @@
   <!-- GAP FIX: injected last for highest priority -->
   <style>
     @media (max-width: 768px) {
-      /* 1. Navbar: fixed, height = 58px content + safe-area zone */
+      /* 1. Navbar: fixed, compact height */
       .navbar {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        height: calc(58px + env(safe-area-inset-top)) !important;
+        height: calc(50px + env(safe-area-inset-top)) !important;
         padding-top: env(safe-area-inset-top) !important;
         z-index: 9999 !important;
       }
       .navbar-inner {
-        height: 58px !important;
+        height: 50px !important;
         align-items: center !important;
       }
 
-      /* 2. Body: offset by navbar height so content starts right below */
+      /* 2. Body: offset by EXACT navbar height only — no extra room */
       body {
-        padding-top: calc(58px + env(safe-area-inset-top)) !important;
+        padding-top: calc(50px + env(safe-area-inset-top)) !important;
         margin-top: 0 !important;
       }
 
